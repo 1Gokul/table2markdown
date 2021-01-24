@@ -1,0 +1,111 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  font-family: Poppins, sans-serif;
+  color: #eadeda;
+  background-color: #0d0628;
+}
+
+a {
+  color: turquoise;
+}
+
+.navbar {
+  background-color: #021264;
+  font-size: large;
+}
+.navbar-dark .navbar-toggler {
+  border-color: transparent;
+}
+
+.navbar-dark .navbar-toggler-icon {
+  background-image: none;
+}
+
+.container {
+  min-height: 100%;
+  margin-bottom: 50px;
+}
+
+.card {
+  margin: 10px 20px;
+}
+
+.table-options {
+  float: right;
+}
+
+.table-options li {
+  display: inline-block;
+  padding: 0 30px;
+}
+
+.table-options  i{
+  color: white;
+}
+
+ /* Wrapper for page content to push down footer */
+ #wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+  height: 60px;
+}
+
+#footer {
+  width: 100%;
+  /* Set the fixed height of the #footer here */
+  background-color: #021264;
+  text-align: center;
+}
+
+#footer a {
+  display: inline-block;
+  padding: 10px 50px;
+  color: white;
+}
+
+#footer a:hover,
+a:focus {
+  color: #87bcde;
+  text-decoration: none;
+  transition: color 0.2s linear;
+}
+
+/*  For Mobile */
+@media only screen and (max-width: 600px) {
+  h3 {
+    font-size: 1rem;
+  } /*1rem = 16px*/
+
+  .table-options {
+    margin: 0;
+    float: left !important;
+  }
+
+  .table-options li {
+    display: block;
+    padding: 7px 0;
+    font-size: 1.2rem;
+  }
+
+  #footer {
+    position: relative;
+    height: 200px;
+  }
+  #footer a {
+    margin: 0;
+    padding: 20px;
+    display: block;
+    text-align: left;
+  }
+}
