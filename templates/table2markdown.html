@@ -6,36 +6,37 @@
     <div class="card bg-dark">
         <div class="card-body">
             <ul class="table-options mb-3 mr-1 ml-1">
-
-                <li>
-                    <button type="button" class="btn btn-info"  id="#left-align">
-                        <i class="fas fa-align-left  ml-1 mr-1" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-info"  id="#center-align" href="#">
-                        <i class="fas fa-align-center  ml-1 mr-1" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-info"  id="#right-align" href="#">
-                        <i class="fas fa-align-right  ml-1 mr-1"  aria-hidden="true"></i></button>
-                    </a>
+                <li class="generate-button">
+                    <button id="#generate-table" type="button" class="btn btn-primary">Generate</button>
                 </li>
                 <li>
+                    <button type="button" class="btn btn-info" id="#left-align">
+                        <i class="fas fa-align-left  ml-1 mr-1" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-info" id="#center-align" href="#">
+                        <i class="fas fa-align-center  ml-1 mr-1" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-info" id="#right-align" href="#">
+                        <i class="fas fa-align-right  ml-1 mr-1" aria-hidden="true"></i></button>
+                    </a>
+                </li>
+                <!-- <li>
                     Column
-                    <button type="button" class="btn btn-success"  id="#addcolumn" href="#">
-                        <i class="fas fa-plus  ml-1 mr-1"  aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-danger"  id="#removecolumn" href="#">
+                    <button type="button" class="btn btn-success" id="#addcolumn" href="#">
+                        <i class="fas fa-plus  ml-1 mr-1" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-danger" id="#removecolumn" href="#">
                         <i class="fas fa-minus ml-1 mr-1" aria-hidden="true"></i></button>
 
                 </li>
                 <li>
                     Row
                     <button type="button" class="btn btn-success" id="addrow">
-                        <i class="fas fa-plus ml-1 mr-1"  aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-danger"  id="#removerow">
-                        <i class="fas fa-minus ml-1 mr-1"  aria-hidden="true"></i></button>
+                        <i class="fas fa-plus ml-1 mr-1" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-danger" id="removerow">
+                        <i class="fas fa-minus ml-1 mr-1" aria-hidden="true"></i></button>
 
-                </li>
-                <li>
-                    <button id="#generate-table" type="button" class="btn btn-primary">Generate</button>
-                </li>
+                </li> -->
+                
             </ul>
+            <div class="table-responsive">
             <table id="input-table" class="table table-editable table-striped table-bordered table-dark table-hover">
                 <thead>
                     <tr>
@@ -90,6 +91,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 
@@ -97,18 +99,6 @@
 
     {% block script %}
     <script src="{{ url_for('static', filename='js/bootstable.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/table2markdown.js') }}"></script>
 
-    <script>
-        $('#input-table').SetEditable({
-            $addButton: $('#addrow'),
-            onAdd: function () {
-                // Change the row number of the newly added row.
-                $("table tr>th:last").html($('table#input-table tr:last').index() + 1);
-                // $('table#input-table thead>tr').append("<td>3</td>")
-                // $('<th scope="col">' + $('table#input-table thead>tr>th:last').index() + '</th>').insertBefore( ".edithead-button" );
-                // $("<td></td>" ).insertBefore( ".editrow-button" );
-                // console.log($('table#input-table thead>tr>th:last').index());
-            }
-        });
-    </script>
     {% endblock %}

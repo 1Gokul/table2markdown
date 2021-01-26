@@ -33,7 +33,7 @@ a {
   margin: 10px 20px;
 }
 
-.table-options {
+.generate-button {
   float: right;
 }
 
@@ -89,7 +89,10 @@ a:focus {
 
   .table-options {
     margin: 0;
-    float: left !important;
+  }
+
+  .generate-button{
+    float: none;
   }
 
   .table-options li {
