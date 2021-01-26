@@ -12,6 +12,17 @@ a {
   color: turquoise;
 }
 
+.hidden{
+  display: none;
+}
+
+.visible{
+  display: inline-block;
+}
+
+.header-row-button{
+}
+
 .navbar {
   background-color: #021264;
   font-size: large;
@@ -45,6 +56,10 @@ a {
 .table-options  i{
   color: white;
 }
+
+.btn-group > button{
+  border: 1px solid black;
+} 
 
  /* Wrapper for page content to push down footer */
  #wrap {

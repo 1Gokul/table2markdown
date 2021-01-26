@@ -5,7 +5,7 @@
 <h3 class="mt-3 ml-3">Insert data into the table below.<br> Adjust the number of rows and columns as you see fit.</h2>
     <div class="card bg-dark">
         <div class="card-body">
-            <ul class="table-options mb-3 mr-1 ml-1">
+            <ul id="table-options" class="table-options mb-3 mr-1 ml-1">
                 <li class="generate-button">
                     <button id="#generate-table" type="button" class="btn btn-primary">Generate</button>
                 </li>
@@ -18,22 +18,16 @@
                         <i class="fas fa-align-right  ml-1 mr-1" aria-hidden="true"></i></button>
                     </a>
                 </li>
-                <!-- <li>
+                <li>
+                    <button type="button" class="header-col-button btn btn-success" id="addColRight" href="#">                        
                     Column
-                    <button type="button" class="btn btn-success" id="#addcolumn" href="#">
                         <i class="fas fa-plus  ml-1 mr-1" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-danger" id="#removecolumn" href="#">
-                        <i class="fas fa-minus ml-1 mr-1" aria-hidden="true"></i></button>
-
                 </li>
                 <li>
-                    Row
-                    <button type="button" class="btn btn-success" id="addrow">
+                    <button id="bAddRowDown" type="button" class="header-row-button btn btn-success">
+                        Row
                         <i class="fas fa-plus ml-1 mr-1" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-danger" id="removerow">
-                        <i class="fas fa-minus ml-1 mr-1" aria-hidden="true"></i></button>
-
-                </li> -->
+                </li>
                 
             </ul>
             <div class="table-responsive">

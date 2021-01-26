@@ -1,0 +1,2 @@
+Editable Bootstrap Table plugin:
+https://www.jqueryscript.net/table/table-editing-creation-bootstable.html

@@ -13,8 +13,11 @@ var newColHtml = '<div class="btn-group pull-right">' +
     '<button id="bEdit" type="button" class="btn btn-secondary"  onclick="rowEdit(this);">' +
     '<i class="fas fa-pencil-alt"></i>' +
     '</button>' +
-    '<button id="bAdd" type="button" class="btn btn-success">' +
-    '<i class="fas fa-plus"></i>' +
+    '<button id="bAddRowUp" type="button" class="btn btn-success">' +
+    '<i class="fas fa-plus"></i>' + '<i class="fas fa-long-arrow-alt-up"></i>' +
+    '</button>' +
+    '<button id="bAddRowDown" type="button" class="btn btn-success">' +
+    '<i class="fas fa-plus"></i>' + '<i class="fas fa-long-arrow-alt-down"></i>' +
     '</button>' +
     '<button id="bElim" type="button" class="btn btn-danger"  onclick="rowElim(this);">' +
     '<i class="fas fa-trash" aria-hidden="true"></i>' +
@@ -31,8 +34,11 @@ var saveColHtml = '<div class="btn-group pull-right">' +
     '<button id="bEdit" type="button" class="btn btn-secondary" style="display:none;" onclick="rowEdit(this);">' +
     '<i class="fas fa-pencil-alt"></i>' +
     '</button>' +
-    '<button id="bAdd" type="button" class="btn btn-success" style="display:none;" ">' +
-    '<i class="fas fa-plus"></i>' +
+    '<button id="bAddRowUp" type="button" style="display:none;" class="btn btn-success">' +
+    '<i class="fas fa-plus"></i>' + '<i class="fas fa-long-arrow-alt-up"></i>' +
+    '</button>' +
+    '<button id="bAddRowDown" type="button" style="display:none;" class="btn btn-success">' +
+    '<i class="fas fa-plus"></i>' + '<i class="fas fa-long-arrow-alt-down"></i>' +
     '</button>' +
     '<button id="bElim" type="button" class="btn btn-danger" style="display:none;" onclick="rowElim(this);">' +
     '<i class="fas fa-trash" aria-hidden="true"></i>' +
