@@ -2,7 +2,8 @@
 Bootstable
  @description  Javascript library to make HMTL tables editable, using Bootstrap
  @version 1.1
- @autor Tito Hinostroza
+ @author Tito Hinostroza
+ @modified Gokul Viswanath
 */
 "use strict";
 //Global variables
@@ -50,8 +51,8 @@ var saveColHtml = '<div class="btn-group pull-right">' +
     '<i class="fas fa-times" aria-hidden="true"></i>' +
     '</button>' +
     '</div>';
-var colEdicHtml = '<td class="editrow-button" name="buttons">' + newColHtml + '</td>';
-var colSaveHtml = '<td name="buttons">' + saveColHtml + '</td>';
+// var colEdicHtml = '<td class="editrow-button" name="buttons">' + newColHtml + '</td>';
+// var colSaveHtml = '<td name="buttons">' + saveColHtml + '</td>';
 
 $.fn.SetEditable = function (options) {
     var defaults = {
@@ -63,8 +64,13 @@ $.fn.SetEditable = function (options) {
         onAdd: function () { }     //Called when added a new row
     };
     params = $.extend(defaults, options);
-    this.find('thead tr').append('<th class="edithead-button" name="buttons"></th>');  //encabezado vacío
-    this.find('tbody tr').append(colEdicHtml);
+
+    // this.find('thead th').append('<button type="button" id="bAddColumnLeft" class="btn btn-sm btn-success ml-1 mr-1"><i class="fas fa-long-arrow-alt-left fa-xs" aria-hidden="true"></i></button>'); 
+    // this.find('thead th').append('<button type="button" id="bAddColumnRight" class="btn btn-sm btn-success mr-1"><i class="fas fa-long-arrow-alt-right fa-xs" aria-hidden="true"></i></button>'); 
+    // this.find('thead th').append('<button type="button" id="bDeleteColumn" class="btn btn-sm btn-danger mr-1"><i class="fas fa-trash fa-xs" aria-hidden="true"></i></button>'); 
+    
+    // this.find('thead tr').append('<th class="edithead-button" name="buttons"></th>');
+    // this.find('tbody tr').append(colEdicHtml);
     //Process "addButton" parameter
     // if (params.$addButton != null) {
     //     //Se proporcionó parámetro
@@ -103,22 +109,28 @@ function IterarCamposEdit($cols, tarea) {
         }
     }
 }
+
+
 function FijModoNormal(but) {
-    $(but).parent().find('#bAcep').hide();
-    $(but).parent().find('#bCanc').hide();
-    $(but).parent().find('#bEdit').show();
-    $(but).parent().find('#bElim').show();
-    $(but).parent().find('#bAdd').show();
+    $('#table-options').find('#bAcep').hide();
+    $('#table-options').find('#bCanc').hide();
+    $('#table-options').find('#bEdit').show();
+    $('#table-options').find('#bElim').show();
+    $('#table-options').find('#bAdd').show();
+    $('#table-options').find('#bAddRowUp').show();
+    $('#table-options').find('#bAddRowDown').show();
     var $row = $(but).parents('tr');  //accede a la fila
     $row.attr('id', '');  //quita marca
 }
 function FijModoEdit(but) {
 
-    $(but).parent().find('#bAcep').show();
-    $(but).parent().find('#bCanc').show();
-    $(but).parent().find('#bEdit').hide();
-    $(but).parent().find('#bElim').hide();
-    $(but).parent().find('#bAdd').hide();
+    $('#table-options').find('#bAcep').show();
+    $('#table-options').find('#bCanc').show();
+    $('#table-options').find('#bEdit').hide();
+    $('#table-options').find('#bElim').hide();
+    $('#table-options').find('#bAdd').hide();
+    $('#table-options').find('#bAddRowUp').hide();
+    $('#table-options').find('#bAddRowDown').hide();
     var $row = $(but).parents('tr');  //accede a la fila
     $row.attr('id', 'editing');  //indica que está en edición
 }
