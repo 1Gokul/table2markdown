@@ -12,6 +12,10 @@ a {
   color: turquoise;
 }
 
+.selected{
+  
+}
+
 .hidden{
   visibility: hidden;
 }

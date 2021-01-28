@@ -4,7 +4,7 @@ $(document).ready(function () {
     var selectedCell = "none", selectedCellX = 0, selectedCellY = 0, IsEditing = false;
 
     // As there are already 3 rows and columns in the table, hide the header row and column buttons.
-    DeselectCell();
+    deselect_cell();
     $('#bAcep').hide();
     $('#bCanc').hide();
 
@@ -14,10 +14,6 @@ $(document).ready(function () {
         // Execute when a row is added
         onAdd: function () {
             set_table_row_numbers();
-            // $('table#input-table thead>tr').append("<td>3</td>")
-            // $('<th scope="col">' + $('table#input-table thead>tr>th:last').index() + '</th>').insertBefore( ".edithead-button" );
-            // $("<td></td>" ).insertBefore( ".editrow-button" );
-            // console.log($('table#input-table thead>tr>th:last').index());
         },
         // Execute when a row is deleted
         onDelete: function () {
@@ -35,6 +31,28 @@ $(document).ready(function () {
         $("#input-table tbody>tr>th").each(function () {
             $(this).html(++i);
         });
+
+        // Also update the new position of the selected cell.
+        select_cell();
+    }
+
+    function set_table_column_numbers() {
+        //$('#input-table > thead > tr').each(function () {
+
+        var $cols = $("#input-table > thead > tr").find('th');
+
+        $cols.each(function (i, el) {
+            if (i == 0) {
+
+                $(this).replaceWith('<th scope="col">#</th>');
+            }
+            else {
+                $(this).replaceWith('<th scope="col">' + i + '</th>');
+            }
+        })
+
+        // Also update the new position of the selected cell.
+        select_cell();
     }
 
     // Creates the row to be added
@@ -102,15 +120,15 @@ $(document).ready(function () {
         if (!IsEditing) {
             if (selectedCell == el.target) {
 
-                DeselectCell();
-                //$(this).append("deselected");
+                deselect_cell();
             }
             else {
-                // $(this).append("selected");
+                // Remove the highlight of the previously selected cell
+                $(selectedCell).removeClass("selectedCell");
+
+                // Assign the new cell
                 selectedCell = el.target;
-                selectedCellX = this.cellIndex;
-                selectedCellY = this.parentNode.rowIndex;
-                OnCellSelected();
+                select_cell();
             }
 
         }
@@ -118,33 +136,83 @@ $(document).ready(function () {
 
     });
 
-    // Adds a column to the right of the current column.
-    $(document).on('click', '#bAddColumnRight', function () {
-        // rowEdit(selectedCell);
+    // Adds a column to the left of the current column.
+    $(document).on('click', '#bAddColumnLeft', function () {
+        // Add a header cell before the selected cell's header, thus forming a column.
+        $('#input-table thead tr th').each(function (i, el) {
+
+            if (i == selectedCellX) {
+                $('<th scope="col">' + i + '</th>').insertBefore(el);
+            }
+        })
+
+        // Add the cells beneath the newly formed column.
+        $('#input-table tbody tr').each(function () {
+            var $cols = $(this).find('td');
+            $cols.each(function (i, el) {
+                if ((i + 1) == selectedCellX) {
+                    $('<td></td>').insertBefore(el);
+                    return false;
+                }
+            })
+
+        })
+
+        set_table_column_numbers();
     });
 
-    
+    // Adds a column to the right of the current column.
+    $(document).on('click', '#bAddColumnRight', function () {
+        // Add a header cell before the selected cell's header, thus forming a column.
+        $('#input-table thead tr th').each(function (i, el) {
+
+            if (i == selectedCellX) {
+                $('<th scope="col">' + i + '</th>').insertAfter(el);
+            }
+        })
+
+        // Add the cells beneath the newly formed column.
+        $('#input-table tbody tr').each(function () {
+            var $cols = $(this).find('td');
+            $cols.each(function (i, el) {
+                if ((i + 1) == selectedCellX) {
+                    $('<td></td>').insertAfter(el);
+                    return false;
+                }
+            })
+
+        })
+
+        set_table_column_numbers();
+    });
+
+
     $(document).on('click', '#bEdit', function () {
         IsEditing = true;
         rowEdit(selectedCell);
     });
     $(document).on('click', '#bAcep', function () {
         rowAcep(selectedCell);
-        DeselectCell();
+        deselect_cell();
         IsEditing = false;
     });
     $(document).on('click', '#bCanc', function () {
         rowCancel(selectedCell);
-        DeselectCell();
+        deselect_cell();
         IsEditing = false;
     });
     $(document).on('click', '#bElim', function () {
         rowElim(selectedCell);
-        DeselectCell();
+        deselect_cell();
     });
 
     // If a cell is currently active, activate the buttons on the table-options menu.
-    function OnCellSelected() {
+    function select_cell() {
+
+        // Hightlight the new cell
+        $(selectedCell).addClass("selectedCell");
+        selectedCellX = selectedCell.cellIndex;
+        selectedCellY = selectedCell.parentNode.rowIndex;
         $('#column-menu > button').prop('disabled', false);
         $('#row-menu > button').prop('disabled', false);
         $('#align-menu > button').prop('disabled', false);
@@ -153,7 +221,8 @@ $(document).ready(function () {
     }
 
     // Deactivate the buttons on the table-options menu once a cell is deselected.
-    function DeselectCell() {
+    function deselect_cell() {
+        $(selectedCell).removeClass("selectedCell");
         selectedCell = "none";
         $('#column-menu > button').prop('disabled', true);
         $('#row-menu > button').prop('disabled', true);
