@@ -1,61 +1,76 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- JSGlue is for Ajax queries to Flask -->
+  {{ JSGlue.include() }}
+
+  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-<!-- Custom CSS -->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
-    <title>ToMarkdown</title>
-  </head>
-  <body>
-    <div id="wrap">
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface">
+
+  <title>ToMarkdown</title>
+</head>
+
+<body>
+  <div id="wrap">
     <nav class="navbar navbar-expand-lg navbar-dark py-3">
-      <a class="navbar-brand font-weight-bold" href="{{ url_for('index') }}">ToMarkdown</a>
+      <a class="navbar-brand text-title" href="{{ url_for('index') }}">ToMarkdown</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon">
-          <i class="fas fa-bars fa-2x"style="color: white" aria-hidden="true"></i>
+          <i class="fas fa-bars fa-2x" style="color: white" aria-hidden="true"></i>
         </span>
       </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto mr-5">
-        <li class="nav-item active">
-          <a class="nav-link ml-5 mr-5" href="#">Table2Markdown</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link ml-5 mr-5 disabled" aria-disabled="true" href="#">HTML2Markdown</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link ml-5 mr-5" href="#">Credits</a>
-        </li>
-      </ul>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mr-5">
+          <li class="nav-item active">
+            <a class="nav-link ml-5 mr-5" href="#">Table2Markdown</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link ml-5 mr-5 disabled" aria-disabled="true" href="#">HTML2Markdown</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link ml-5 mr-5" href="#">Credits</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      {% block body %}
+      {% endblock %}
     </div>
-  </nav>
-<div class="container">
-  {% block body %}
-  {% endblock %}
+    <div id="push"></div>
   </div>
-  <div id="push"></div>
-</div>
   <div id="footer">
-    <a href="#" class="h5 font-weight-bold mt-2">ToMarkdown</a>
-    <a href="https://1gokul.github.io/">Gokul Viswanath</a>    
-    <a href="https://github.com/1Gokul/table-generator">This website's github repository </a>    
+    <a href="#" class="text-title mt-2">ToMarkdown</a>
+    <a href="https://1gokul.github.io/">Gokul Viswanath</a>
+    <a href="https://github.com/1Gokul/table-generator">This website's github repository </a>
   </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    {% block script %}
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+    crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  {% block script %}
   {% endblock %}
-  </body>
+</body>
+
 </html>

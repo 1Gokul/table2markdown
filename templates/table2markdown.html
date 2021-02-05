@@ -3,14 +3,16 @@
 {% block body %}
 
 <!-- Heading -->
-<h3 class="mt-3 ml-3">Insert data into the table below.<br> Adjust the number of rows and columns as you see fit.</h2>
-    <div class="card bg-dark">
+<h3 class="mt-3 ml-3">Adjust the number of rows and columns as you see fit.
+    <br>The first row is treated as the table's header.
+</h3>
+    <div class="card tablecard bg-dark" id="input-table-card">
         <!-- Table Container -->
         <div class="card-body">
             <!-- Table options -->
             <ul id="table-options" class="table-options mb-3 mr-1 ml-1">
-                <li class="generate-button">
-                    <button id="#generate-table" type="button" class="btn btn-primary">Generate</button>
+                <li id="generate-table-button" class="generate-table-button">
+                    <button id="generate-table" type="button" class="btn btn-primary">Generate</button>
                 </li>
                 <li id="cell-position">
                 </li>
@@ -66,46 +68,22 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row">
-                                1
-                            </th>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
+                            <th scope="row">1</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                2
-                            </th>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
+                            <th scope="row">2</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <th scope="row">
-                                3
-                            </th>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
+                            <th scope="row">3</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>

@@ -4,12 +4,14 @@ body {
 }
 body {
   font-family: Poppins, sans-serif;
-  color: #eadeda;
-  background-color: #0d0628;
+  color: white;
+  background-color: #142229;
 }
 
-a {
-  color: turquoise;
+
+.text-title{
+  font-family: Abril Fatface, sans-serif;
+  font-size: larger;
 }
 
 .selected{
@@ -29,7 +31,7 @@ a {
 }
 
 .navbar {
-  background-color: #021264;
+  background-color: #1F5170;
   font-size: large;
 }
 .navbar-dark .navbar-toggler {
@@ -45,7 +47,7 @@ a {
   margin-bottom: 50px;
 }
 
-.card {
+.tablecard{  
   margin: 10px 20px;
 }
 
@@ -53,7 +55,10 @@ a {
   background-color: teal;
 }
 
-.generate-button {
+td, th{
+  min-width: 100px; 
+}
+.generate-table-button{
   float: right;
 }
 
@@ -79,6 +84,57 @@ a {
   margin: 0 auto -60px;
 }
 
+.table-responsive{  
+  max-height: 400px;
+  overflow: auto;
+}
+
+hr{
+  margin: 100px 0 75px;
+  border: 2px solid white;
+}
+
+.result-box{
+  display: grid;
+  grid-template-columns: 1fr .25fr;
+  grid-gap: 20px;
+  background-color: #142229;
+}
+
+.grid-child{
+  padding: 10px; 
+  max-height: 300px;
+}
+
+
+.result-text{
+  font-size: large;
+  white-space: pre-line;  
+  overflow: auto;
+  word-break: break-word;
+}
+.darkerbg{
+   background: #243742;
+}
+
+.downloadlink{
+  display: block;
+  margin: 10px;
+  padding: 10px 30px;
+  background: #1F5170;
+  font-size: large;
+  text-decoration: none;
+  text-align: center;
+  color: white;
+}
+
+.downloadlink:hover{
+  background: #276890;
+  color: white;
+  transition: background 0.2s linear;
+}
+
+
 /* Set the fixed height of the footer here */
 #push,
 #footer {
@@ -88,7 +144,7 @@ a {
 #footer {
   width: 100%;
   /* Set the fixed height of the #footer here */
-  background-color: #021264;
+  background-color: #1F5170;
   text-align: center;
 }
 
@@ -107,12 +163,25 @@ a:focus {
 
 /*  For Mobile */
 @media only screen and (max-width: 600px) {
+
+  h1{
+    font-size: 2.25rem;
+  }
+
   h3 {
     font-size: 1rem;
   } /*1rem = 16px*/
 
   .table-options {
     margin: 0;
+  }
+
+  td, th{
+    min-width: 75px; 
+  }
+
+  .result-box{
+    grid-template-columns: 1fr;
   }
 
   .generate-button{

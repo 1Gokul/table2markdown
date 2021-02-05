@@ -178,7 +178,7 @@ function rowEdit(but) {
     IterarCamposEdit($cols, function ($td) {  //itera por la columnas
         var cont = $td.html(); //lee contenido
         var div = '<div style="display: none;">' + cont + '</div>';  //guarda contenido
-        var input = '<input class="form-control input-sm"  value="' + cont + '">';
+        var input = '<input class="form-control input-sm"  style="min-width:30%" value="' + cont + '">';
         $td.html(div + input);  //fija contenido
     });
     FijModoEdit(but);

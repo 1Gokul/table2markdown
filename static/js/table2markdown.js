@@ -17,7 +17,7 @@ $(document).ready(function () {
         },
         // Execute when a row is deleted
         onDelete: function () {
-            console.log("number of rows: " + $('#input-table > tbody > tr').length);
+            //console.log("number of rows: " + $('#input-table > tbody > tr').length);
             if ($('#input-table > tbody > tr').length <= 0) {
                 $("#row-menu").removeClass("hidden");
             }
@@ -65,7 +65,7 @@ $(document).ready(function () {
 
         var htmlDat = '';
         $cols.each(function (i, el) {
-            console.log($(this).attr('name'));
+            //console.log($(this).attr('name'));
             if ($(this).attr('name') == 'buttons') {
                 //Es columna de botones
                 htmlDat = htmlDat + colEdicHtml;  //agrega botones
@@ -97,7 +97,7 @@ $(document).ready(function () {
     $(document).on('click', '#bAddRowDown', function () {
         rowData = create_row();
 
-        console.log($(this).parent());
+        //console.log($(this).parent());
         if ($('#input-table >tbody >tr').length <= 0) {
             $($("#input-table").find('tbody')).append('<tr>' + rowData + '</tr>');
         }
@@ -111,6 +111,53 @@ $(document).ready(function () {
         // $('<th scope="col">' + $('table#input-table thead>tr>th:last').index() + '</th>').insertBefore(".edithead-button");
         // $("<td></td>").insertBefore(".editrow-button");
     });
+
+
+    // When a table's row is selected.
+    $(document).on('click', '#generate-table', function () {
+        // row was clicked
+
+        //console.log($('#input-table').prop('outerHTML'));
+
+        var resultArray = new Array();
+        $('#input-table > tbody > tr').each(function () {
+            var innerArray = new Array();
+            $(this).find('td').each(function () {
+                // do your cool stuff
+
+                var ele = $(this).html();
+
+                if (ele === "") innerArray.push('N/A');
+                else innerArray.push(ele);
+
+            });
+            resultArray.push(innerArray);
+        });
+        //console.log(resultArray);
+
+        var js_data = JSON.stringify(resultArray);
+
+        $.ajax({
+            "type": 'POST',
+            "url": Flask.url_for('convert_table'),
+            "data": js_data,
+            "processData": false,
+            "contentType": 'application/json',
+            "dataType": 'json'
+        })
+            .done((response) => {
+
+                //console.log("Done!");
+                display_result_table(response);
+            })
+            .fail((error) => {
+                console.log("Error during file convert: " + error);
+            });
+
+
+
+    });
+
 
 
     // When a table's row is selected.
@@ -189,15 +236,18 @@ $(document).ready(function () {
 
     $(document).on('click', '#bEdit', function () {
         IsEditing = true;
+        $('#generate-table-button > button').prop('disabled', true);
         rowEdit(selectedCell);
     });
     $(document).on('click', '#bAcep', function () {
         rowAcep(selectedCell);
+        $('#generate-table-button > button').prop('disabled', false);
         deselect_cell();
         IsEditing = false;
     });
     $(document).on('click', '#bCanc', function () {
         rowCancel(selectedCell);
+        $('#generate-table-button > button').prop('disabled', false);
         deselect_cell();
         IsEditing = false;
     });
@@ -231,6 +281,19 @@ $(document).ready(function () {
         $("#cell-position").append('<h4>[-][-]</h4>');
         selectedCellX = 0;
         selectedCellY = 0;
+    }
+
+    function display_result_table(responseObject) {
+
+        $("#result-container").remove();
+
+        var html = '<hr size="2" width="100%" align="center" noshade>'
+        html += '<div id="result-container" class="result-container"><h1>Your converted table</h1>'
+        html += '<div class="card result-box mt-5"><div class="grid-child result-text darkerbg">' + responseObject.resultTable + '</div>';
+        html += '<div class="grid-child links"><a href="/get-table/raw" class="btn downloadlink">Raw</a>';
+        html += '<a href="/get-table/download" class="btn downloadlink">Download</a></div></div></div>';
+
+        $(html).insertAfter('#input-table-card');
     }
 });
 
