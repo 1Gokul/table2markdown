@@ -23,7 +23,7 @@ def convert_table():
 
 @app.route('/get-table/<type>')
 def get_table(type):
-    filename = os.path.join(app.root_path, 'tmp', 'ConvertedTable.txt')
+    filename = os.path.join(app.root_path, 'tmp', 'ConvertedTable.md')
     return send_file(filename, as_attachment= True if type=='download' else False)
 
 @app.errorhandler(404)

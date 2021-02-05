@@ -29,6 +29,8 @@ def convert_table(inputTable):
     # Write the converted file to ConvertedTable.txt
     with open("tmp/ConvertedTable.txt", "w") as text_file:
             print(f"{resultTable}", file=text_file)
+    
+    shutil.copyfile("tmp/ConvertedTable.txt", "tmp/ConvertedTable.md")
 
     responseObject = { "resultTable": resultTable, "resultFileLink": ''}
     return responseObject
