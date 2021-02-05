@@ -23,8 +23,14 @@ def convert_table():
 
 @app.route('/get-table/<type>')
 def get_table(type):
-    filename = os.path.join(app.root_path, 'tmp', 'ConvertedTable.md')
-    return send_file(filename, as_attachment= True if type=='download' else False)
+    if(type == 'raw'):
+        filename = os.path.join(app.root_path, 'tmp', 'ConvertedTable.txt')
+        return send_file(filename, as_attachment=False)
+    elif(type == 'download'):
+        filename = os.path.join(app.root_path, 'tmp', 'ConvertedTable.md')
+        return send_file(filename, as_attachment= True)
+    else:
+        return request_page_not_found("bad url")
 
 @app.errorhandler(404)
 def request_page_not_found(error):

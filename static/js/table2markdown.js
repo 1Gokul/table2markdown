@@ -287,8 +287,8 @@ $(document).ready(function () {
         var html = '<hr id="result-rule" size="2" width="100%" align="center" noshade>'
         html += '<div id="result-container" class="result-container"><h1>Your converted table</h1>'
         html += '<div class="card result-box mt-5"><div class="grid-child result-text darkerbg">' + responseObject.resultTable + '</div>';
-        html += '<div class="grid-child links"><a href="/get-table/raw" class="btn downloadlink">Raw</a>';
-        html += '<a href="/get-table/download" class="btn downloadlink">Download</a></div></div></div>';
+        html += '<div class="grid-child links"><a href="' + Flask.url_for("get_table", {"type": "raw"}) + '" class="btn downloadlink">Raw</a>';
+        html += '<a href="' + Flask.url_for("get_table", {"type": "download"}) + '" class="btn downloadlink">Download</a></div></div></div>';
 
         $(html).insertAfter('#input-table-card');
 

@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 
 .vscode/
+
+tmp/ConvertedTable.md
+
+tmp/ConvertedTable.txt
