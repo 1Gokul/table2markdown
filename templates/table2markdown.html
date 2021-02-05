@@ -6,95 +6,179 @@
 <h3 class="mt-3 ml-3">Adjust the number of rows and columns as you see fit.
     <br>The first row is treated as the table's header.
 </h3>
-    <div class="card tablecard bg-dark" id="input-table-card">
-        <!-- Table Container -->
-        <div class="card-body">
-            <!-- Table options -->
-            <ul id="table-options" class="table-options mb-3 mr-1 ml-1">
-                <li id="generate-table-button" class="generate-table-button">
-                    <button id="generate-table" type="button" class="btn btn-primary">Generate</button>
-                </li>
-                <li id="cell-position">
-                </li>
-                <li id="align-menu">
-                    <button type="button" class="btn btn-info" id="#left-align">
-                        <i class="fas fa-align-left  ml-1 mr-1" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-info" id="#center-align">
-                        <i class="fas fa-align-center  ml-1 mr-1" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-info" id="#right-align">
-                        <i class="fas fa-align-right  ml-1 mr-1" aria-hidden="true"></i></button>
-                    </a>
-                </li>
-                <li id="column-menu">
-                    Column
-                    <button type="button" class="header-col-button btn btn-success" id="bAddColumnLeft">
-                        <i class="fas fa-plus"></i> <i class="fas fa-long-arrow-alt-left"></i></button>
-                    <button type="button" class="header-col-button btn btn-success" id="bAddColumnRight">
-                        <i class="fas fa-long-arrow-alt-right mr-1"></i><i class="fas fa-plus"></i></button>
-                </li>
-                <li id="row-menu">
-                    Row
-                    <button id="bEdit" type="button" class="btn btn-secondary">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                    <button id="bAddRowUp" type="button" class="btn btn-success">
-                        <i class="fas fa-plus"></i> <i class="fas fa-long-arrow-alt-up"></i>
-                    </button>
-                    <button id="bAddRowDown" type="button" class="btn btn-success">
-                        <i class="fas fa-plus"></i> <i class="fas fa-long-arrow-alt-down"></i>
-                    </button>
-                    <button id="bElim" type="button" class="btn btn-danger">
-                        <i class="fas fa-trash" aria-hidden="true"></i>
-                    </button>
-                    <button id="bAcep" type="button" class="btn btn-success">
-                        <i class="fas fa-check"></i>
-                    </button>
-                    <button id="bCanc" type="button" class="btn btn-danger">
-                        <i class="fas fa-times" aria-hidden="true"></i>
-                </li>
 
-            </ul>
-            <!-- Input table -->
-            <div class="table-responsive">
-                <table id="input-table"
-                    class="table table-editable table-striped table-bordered table-dark table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">1</th>
-                            <th scope="col">2</th>
-                            <th scope="col">3</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+
+<div class="card tablecard bg-dark" id="input-table-card">
+    <!-- Table Container -->
+    <div class="card-body">
+        <!-- Table options -->
+        <div id="table-options-mobile" class="dropdown table-options-mobile">
+            <div id="cell-position" class="cell-position"></div>
+            <div class="generate-table-button">
+                <button id="generate-table" type="button" class="btn btn-primary">Generate</button>
+            </div>
+            <div class="dropdown-menus-container">
+                <div id="text-menu" class="dropdown">
+                    <button class="btn btn-info dropdown-toggle" type="button" id="text-menu-dropdown-button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Text
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="text-menu-dropdown-button">
+                        <button id="make-bold" class="dropdown-item" href="#">
+                            <i class="fas fa-bold fa-sm mr-3"></i>
+                            Bold
+                        </button>
+                        <button id="make-italic" class="dropdown-item" href="#">
+                            <i class="fas fa-italic fa-sm mr-3"></i>
+                            Italic
+                        </button>
+                        <button id="make-strikethrough" class="dropdown-item" href="#">
+                            <i class="fas fa-strikethrough fa-sm mr-3"></i>
+                            Strikethrough
+                        </button>
+                    </div>
+                </div>
+                <div id="column-menu" class="dropdown">
+                    <button class="btn btn-info dropdown-toggle" type="button" id="col-menu-dropdown-button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Col
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="col-menu-dropdown-button">
+                        <button id="bAddColumnLeft" class="dropdown-item" href="#">
+                            <i class="fas fa-long-arrow-alt-left fa-sm mr-3"></i>
+                            Add Left</button>
+                        <button id="bAddColumnRight" class="dropdown-item" href="#">
+                            <i class="fas fa-long-arrow-alt-right fa-sm mr-3"></i>
+                            Add Right</button>
+                        <button id="bDeleteColumn" class="dropdown-item" href="#">
+                            <i class="fas fa-trash fa-sm mr-3"></i>
+                            Delete</button>
+                    </div>
+                </div>
+                <div id="row-menu" class="dropdown">
+                    <button class="btn btn-info dropdown-toggle" type="button" id="row-menu-dropdown-button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Row
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="row-menu-dropdown-button">
+                        <button id="bEdit" class="dropdown-item" href="#">
+                            <i class="fas fa-pencil-alt fa-sm mr-3"></i>
+                            Edit
+                        </button>
+                        <button id="bAddRowUp" class="dropdown-item" href="#">
+                            <i class="fas fa-long-arrow-alt-up fa-sm mr-3"></i>
+                            Add Above
+                        </button>
+                        <button id="bAddRowDown" class="dropdown-item" href="#">
+                            <i class="fas fa-long-arrow-alt-down fa-sm mr-3"></i>
+                            Add Below
+                        </button>
+                        <button id="bElim" class="dropdown-item" href="#">
+                            <i class="fas fa-trash fa-sm mr-3"></i>
+                            Delete
+                        </button>
+                        <button id="bAcep" class="dropdown-item" href="#">
+                            <i class="fas fa-check fa-sm mr-3"></i>
+                            Accept
+                        </button>
+                        <button id="bCanc" class="dropdown-item" href="#">
+                            <i class="fas fa-times fa-sm mr-3"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <ul id="table-options-desktop" class="table-options-desktop mb-3 mr-1 ml-1">
+            <li class="generate-table-button">
+                <div class="generate-table-button">
+                    <button id="generate-table" type="button" class="btn btn-primary">Generate</button>
+                </div>
+            </li>
+            <li id="cell-position">
+            </li>
+            <li id="text-menu">
+                <button id="make-bold" type="button" class="btn btn-info">
+                    <i class="fas fa-bold  ml-1 mr-1" aria-hidden="true"></i></button>
+                <button id="make-italic" type="button" class="btn btn-info">
+                    <i class="fas fa-italic  ml-1 mr-1" aria-hidden="true"></i></button>
+                <button id="make-strikethrough" type="button" class="btn btn-info">
+                    <i class="fas fa-strikethrough  ml-1 mr-1" aria-hidden="true"></i></button>
+                </a>
+            </li>
+            <li id="column-menu">
+                Column
+                <button id="bAddColumnLeft" type="button" class="header-col-button btn btn-success">
+                    <i class="fas fa-plus"></i> <i class="fas fa-long-arrow-alt-left"></i></button>
+                <button id="bAddColumnRight" type="button" class="header-col-button btn btn-success">
+                    <i class="fas fa-long-arrow-alt-right mr-1"></i><i class="fas fa-plus"></i></button>
+                <button id="bDeleteColumn" type="button" class="btn btn-danger">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </button>
+            </li>
+            <li id="row-menu">
+                Row
+                <button id="bEdit" type="button" class="btn btn-secondary">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button id="bAddRowUp" type="button" class="btn btn-success">
+                    <i class="fas fa-plus"></i> <i class="fas fa-long-arrow-alt-up"></i>
+                </button>
+                <button id="bAddRowDown" type="button" class="btn btn-success">
+                    <i class="fas fa-plus"></i> <i class="fas fa-long-arrow-alt-down"></i>
+                </button>
+                <button id="bElim" type="button" class="btn btn-danger">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </button>
+                <button id="bAcep" type="button" class="btn btn-success">
+                    <i class="fas fa-check"></i>
+                </button>
+                <button id="bCanc" type="button" class="btn btn-danger">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+            </li>
+
+        </ul>
+        <!-- Input table -->
+        <div class="table-responsive">
+            <table id="input-table" class="table table-editable table-striped table-bordered table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">1</th>
+                        <th scope="col">2</th>
+                        <th scope="col">3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+</div>
 
-    {% endblock %}
+{% endblock %}
 
-    {% block script %}
-    <script src="{{ url_for('static', filename='js/bootstable.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/table2markdown.js') }}"></script>
+{% block script %}
+<script src="{{ url_for('static', filename='js/bootstable.js') }}"></script>
+<script src="{{ url_for('static', filename='js/table2markdown.js') }}"></script>
 
-    {% endblock %}
+{% endblock %}

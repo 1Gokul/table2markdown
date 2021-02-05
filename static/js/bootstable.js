@@ -112,25 +112,43 @@ function IterarCamposEdit($cols, tarea) {
 
 
 function FijModoNormal(but) {
-    $('#table-options').find('#bAcep').hide();
-    $('#table-options').find('#bCanc').hide();
-    $('#table-options').find('#bEdit').show();
-    $('#table-options').find('#bElim').show();
-    $('#table-options').find('#bAdd').show();
-    $('#table-options').find('#bAddRowUp').show();
-    $('#table-options').find('#bAddRowDown').show();
+    $('#table-options-desktop').find('#bAcep').hide();
+    $('#table-options-desktop').find('#bCanc').hide();
+    $('#table-options-desktop').find('#bEdit').show();
+    $('#table-options-desktop').find('#bElim').show();
+    $('#table-options-desktop').find('#bAdd').show();
+    $('#table-options-desktop').find('#bAddRowUp').show();
+    $('#table-options-desktop').find('#bAddRowDown').show();
+
+    $('#table-options-mobile').find('#bAcep').hide();
+    $('#table-options-mobile').find('#bCanc').hide();
+    $('#table-options-mobile').find('#bEdit').show();
+    $('#table-options-mobile').find('#bElim').show();
+    $('#table-options-mobile').find('#bAdd').show();
+    $('#table-options-mobile').find('#bAddRowUp').show();
+    $('#table-options-mobile').find('#bAddRowDown').show();
+
     var $row = $(but).parents('tr');  //accede a la fila
     $row.attr('id', '');  //quita marca
 }
 function FijModoEdit(but) {
 
-    $('#table-options').find('#bAcep').show();
-    $('#table-options').find('#bCanc').show();
-    $('#table-options').find('#bEdit').hide();
-    $('#table-options').find('#bElim').hide();
-    $('#table-options').find('#bAdd').hide();
-    $('#table-options').find('#bAddRowUp').hide();
-    $('#table-options').find('#bAddRowDown').hide();
+    $('#table-options-desktop').find('#bAcep').show();
+    $('#table-options-desktop').find('#bCanc').show();
+    $('#table-options-desktop').find('#bEdit').hide();
+    $('#table-options-desktop').find('#bElim').hide();
+    $('#table-options-desktop').find('#bAdd').hide();
+    $('#table-options-desktop').find('#bAddRowUp').hide();
+    $('#table-options-desktop').find('#bAddRowDown').hide();
+
+    $('#table-options-mobile').find('#bAcep').show();
+    $('#table-options-mobile').find('#bCanc').show();
+    $('#table-options-mobile').find('#bEdit').hide();
+    $('#table-options-mobile').find('#bElim').hide();
+    $('#table-options-mobile').find('#bAdd').hide();
+    $('#table-options-mobile').find('#bAddRowUp').hide();
+    $('#table-options-mobile').find('#bAddRowDown').hide();
+
     var $row = $(but).parents('tr');  //accede a la fila
     $row.attr('id', 'editing');  //indica que está en edición
 }

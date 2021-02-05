@@ -27,7 +27,8 @@ body {
 
 }
 
-.header-row-button{
+.navbar-brand img{
+  width: 250px;
 }
 
 .navbar {
@@ -62,12 +63,16 @@ td, th{
   float: right;
 }
 
-.table-options li {
+.table-options-mobile{
+  display: none;
+}
+
+.table-options-desktop li {
   display: inline-block;
   padding: 0 10px;
 }
 
-.table-options  i{
+.table-options-desktop  i{
   color: white;
 }
 
@@ -164,6 +169,10 @@ a:focus {
 /*  For Mobile */
 @media only screen and (max-width: 600px) {
 
+  .navbar-brand img{
+    width: 200px;
+  }
+
   h1{
     font-size: 2.25rem;
   }
@@ -172,9 +181,18 @@ a:focus {
     font-size: 1rem;
   } /*1rem = 16px*/
 
-  .table-options {
-    margin: 0;
+  .table-options-mobile{
+    display: block;
+    margin: 10px 0;
   }
+  .table-options-desktop {
+    display: none;
+  }
+
+  .table-responsive{  
+    max-height: 500px;
+  }
+  
 
   td, th{
     min-width: 75px; 
@@ -184,14 +202,20 @@ a:focus {
     grid-template-columns: 1fr;
   }
 
-  .generate-button{
-    float: none;
+  .cell-position{
+    display: inline-block;
   }
 
-  .table-options li {
-    display: block;
-    padding: 7px 0;
-    font-size: 1.2rem;
+  .generate-table-button{
+    display: inline-block;
+  }
+
+  .dropdown-menus-container{
+    margin: 10px 0px;
+  }
+
+  .dropdown-menus-container .dropdown{
+    display: inline-block;
   }
 
   #footer {

@@ -5,8 +5,12 @@ $(document).ready(function () {
 
     // As there are already 3 rows and columns in the table, hide the header row and column buttons.
     deselect_cell();
-    $('#bAcep').hide();
-    $('#bCanc').hide();
+    $('#table-options-desktop').find('#bAcep').hide();
+    $('#table-options-desktop').find('#bCanc').hide();
+    $('#table-options-mobile').find('#bAcep').hide();
+    $('#table-options-mobile').find('#bCanc').hide();
+    $('#bDeleteColumn').prop('disabled', true);
+    
 
     // Makes the table editable. (from bootstable.js)
     $('#input-table').SetEditable({
@@ -265,7 +269,7 @@ $(document).ready(function () {
         selectedCellY = selectedCell.parentNode.rowIndex;
         $('#column-menu > button').prop('disabled', false);
         $('#row-menu > button').prop('disabled', false);
-        $('#align-menu > button').prop('disabled', false);
+        $('#text-menu > button').prop('disabled', false);
         $("#cell-position > h4").remove();
         $("#cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
     }
@@ -276,7 +280,7 @@ $(document).ready(function () {
         selectedCell = "none";
         $('#column-menu > button').prop('disabled', true);
         $('#row-menu > button').prop('disabled', true);
-        $('#align-menu > button').prop('disabled', true);
+        $('#text-menu > button').prop('disabled', true);
         $("#cell-position > h4").remove();
         $("#cell-position").append('<h4>[-][-]</h4>');
         selectedCellX = 0;
