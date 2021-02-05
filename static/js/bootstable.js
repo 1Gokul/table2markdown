@@ -112,6 +112,8 @@ function IterarCamposEdit($cols, tarea) {
 
 
 function FijModoNormal(but) {
+
+    // for desktop
     $('#table-options-desktop').find('#bAcep').hide();
     $('#table-options-desktop').find('#bCanc').hide();
     $('#table-options-desktop').find('#bEdit').show();
@@ -120,6 +122,7 @@ function FijModoNormal(but) {
     $('#table-options-desktop').find('#bAddRowUp').show();
     $('#table-options-desktop').find('#bAddRowDown').show();
 
+    // for mobile
     $('#table-options-mobile').find('#bAcep').hide();
     $('#table-options-mobile').find('#bCanc').hide();
     $('#table-options-mobile').find('#bEdit').show();
@@ -133,6 +136,7 @@ function FijModoNormal(but) {
 }
 function FijModoEdit(but) {
 
+    // for desktop
     $('#table-options-desktop').find('#bAcep').show();
     $('#table-options-desktop').find('#bCanc').show();
     $('#table-options-desktop').find('#bEdit').hide();
@@ -141,6 +145,7 @@ function FijModoEdit(but) {
     $('#table-options-desktop').find('#bAddRowUp').hide();
     $('#table-options-desktop').find('#bAddRowDown').hide();
 
+    // for mobile
     $('#table-options-mobile').find('#bAcep').show();
     $('#table-options-mobile').find('#bCanc').show();
     $('#table-options-mobile').find('#bEdit').hide();

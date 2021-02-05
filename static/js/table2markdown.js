@@ -10,7 +10,7 @@ $(document).ready(function () {
     $('#table-options-mobile').find('#bAcep').hide();
     $('#table-options-mobile').find('#bCanc').hide();
     $('#bDeleteColumn').prop('disabled', true);
-    
+
 
     // Makes the table editable. (from bootstable.js)
     $('#input-table').SetEditable({
@@ -39,7 +39,7 @@ $(document).ready(function () {
         // Also update the new position of the selected cell.
         select_cell();
     }
-
+    // Sets the column numbers. Usually called when a column is added or deleted.
     function set_table_column_numbers() {
         //$('#input-table > thead > tr').each(function () {
 
@@ -61,7 +61,6 @@ $(document).ready(function () {
 
     // Creates the row to be added
     function create_row() {
-        // console.log($(this).closest('tr'));
         var $tab_en_edic = $('#input-table');
 
         var $row = $tab_en_edic.find('thead tr');
@@ -69,10 +68,9 @@ $(document).ready(function () {
 
         var htmlDat = '';
         $cols.each(function (i, el) {
-            //console.log($(this).attr('name'));
             if ($(this).attr('name') == 'buttons') {
                 //Es columna de botones
-                htmlDat = htmlDat + colEdicHtml;  //agrega botones
+                htmlDat = htmlDat + colEdicHtml;
             } else {
                 if (i == 0) {
                     htmlDat += '<th scope="row"></th>'
@@ -92,9 +90,6 @@ $(document).ready(function () {
         rowData = create_row();
         $('<tr>' + rowData + '</tr>').insertBefore(selectedCell.closest('tr'));
         set_table_row_numbers();
-        // $('table#input-table thead>tr').append("<td>3</td>")
-        // $('<th scope="col">' + $('table#input-table thead>tr>th:last').index() + '</th>').insertBefore(".edithead-button");
-        // $("<td></td>").insertBefore(".editrow-button");
     });
 
     // Custom function to add a row below the clicked button's row.
@@ -111,18 +106,11 @@ $(document).ready(function () {
 
 
         set_table_row_numbers();
-        // $('table#input-table thead>tr').append("<td>3</td>")
-        // $('<th scope="col">' + $('table#input-table thead>tr>th:last').index() + '</th>').insertBefore(".edithead-button");
-        // $("<td></td>").insertBefore(".editrow-button");
     });
 
 
     // When a table's row is selected.
     $(document).on('click', '#generate-table', function () {
-        // row was clicked
-
-        //console.log($('#input-table').prop('outerHTML'));
-
         var resultArray = new Array();
         $('#input-table > tbody > tr').each(function () {
             var innerArray = new Array();
@@ -131,7 +119,7 @@ $(document).ready(function () {
 
                 var ele = $(this).html();
 
-                if (ele === "") innerArray.push('N/A');
+                if (ele === "") innerArray.push('-');
                 else innerArray.push(ele);
 
             });
@@ -287,17 +275,24 @@ $(document).ready(function () {
         selectedCellY = 0;
     }
 
+    // Display the result of the conversion to the user.
     function display_result_table(responseObject) {
 
-        $("#result-container").remove();
 
-        var html = '<hr size="2" width="100%" align="center" noshade>'
+        // If there were any previously existing results, remove them.
+        $("#result-container").remove();
+        $("#result-rule").remove();
+
+        // Display the result
+        var html = '<hr id="result-rule" size="2" width="100%" align="center" noshade>'
         html += '<div id="result-container" class="result-container"><h1>Your converted table</h1>'
         html += '<div class="card result-box mt-5"><div class="grid-child result-text darkerbg">' + responseObject.resultTable + '</div>';
         html += '<div class="grid-child links"><a href="/get-table/raw" class="btn downloadlink">Raw</a>';
         html += '<a href="/get-table/download" class="btn downloadlink">Download</a></div></div></div>';
 
         $(html).insertAfter('#input-table-card');
+
+        window.scrollTo(0, $("hr").offset().top);
     }
 });
 
