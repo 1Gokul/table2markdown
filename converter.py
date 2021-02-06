@@ -1,6 +1,6 @@
 import shutil
 
-def convert_table(inputTable):
+def convert_table(inputTable, filename):
     resultTable = ""
 
     # Add the first row of the input table. It will be treated as the header of the output table.
@@ -26,11 +26,11 @@ def convert_table(inputTable):
             resultTable += (" " + inputTable[i][j] + " |")
         resultTable += '\n'
 
-    # Write the converted file to ConvertedTable.txt
-    with open("tmp/ConvertedTable.txt", "w") as text_file:
+    # Write the result to a .txt file with the provided filename
+    with open("tmp/" + filename + '.txt', "w") as text_file:
             print(f"{resultTable}", file=text_file)
     
-    shutil.copyfile("tmp/ConvertedTable.txt", "tmp/ConvertedTable.md")
+    shutil.copyfile("tmp/" + filename + '.txt', "tmp/" + filename + '.md')
 
     responseObject = { "resultTable": resultTable, "resultFileLink": ''}
     return responseObject

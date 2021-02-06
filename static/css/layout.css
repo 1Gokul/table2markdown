@@ -15,8 +15,8 @@ body {
   font-size: larger;
 }
 
-.selected{
-  
+.cell-position{
+  display: inline-block;
 }
 
 .hidden{

@@ -3,7 +3,7 @@ $(document).ready(function () {
     // Global variables
     var selectedCell = "none", selectedCellX = 0, selectedCellY = 0, IsEditing = false;
 
-    // As there are already 3 rows and columns in the table, hide the header row and column buttons.
+    // Hide the Accept and Cancel buttons. These buttons appear only when a cell is being edited.
     deselect_cell();
     $('#table-options-desktop').find('#bAcep').hide();
     $('#table-options-desktop').find('#bCanc').hide();
@@ -41,11 +41,13 @@ $(document).ready(function () {
     }
     // Sets the column numbers. Usually called when a column is added or deleted.
     function set_table_column_numbers() {
-        //$('#input-table > thead > tr').each(function () {
 
+        // Find the table headers
         var $cols = $("#input-table > thead > tr").find('th');
 
+        // Iterate through the headers
         $cols.each(function (i, el) {
+            // The first column's header is '#'
             if (i == 0) {
 
                 $(this).replaceWith('<th scope="col">#</th>');
@@ -61,12 +63,15 @@ $(document).ready(function () {
 
     // Creates the row to be added
     function create_row() {
+        // Get the input table
         var $tab_en_edic = $('#input-table');
 
+        // Find the rows and columns
         var $row = $tab_en_edic.find('thead tr');
         var $cols = $row.find('th');
 
         var htmlDat = '';
+        // Iterate through each column of the selectedCell's row and set them up to be editable.
         $cols.each(function (i, el) {
             if ($(this).attr('name') == 'buttons') {
                 //Es columna de botones
@@ -87,19 +92,24 @@ $(document).ready(function () {
     // Custom function to add a row above the clicked button's row.
     $(document).on('click', '#bAddRowUp', function () {
 
+        // Create the row
         rowData = create_row();
+
+        // Add the row above the current one
         $('<tr>' + rowData + '</tr>').insertBefore(selectedCell.closest('tr'));
         set_table_row_numbers();
     });
 
     // Custom function to add a row below the clicked button's row.
     $(document).on('click', '#bAddRowDown', function () {
+        // Create the row
         rowData = create_row();
 
-        //console.log($(this).parent());
+        // If the length of the table is zero, add the row at the beginning.
         if ($('#input-table >tbody >tr').length <= 0) {
             $($("#input-table").find('tbody')).append('<tr>' + rowData + '</tr>');
         }
+        // Else add the row below the current one
         else {
             $('<tr>' + rowData + '</tr>').insertAfter(selectedCell.closest('tr'));
         }
@@ -109,25 +119,31 @@ $(document).ready(function () {
     });
 
 
-    // When a table's row is selected.
+    // Generates the table with the current data
     $(document).on('click', '#generate-table', function () {
+
         var resultArray = new Array();
+
+        // Loop through each row
         $('#input-table > tbody > tr').each(function () {
+
+            // Temporary inner array
             var innerArray = new Array();
-            $(this).find('td').each(function () {
-                // do your cool stuff
+
+            // Add the data of each element to innerArray
+            $(this).find('td').each(function () {                
 
                 var ele = $(this).html();
-
                 if (ele === "") innerArray.push('-');
                 else innerArray.push(ele);
 
             });
             resultArray.push(innerArray);
         });
-        //console.log(resultArray);
 
+        // Convert the array into JSON
         var js_data = JSON.stringify(resultArray);
+
 
         $.ajax({
             "type": 'POST',
@@ -258,26 +274,27 @@ $(document).ready(function () {
         $('#column-menu > button').prop('disabled', false);
         $('#row-menu > button').prop('disabled', false);
         $('#text-menu > button').prop('disabled', false);
-        $("#cell-position > h4").remove();
-        $("#cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
+        $(".cell-position > h4").remove();
+        $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
     }
 
     // Deactivate the buttons on the table-options menu once a cell is deselected.
     function deselect_cell() {
+
+        // Remove the highlight from the selectedCell
         $(selectedCell).removeClass("selectedCell");
         selectedCell = "none";
         $('#column-menu > button').prop('disabled', true);
         $('#row-menu > button').prop('disabled', true);
         $('#text-menu > button').prop('disabled', true);
-        $("#cell-position > h4").remove();
-        $("#cell-position").append('<h4>[-][-]</h4>');
+        $(".cell-position > h4").remove();
+        $(".cell-position").append('<h4>[-][-]</h4>');
         selectedCellX = 0;
         selectedCellY = 0;
     }
 
     // Display the result of the conversion to the user.
     function display_result_table(responseObject) {
-
 
         // If there were any previously existing results, remove them.
         $("#result-container").remove();
