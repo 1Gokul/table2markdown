@@ -88,6 +88,75 @@ $(document).ready(function () {
         return htmlDat;
     }
 
+
+    // If a cell is currently active, activate the buttons on the table-options menu.
+    function select_cell() {
+
+        // Hightlight the new cell
+        $(selectedCell).addClass("selectedCell");
+        selectedCellX = selectedCell.cellIndex;
+        selectedCellY = selectedCell.parentNode.rowIndex;
+        $('.column-menu > button,.row-menu > button,.text-menu > button').removeAttr('disabled');
+        // $(".cell-position > h4").remove();
+        // $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
+    }
+
+    // Deactivate the buttons on the table-options menu once a cell is deselected.
+    function deselect_cell() {
+
+        // Remove the highlight from the selectedCell
+        $(selectedCell).removeClass("selectedCell");
+        selectedCell = "none";
+        $('.column-menu > button,.row-menu > button,.text-menu > button').attr('disabled', 'disabled', 'disabled');
+        // $(".cell-position > h4").remove();
+        // $(".cell-position").append('<h4>[-][-]</h4>');
+        selectedCellX = 0;
+        selectedCellY = 0;
+    }
+
+    // Display the result of the conversion to the user.
+    function display_result_table(responseObject) {
+
+        // If there were any previously existing results, remove them.
+        $("#result-container").remove();
+        $("#result-rule").remove();
+
+        // Display the result
+        var html = '<hr id="result-rule" size="2" width="100%" align="center" noshade>'
+        html += '<div id="result-container" class="result-container"><h1>Your converted table</h1>'
+        html += '<div class="card result-box mt-5"><div class="grid-child result-text darkerbg">' + responseObject.resultTable + '</div>';
+        html += '<div class="grid-child links"><a href="' + Flask.url_for("get_table", { "type": "raw" }) + '" class="btn downloadlink">Raw</a>';
+        html += '<a href="' + Flask.url_for("get_table", { "type": "download" }) + '" class="btn downloadlink">Download</a></div></div></div>';
+
+        $(html).insertAfter('#input-table-card');
+
+        window.scrollTo(0, $("hr").offset().top);
+    }
+
+
+    // When a table's row is selected.
+    $(document).on('click', '#input-table > tbody > tr > td', function (el) {
+        // row was clicked
+
+        if (!IsEditing) {
+            if (selectedCell == el.target) {
+
+                deselect_cell();
+            }
+            else {
+                // Remove the highlight of the previously selected cell
+                $(selectedCell).removeClass("selectedCell");
+
+                // Assign the new cell
+                selectedCell = el.target;
+                select_cell();
+            }
+
+        }
+
+
+    });
+
     // Custom function to add a row above the clicked button's row.
     $(document).on('click', '.bAddRowUp', function () {
 
@@ -118,77 +187,6 @@ $(document).ready(function () {
     });
 
 
-    // Generates the table with the current data
-    $(document).on('click', '.bGenerateTable', function () {
-
-        var resultArray = new Array();
-
-        // Loop through each row
-        $('#input-table > tbody > tr').each(function () {
-
-            // Temporary inner array
-            var innerArray = new Array();
-
-            // Add the data of each element to innerArray
-            $(this).find('td').each(function () {                
-
-                var ele = $(this).html();
-                if (ele === "") innerArray.push('-');
-                else innerArray.push(ele);
-
-            });
-            resultArray.push(innerArray);
-        });
-
-        // Convert the array into JSON
-        var js_data = JSON.stringify(resultArray);
-
-
-        $.ajax({
-            "type": 'POST',
-            "url": Flask.url_for('convert_table'),
-            "data": js_data,
-            "processData": false,
-            "contentType": 'application/json',
-            "dataType": 'json'
-        })
-            .done((response) => {
-
-                //console.log("Done!");
-                display_result_table(response);
-            })
-            .fail((error) => {
-                console.log("Error during file convert: " + error);
-            });
-
-
-
-    });
-
-
-
-    // When a table's row is selected.
-    $(document).on('click', '#input-table > tbody > tr > td', function (el) {
-        // row was clicked
-
-        if (!IsEditing) {
-            if (selectedCell == el.target) {
-
-                deselect_cell();
-            }
-            else {
-                // Remove the highlight of the previously selected cell
-                $(selectedCell).removeClass("selectedCell");
-
-                // Assign the new cell
-                selectedCell = el.target;
-                select_cell();
-            }
-
-        }
-
-
-    });
 
     // Adds a column to the left of the current column.
     $(document).on('click', '.bAddColumnLeft', function () {
@@ -231,7 +229,7 @@ $(document).ready(function () {
             $cols.each(function (i, el) {
                 if ((i + 1) == selectedCellX) {
                     $('<td></td>').insertAfter(el);
-                    return false; 
+                    return false;
                 }
             })
 
@@ -240,8 +238,8 @@ $(document).ready(function () {
         set_table_column_numbers();
     });
 
-     // Deletes the selectedCell's column
-     $(document).on('click', '.bDeleteColumn', function () {
+    // Deletes the selectedCell's column
+    $(document).on('click', '.bDeleteColumn', function () {
 
 
         $('#input-table thead tr th').each(function (i, el) {
@@ -251,35 +249,35 @@ $(document).ready(function () {
             }
         })
 
-          // Find and delete the cells of the column
-          $('#input-table tbody tr').each(function () {
+        // Find and delete the cells of the column
+        $('#input-table tbody tr').each(function () {
             var $cols = $(this).find('td');
             $cols.each(function (i, el) {
                 if ((i + 1) == selectedCellX) {
                     el.remove();
-                    return false; 
+                    return false;
                 }
             })
 
         })
 
         set_table_column_numbers();
-     })
+    });
 
     $(document).on('click', '.bEdit', function () {
         IsEditing = true;
-        $('.generate-table-button > button').prop('disabled', true);
+        $('.generate-table-button > button, .text-menu > button').attr('disabled', 'disabled');
         rowEdit(selectedCell);
     });
     $(document).on('click', '.bAcep', function () {
         rowAcep(selectedCell);
-        $('.generate-table-button > button').prop('disabled', false);
+        $('.generate-table-button > button, .text-menu > button').removeAttr('disabled');
         deselect_cell();
         IsEditing = false;
     });
     $(document).on('click', '.bCanc', function () {
         rowCancel(selectedCell);
-        $('.generate-table-button > button').prop('disabled', false);
+        $('.generate-table-button > button, .text-menu > button').removeAttr('disabled');
         deselect_cell();
         IsEditing = false;
     });
@@ -288,53 +286,96 @@ $(document).ready(function () {
         deselect_cell();
     });
 
-    // If a cell is currently active, activate the buttons on the table-options menu.
-    function select_cell() {
 
-        // Hightlight the new cell
-        $(selectedCell).addClass("selectedCell");
-        selectedCellX = selectedCell.cellIndex;
-        selectedCellY = selectedCell.parentNode.rowIndex;
-        $('.column-menu > button').prop('disabled', false);
-        $('.row-menu > button').prop('disabled', false);
-        $('.text-menu > button').prop('disabled', false);
-        // $(".cell-position > h4").remove();
-        // $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
-    }
 
-    // Deactivate the buttons on the table-options menu once a cell is deselected.
-    function deselect_cell() {
+    // Makes the text in the selectedCell bold.
+    $(document).on('click', '.make-bold', function () {
 
-        // Remove the highlight from the selectedCell
-        $(selectedCell).removeClass("selectedCell");
-        selectedCell = "none";
-        $('.column-menu > button').prop('disabled', true);
-        $('.row-menu > button').prop('disabled', true);
-        $('.text-menu > button').prop('disabled', true);
-        // $(".cell-position > h4").remove();
-        // $(".cell-position").append('<h4>[-][-]</h4>');
-        selectedCellX = 0;
-        selectedCellY = 0;
-    }
+        var currentContents = $(selectedCell).html();
+        console.log(currentContents);
 
-    // Display the result of the conversion to the user.
-    function display_result_table(responseObject) {
+        if (!currentContents.includes('<b>')) {
+            var newContents = '<b>' + currentContents + '</b>';
+            $(selectedCell).html(newContents);
+        }
 
-        // If there were any previously existing results, remove them.
-        $("#result-container").remove();
-        $("#result-rule").remove();
+    });
 
-        // Display the result
-        var html = '<hr id="result-rule" size="2" width="100%" align="center" noshade>'
-        html += '<div id="result-container" class="result-container"><h1>Your converted table</h1>'
-        html += '<div class="card result-box mt-5"><div class="grid-child result-text darkerbg">' + responseObject.resultTable + '</div>';
-        html += '<div class="grid-child links"><a href="' + Flask.url_for("get_table", {"type": "raw"}) + '" class="btn downloadlink">Raw</a>';
-        html += '<a href="' + Flask.url_for("get_table", {"type": "download"}) + '" class="btn downloadlink">Download</a></div></div></div>';
+    // Makes the text in the selectedCell italic.
+    $(document).on('click', '.make-italic', function () {
 
-        $(html).insertAfter('#input-table-card');
+        var currentContents = $(selectedCell).html();
+        console.log(currentContents);
 
-        window.scrollTo(0, $("hr").offset().top);
-    }
+        if (!currentContents.includes('<i>')) {
+            var newContents = '<i>' + currentContents + '</i>';
+            $(selectedCell).html(newContents);
+        }
+
+    });
+
+    // Makes the text in the selectedCell strikethrough.
+    $(document).on('click', '.make-strikethrough', function () {
+
+        var currentContents = $(selectedCell).html();
+        console.log(currentContents);
+
+        if (!currentContents.includes('<del>')) {
+            var newContents = '<del>' + currentContents + '</del>';
+            $(selectedCell).html(newContents);
+        }
+
+    });
+
+    // Generates the table with the current data
+    $(document).on('click', '.bGenerateTable', function () {
+
+        var resultArray = new Array();
+
+        // Loop through each row
+        $('#input-table > tbody > tr').each(function () {
+
+            // Temporary inner array
+            var innerArray = new Array();
+
+            // Add the data of each element to innerArray
+            $(this).find('td').each(function () {
+
+                var ele = $(this).html();
+
+                // If the cell is blank, add a hyphen
+                if (ele === "") innerArray.push('-');
+                else innerArray.push(ele);
+
+            });
+            resultArray.push(innerArray);
+        });
+
+        // Convert the array into JSON
+        var js_data = JSON.stringify(resultArray);
+
+
+        $.ajax({
+            "type": 'POST',
+            "url": Flask.url_for('convert_table'),
+            "data": js_data,
+            "processData": false,
+            "contentType": 'application/json',
+            "dataType": 'json'
+        })
+            .done((response) => {
+
+                //console.log("Done!");
+                display_result_table(response);
+            })
+            .fail((error) => {
+                console.log("Error during file convert: " + error);
+            });
+
+
+
+    });
+
 });
 
 
