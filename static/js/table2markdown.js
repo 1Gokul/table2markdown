@@ -5,11 +5,10 @@ $(document).ready(function () {
 
     // Hide the Accept and Cancel buttons. These buttons appear only when a cell is being edited.
     deselect_cell();
-    $('#table-options-desktop').find('#bAcep').hide();
-    $('#table-options-desktop').find('#bCanc').hide();
-    $('#table-options-mobile').find('#bAcep').hide();
-    $('#table-options-mobile').find('#bCanc').hide();
-    $('#bDeleteColumn').prop('disabled', true);
+    $('.card-body').find('.bAcep').hide();
+    $('.card-body').find('.bCanc').hide();
+    $('.undo').prop('disabled', true);
+    $('.redo').prop('disabled', true);
 
 
     // Makes the table editable. (from bootstable.js)
@@ -90,7 +89,7 @@ $(document).ready(function () {
     }
 
     // Custom function to add a row above the clicked button's row.
-    $(document).on('click', '#bAddRowUp', function () {
+    $(document).on('click', '.bAddRowUp', function () {
 
         // Create the row
         rowData = create_row();
@@ -101,7 +100,7 @@ $(document).ready(function () {
     });
 
     // Custom function to add a row below the clicked button's row.
-    $(document).on('click', '#bAddRowDown', function () {
+    $(document).on('click', '.bAddRowDown', function () {
         // Create the row
         rowData = create_row();
 
@@ -120,7 +119,7 @@ $(document).ready(function () {
 
 
     // Generates the table with the current data
-    $(document).on('click', '#generate-table', function () {
+    $(document).on('click', '.bGenerateTable', function () {
 
         var resultArray = new Array();
 
@@ -192,7 +191,7 @@ $(document).ready(function () {
     });
 
     // Adds a column to the left of the current column.
-    $(document).on('click', '#bAddColumnLeft', function () {
+    $(document).on('click', '.bAddColumnLeft', function () {
         // Add a header cell before the selected cell's header, thus forming a column.
         $('#input-table thead tr th').each(function (i, el) {
 
@@ -217,7 +216,7 @@ $(document).ready(function () {
     });
 
     // Adds a column to the right of the current column.
-    $(document).on('click', '#bAddColumnRight', function () {
+    $(document).on('click', '.bAddColumnRight', function () {
         // Add a header cell before the selected cell's header, thus forming a column.
         $('#input-table thead tr th').each(function (i, el) {
 
@@ -232,7 +231,7 @@ $(document).ready(function () {
             $cols.each(function (i, el) {
                 if ((i + 1) == selectedCellX) {
                     $('<td></td>').insertAfter(el);
-                    return false;
+                    return false; 
                 }
             })
 
@@ -241,25 +240,50 @@ $(document).ready(function () {
         set_table_column_numbers();
     });
 
+     // Deletes the selectedCell's column
+     $(document).on('click', '.bDeleteColumn', function () {
 
-    $(document).on('click', '#bEdit', function () {
+
+        $('#input-table thead tr th').each(function (i, el) {
+
+            if (i == selectedCellX) {
+                el.remove();
+            }
+        })
+
+          // Find and delete the cells of the column
+          $('#input-table tbody tr').each(function () {
+            var $cols = $(this).find('td');
+            $cols.each(function (i, el) {
+                if ((i + 1) == selectedCellX) {
+                    el.remove();
+                    return false; 
+                }
+            })
+
+        })
+
+        set_table_column_numbers();
+     })
+
+    $(document).on('click', '.bEdit', function () {
         IsEditing = true;
-        $('#generate-table-button > button').prop('disabled', true);
+        $('.generate-table-button > button').prop('disabled', true);
         rowEdit(selectedCell);
     });
-    $(document).on('click', '#bAcep', function () {
+    $(document).on('click', '.bAcep', function () {
         rowAcep(selectedCell);
-        $('#generate-table-button > button').prop('disabled', false);
+        $('.generate-table-button > button').prop('disabled', false);
         deselect_cell();
         IsEditing = false;
     });
-    $(document).on('click', '#bCanc', function () {
+    $(document).on('click', '.bCanc', function () {
         rowCancel(selectedCell);
-        $('#generate-table-button > button').prop('disabled', false);
+        $('.generate-table-button > button').prop('disabled', false);
         deselect_cell();
         IsEditing = false;
     });
-    $(document).on('click', '#bElim', function () {
+    $(document).on('click', '.bElim', function () {
         rowElim(selectedCell);
         deselect_cell();
     });
@@ -271,11 +295,11 @@ $(document).ready(function () {
         $(selectedCell).addClass("selectedCell");
         selectedCellX = selectedCell.cellIndex;
         selectedCellY = selectedCell.parentNode.rowIndex;
-        $('#column-menu > button').prop('disabled', false);
-        $('#row-menu > button').prop('disabled', false);
-        $('#text-menu > button').prop('disabled', false);
-        $(".cell-position > h4").remove();
-        $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
+        $('.column-menu > button').prop('disabled', false);
+        $('.row-menu > button').prop('disabled', false);
+        $('.text-menu > button').prop('disabled', false);
+        // $(".cell-position > h4").remove();
+        // $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
     }
 
     // Deactivate the buttons on the table-options menu once a cell is deselected.
@@ -284,11 +308,11 @@ $(document).ready(function () {
         // Remove the highlight from the selectedCell
         $(selectedCell).removeClass("selectedCell");
         selectedCell = "none";
-        $('#column-menu > button').prop('disabled', true);
-        $('#row-menu > button').prop('disabled', true);
-        $('#text-menu > button').prop('disabled', true);
-        $(".cell-position > h4").remove();
-        $(".cell-position").append('<h4>[-][-]</h4>');
+        $('.column-menu > button').prop('disabled', true);
+        $('.row-menu > button').prop('disabled', true);
+        $('.text-menu > button').prop('disabled', true);
+        // $(".cell-position > h4").remove();
+        // $(".cell-position").append('<h4>[-][-]</h4>');
         selectedCellX = 0;
         selectedCellY = 0;
     }

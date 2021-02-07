@@ -15,7 +15,7 @@ body {
   font-size: larger;
 }
 
-.cell-position{
+.undo-redo-menu{
   display: inline-block;
 }
 
@@ -203,7 +203,7 @@ a:focus {
     grid-template-columns: 1fr;
   }
 
-  .cell-position{
+  .undo-redo-menu{
     display: inline-block;
   }
 
