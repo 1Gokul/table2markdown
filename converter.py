@@ -90,9 +90,9 @@ def make_strikethrough(inp):
 def write_result_to_file(resultFile, fileID):
 
     # Used to display the raw result.
-    with open("tmp/ToMarkdownTable_" + fileID + '.txt', "w") as text_file:
+    with open("tmp/Table2Markdown_" + fileID + '.txt', "w") as text_file:
         print(f"{resultFile}", file=text_file)
 
     # If the user wishes to download, copy the contents of the .txt file to a .md file with the same ID.
-    shutil.copyfile("tmp/ToMarkdownTable_" + fileID + '.txt',
-                    "tmp/ToMarkdownTable_" + fileID + '.md')
+    shutil.copyfile("tmp/Table2Markdown_" + fileID + '.txt',
+                    "tmp/Table2Markdown_" + fileID + '.md')

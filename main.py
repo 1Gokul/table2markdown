@@ -37,19 +37,23 @@ def get_table(viewType, fileID):
 
     if (viewType == 'raw'):
         return send_from_directory('tmp',
-                                   'ToMarkdownTable_' + fileID + '.txt',
+                                   'Table2Markdown_' + fileID + '.txt',
                                    as_attachment=False,
                                    cache_timeout=0)
 
     elif (viewType == 'download'):
         return send_from_directory('tmp',
-                                   'ToMarkdownTable_' + fileID + '.md',
+                                   'Table2Markdown_' + fileID + '.md',
                                    as_attachment=True,
                                    cache_timeout=0)
 
     else:
         return request_page_not_found("bad url")
 
+
+@app.route('/credits')
+def credits():
+    return render_template('credits.html')
 
 @app.errorhandler(404)
 def request_page_not_found(error):

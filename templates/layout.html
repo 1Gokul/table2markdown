@@ -34,7 +34,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark py-3">
       <a class="navbar-brand" href="{{ url_for('index') }}">
-        <img src="{{ url_for('static', filename='img/ToMarkdown white full logo.png') }}">
+        <img src="{{ url_for('static', filename='img/table2markdown white full logo.png') }}">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,13 +46,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto mr-5">
           <li class="nav-item active">
-            <a class="nav-link ml-5 mr-5" href="#">Convert Table</a>
+            <a class="nav-link ml-5 mr-5" href="{{ url_for('index') }}">Convert</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link ml-5 mr-5 disabled" aria-disabled="true" href="#">Convert HTML</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link ml-5 mr-5" href="#">About</a>
+          <li class="nav-item active">
+            <a class="nav-link ml-5 mr-5" href="{{ url_for('credits') }}">Credits</a>
           </li>
         </ul>
       </div>
@@ -66,11 +63,9 @@
   </div>
   <!-- Footer -->
   <div id="footer">
-    <a href="#" class="text-title mt-1"><img
-        src="{{ url_for('static', filename='img/ToMarkdown white full logo.png') }}">
-    </a>
-    <a href="https://1gokul.github.io/">Gokul Viswanath</a>
-    <a href="https://github.com/1Gokul/table-generator">This website's github repository </a>
+    Copyright © 2021 
+    <a href="https://1gokul.github.io/">Gokul Viswanath</a> under the MIT License.
+    <a href="https://github.com/1Gokul/table2markdown">Table2Markdown's Github Repository</a>
   </div>
 
   <!-- Scripts -->

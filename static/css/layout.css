@@ -150,14 +150,14 @@ hr{
 #footer {
   width: 100%;
   /* Set the fixed height of the #footer here */
+  padding: 15px 0;
   background-color: #1F5170;
   text-align: center;
 }
 
+
 #footer a {
-  display: inline-block;
-  padding: 10px 50px;
-  color: white;
+  color: #44b7ff;
 }
 
 #footer a:hover,
@@ -167,9 +167,6 @@ a:focus {
   transition: color 0.2s linear;
 }
 
-#footer img{
-  width: 150px;
-}
 
 /*  For Mobile */
 @media only screen and (max-width: 600px) {
@@ -226,11 +223,5 @@ a:focus {
   #footer {
     position: relative;
     height: 200px;
-  }
-  #footer a {
-    margin: 0;
-    padding: 20px;
-    display: block;
-    text-align: left;
   }
 }
