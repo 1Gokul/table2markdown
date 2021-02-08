@@ -56,8 +56,7 @@ $(document).ready(function () {
             }
         })
 
-        // Also update the new position of the selected cell.
-        select_cell();
+       
     }
 
     // Creates the row to be added
@@ -260,24 +259,24 @@ $(document).ready(function () {
             })
 
         })
-
+        deselect_cell();
         set_table_column_numbers();
     });
 
     $(document).on('click', '.bEdit', function () {
         IsEditing = true;
-        $('.generate-table-button > button, .text-menu > button').attr('disabled', 'disabled');
+        $('.generate-table-button > button, .text-menu > button, .column-menu > button').attr('disabled', 'disabled', 'disabled');
         rowEdit(selectedCell);
     });
     $(document).on('click', '.bAcep', function () {
         rowAcep(selectedCell);
-        $('.generate-table-button > button, .text-menu > button').removeAttr('disabled');
+        $('.generate-table-button > button, .text-menu > button, .column-menu > button').removeAttr('disabled');
         deselect_cell();
         IsEditing = false;
     });
     $(document).on('click', '.bCanc', function () {
         rowCancel(selectedCell);
-        $('.generate-table-button > button, .text-menu > button').removeAttr('disabled');
+        $('.generate-table-button > button, .text-menu > button, .column-menu > button').removeAttr('disabled');
         deselect_cell();
         IsEditing = false;
     });
