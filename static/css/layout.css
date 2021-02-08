@@ -9,31 +9,29 @@ body {
   background-color: #142229;
 }
 
-
-.text-title{
+.text-title {
   font-family: Abril Fatface, sans-serif;
   font-size: larger;
 }
 
-.undo-redo-menu{
+.undo-redo-menu {
   display: inline-block;
 }
 
-.hidden{
+.hidden {
   visibility: hidden;
 }
 
-.visible{
+.visible {
   visibility: visible;
-
 }
 
-.navbar-brand img{
+.navbar-brand img {
   width: 200px;
 }
 
 .navbar {
-  background-color: #1F5170;
+  background-color: #1f5170;
   font-size: large;
 }
 .navbar-dark .navbar-toggler {
@@ -49,22 +47,23 @@ body {
   margin-bottom: 50px;
 }
 
-.tablecard{  
+.tablecard {
   margin: 10px 20px;
 }
 
-.selectedCell{
+.selectedCell {
   background-color: teal;
 }
 
-td, th{
-  min-width: 100px; 
+td,
+th {
+  min-width: 100px;
 }
-.generate-table-button{
+.generate-table-button {
   float: right;
 }
 
-.table-options-mobile{
+.table-options-mobile {
   display: none;
 }
 
@@ -73,16 +72,16 @@ td, th{
   padding: 0 10px;
 }
 
-.table-options-desktop  i{
+.table-options-desktop i {
   color: white;
 }
 
-.btn-group > button{
+.btn-group > button {
   border: 1px solid black;
-} 
+}
 
- /* Wrapper for page content to push down footer */
- #wrap {
+/* Wrapper for page content to push down footer */
+#wrap {
   min-height: 100%;
   height: auto !important;
   height: 100%;
@@ -90,56 +89,54 @@ td, th{
   margin: 0 auto -60px;
 }
 
-.table-responsive{  
+.table-responsive {
   max-height: 400px;
   overflow: auto;
 }
 
-hr{
+hr {
   margin: 100px 0 50px;
   border: 2px solid white;
 }
 
-.result-box{
+.result-box {
   display: grid;
-  grid-template-columns: 1fr .25fr;
+  grid-template-columns: 1fr 0.25fr;
   grid-gap: 20px;
   background-color: #142229;
 }
 
-.grid-child{
-  padding: 10px; 
+.grid-child {
+  padding: 10px;
   max-height: 300px;
 }
 
-
-.result-text{
+.result-text {
   font-size: large;
-  white-space: pre-line;  
+  white-space: pre-line;
   overflow: auto;
   word-break: break-word;
 }
-.darkerbg{
-   background: #243742;
+.darkerbg {
+  background: #243742;
 }
 
-.downloadlink{
+.downloadlink {
   display: block;
   margin: 10px;
   padding: 10px 30px;
-  background: #1F5170;
+  background: #1f5170;
   font-size: large;
   text-decoration: none;
   text-align: center;
   color: white;
 }
 
-.downloadlink:hover{
+.downloadlink:hover {
   background: #276890;
   color: white;
   transition: background 0.2s linear;
 }
-
 
 /* Set the fixed height of the footer here */
 #push,
@@ -150,14 +147,18 @@ hr{
 #footer {
   width: 100%;
   /* Set the fixed height of the #footer here */
-  padding: 15px 0;
-  background-color: #1F5170;
+  background-color: #1f5170;
   text-align: center;
 }
 
+#footer li {
+  display: inline-block;
+  padding: 15px 25px;
+  color: white;
+}
 
-#footer a {
-  color: #44b7ff;
+#footer a{
+  color: #9dd7fc;
 }
 
 #footer a:hover,
@@ -166,16 +167,16 @@ a:focus {
   text-decoration: none;
   transition: color 0.2s linear;
 }
-
-
+#footer img {
+  width: 150px;
+}
 /*  For Mobile */
 @media only screen and (max-width: 600px) {
-
-  .navbar-brand img{
+  .navbar-brand img {
     width: 200px;
   }
 
-  h1{
+  h1 {
     font-size: 2.25rem;
   }
 
@@ -183,7 +184,7 @@ a:focus {
     font-size: 1rem;
   } /*1rem = 16px*/
 
-  .table-options-mobile{
+  .table-options-mobile {
     display: block;
     margin: 10px 0;
   }
@@ -191,37 +192,43 @@ a:focus {
     display: none;
   }
 
-  .table-responsive{  
+  .table-responsive {
     max-height: 500px;
   }
-  
 
-  td, th{
-    min-width: 75px; 
+  td,
+  th {
+    min-width: 75px;
   }
 
-  .result-box{
+  .result-box {
     grid-template-columns: 1fr;
   }
 
-  .undo-redo-menu{
+  .undo-redo-menu {
     display: inline-block;
   }
 
-  .generate-table-button{
+  .generate-table-button {
     display: inline-block;
   }
 
-  .dropdown-menus-container{
+  .dropdown-menus-container {
     margin: 10px 0px;
   }
 
-  .dropdown-menus-container .dropdown{
+  .dropdown-menus-container .dropdown {
     display: inline-block;
   }
 
   #footer {
     position: relative;
-    height: 200px;
+    height: 275px;
+  }
+  #footer li {
+    margin: 0;
+    padding: 20px 0px;
+    display: block;
+    text-align: left;
   }
 }
