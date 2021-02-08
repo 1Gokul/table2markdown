@@ -7,10 +7,8 @@ import os
 app = Flask(__name__)
 jsglue = JSGlue(app)
 
-# Class that holds the unique filename of the result.
-class toMarkdownMain:
-    resultFilename = 'ToMarkdownTable_' + str(shortuuid.uuid())
-    pass
+# The unique filename of the result.
+resultFilename = 'ToMarkdownTable_' + str(shortuuid.uuid())
 
 @app.route('/')
 def redirect_to_table_page():
@@ -25,17 +23,17 @@ def index():
 def convert_table():
     if(request.method == "POST"):
 
-        responseObject = converter.convert_table(request.json, toMarkdownMain.resultFilename)       
+        responseObject = converter.convert_table(request.json, resultFilename)       
 
         return responseObject
 
 @app.route('/get-table/<type>')
 def get_table(type):
     if(type == 'raw'):
-        filename = os.path.join(app.root_path, 'tmp', toMarkdownMain.resultFilename + '.txt')
+        filename = os.path.join(app.root_path, 'tmp', resultFilename + '.txt')
         return send_file(filename, as_attachment=False)
     elif(type == 'download'):
-        filename = os.path.join(app.root_path, 'tmp', toMarkdownMain.resultFilename + '.md')
+        filename = os.path.join(app.root_path, 'tmp', resultFilename + '.md')
         return send_file(filename, as_attachment= True)
     else:
         return request_page_not_found("bad url")
