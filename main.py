@@ -7,6 +7,8 @@ import os
 app = Flask(__name__)
 jsglue = JSGlue(app)
 
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
 # The unique filename of the result.
 resultFilename = 'ToMarkdownTable_' + str(shortuuid.uuid())
 
