@@ -56,8 +56,7 @@ $(document).ready(function () {
             }
         })
 
-        // Also update the new position of the selected cell.
-        select_cell();
+       
     }
 
     // Creates the row to be added
@@ -260,7 +259,7 @@ $(document).ready(function () {
             })
 
         })
-
+        deselect_cell();
         set_table_column_numbers();
     });
 
