@@ -5,8 +5,8 @@ $(document).ready(function () {
 
     // Hide the Accept and Cancel buttons. These buttons appear only when a cell is being edited.
     deselect_cell();
-    $('.card-body').find('.bAcep').hide();
-    $('.card-body').find('.bCanc').hide();
+    $('.card-body').find('.bAcep').hide(200, "linear");
+    $('.card-body').find('.bCanc').hide(200, "linear");
     $('.undo').prop('disabled', true);
     $('.redo').prop('disabled', true);
 

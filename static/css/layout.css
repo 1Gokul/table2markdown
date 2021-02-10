@@ -42,6 +42,35 @@ body {
   background-image: none;
 }
 
+
+.navbar-dark .navbar-nav .nav-link {
+  position: relative;
+  text-decoration: none;
+  padding: 0;
+  color: #d9ebff;
+}
+.navbar-dark .navbar-nav .nav-link:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #84bdfd;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover::before {
+  visibility: visible;
+  width: 100%;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover{
+  color: #84bdfd;
+  transition: all 0.2s linear;
+}
+
 .container {
   min-height: 100%;
   margin-bottom: 50px;
@@ -53,6 +82,7 @@ body {
 
 .selectedCell {
   background-color: teal;
+  transition: background-color 0.1s linear;
 }
 
 td,
@@ -111,6 +141,11 @@ hr {
   max-height: 300px;
 }
 
+.btn.disabled,
+.btn:disabled {
+  transition: opacity 0.1s linear;
+}
+
 .result-text {
   font-size: large;
   white-space: pre-line;
@@ -157,8 +192,8 @@ hr {
   color: white;
 }
 
-#footer a{
-  color: #9dd7fc;
+#footer a {
+  color: #acdfff;
 }
 
 #footer a:hover,

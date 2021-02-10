@@ -114,26 +114,26 @@ function IterarCamposEdit($cols, tarea) {
 function FijModoNormal(but) {
 
     
-    $('.card-body').find('.bAcep').hide();
-    $('.card-body').find('.bCanc').hide();
-    $('.card-body').find('.bEdit').show();
-    $('.card-body').find('.bElim').show();
-    $('.card-body').find('.bAdd').show();
-    $('.card-body').find('.bAddRowUp').show();
-    $('.card-body').find('.bAddRowDown').show();
+    $('.card-body').find('.bAcep').hide(200, "linear");
+    $('.card-body').find('.bCanc').hide(200, "linear");
+    $('.card-body').find('.bEdit').show(200, "linear");
+    $('.card-body').find('.bElim').show(200, "linear");
+    $('.card-body').find('.bAdd').show(200, "linear");
+    $('.card-body').find('.bAddRowUp').show(200, "linear");
+    $('.card-body').find('.bAddRowDown').show(200, "linear");
 
     var $row = $(but).parents('tr');  //accede a la fila
     $row.attr('id', '');  //quita marca
 }
 function FijModoEdit(but) {
 
-    $('.card-body').find('.bAcep').show();
-    $('.card-body').find('.bCanc').show();
-    $('.card-body').find('.bEdit').hide();
-    $('.card-body').find('.bElim').hide();
-    $('.card-body').find('.bAdd').hide();
-    $('.card-body').find('.bAddRowUp').hide();
-    $('.card-body').find('.bAddRowDown').hide();
+    $('.card-body').find('.bAcep').show(200, "linear");
+    $('.card-body').find('.bCanc').show(200, "linear");
+    $('.card-body').find('.bEdit').hide(200, "linear");
+    $('.card-body').find('.bElim').hide(200, "linear");
+    $('.card-body').find('.bAdd').hide(200, "linear");
+    $('.card-body').find('.bAddRowUp').hide(200, "linear");
+    $('.card-body').find('.bAddRowDown').hide(200, "linear");
     var $row = $(but).parents('tr');  //accede a la fila
     $row.attr('id', 'editing');  //indica que está en edición
 }
