@@ -21,9 +21,8 @@ $(document).ready(function () {
         // Execute when a row is deleted
         onDelete: function () {
             //console.log("number of rows: " + $('#input-table > tbody > tr').length);
-            if ($('#input-table > tbody > tr').length <= 0) {
-                $("#row-menu").removeClass("hidden");
-            }
+            // Check if the table is now empty
+
             set_table_row_numbers();
         }
     });
@@ -34,9 +33,6 @@ $(document).ready(function () {
         $("#input-table tbody>tr>th").each(function () {
             $(this).html(++i);
         });
-
-        // Also update the new position of the selected cell.
-        select_cell();
     }
     // Sets the column numbers. Usually called when a column is added or deleted.
     function set_table_column_numbers() {
@@ -56,7 +52,7 @@ $(document).ready(function () {
             }
         })
 
-       
+
     }
 
     // Creates the row to be added
@@ -124,7 +120,7 @@ $(document).ready(function () {
         var html = '<hr id="result-rule" size="2" width="100%" align="center" noshade>'
         html += '<div id="result-container" class="result-container"><h1>Your converted table</h1>'
         html += '<div class="card result-box mt-5"><div class="grid-child result-text darkerbg">' + responseObject.resultTable + '</div>';
-        html += '<div class="grid-child links"><a href="' + Flask.url_for("get_table", { "viewType": "raw", "fileID": responseObject.resultFileID}) + '" class="btn downloadlink">Raw</a>';
+        html += '<div class="grid-child links"><a href="' + Flask.url_for("get_table", { "viewType": "raw", "fileID": responseObject.resultFileID }) + '" class="btn downloadlink">Raw</a>';
         html += '<a href="' + Flask.url_for("get_table", { "viewType": "download", "fileID": responseObject.resultFileID }) + '" class="btn downloadlink">Download</a></div></div></div>';
 
         $(html).insertAfter('#input-table-card');
@@ -173,16 +169,25 @@ $(document).ready(function () {
         rowData = create_row();
 
         // If the length of the table is zero, add the row at the beginning.
-        if ($('#input-table >tbody >tr').length <= 0) {
+        if ($('#input-table > tbody > tr').length <= 0) {
             $($("#input-table").find('tbody')).append('<tr>' + rowData + '</tr>');
+            $('.bElim, .bEdit, .bAddRowUp').show(200, "linear");
+            set_table_row_numbers();
+
+            deselect_cell();
         }
         // Else add the row below the current one
         else {
             $('<tr>' + rowData + '</tr>').insertAfter(selectedCell.closest('tr'));
+
+            set_table_row_numbers();
+
+            // Update the new position of the selected cell.
+            select_cell();
         }
 
 
-        set_table_row_numbers();
+        ;
     });
 
 
@@ -216,7 +221,6 @@ $(document).ready(function () {
     $(document).on('click', '.bAddColumnRight', function () {
         // Add a header cell before the selected cell's header, thus forming a column.
         $('#input-table thead tr th').each(function (i, el) {
-
             if (i == selectedCellX) {
                 $('<th scope="col">' + i + '</th>').insertAfter(el);
             }
@@ -261,6 +265,12 @@ $(document).ready(function () {
         })
         deselect_cell();
         set_table_column_numbers();
+
+        if ($('#input-table > thead > tr > th').length === 1) {
+            $('.bAddColumnLeft, .bDeleteColumn').hide(200, "linear");
+            $('.column-menu > button').removeAttr('disabled');
+        }
+
     });
 
     $(document).on('click', '.bEdit', function () {
@@ -283,6 +293,11 @@ $(document).ready(function () {
     $(document).on('click', '.bElim', function () {
         rowElim(selectedCell);
         deselect_cell();
+ 
+        if ($('#input-table > tbody > tr').length <= 0) {
+            $('.bElim, .bEdit, .bAddRowUp').hide(200, "linear");
+            $('.row-menu > button').removeAttr('disabled');
+        }
     });
 
 
