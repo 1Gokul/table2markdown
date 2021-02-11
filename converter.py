@@ -21,9 +21,37 @@ def convert_table(inputTable, fileID):
     # Add the hyphens below to make the header
     resultTable += '|'
     for i in range(len(inputTable[0])):
-        resultTable += ' :---'
-        for j in range(len(inputTable[0][i]) - 3):
+        resultTable += ' :'
+
+        # The number of hyphens to add
+        currentColLength = len(inputTable[0][i])
+        currentColLength = max(
+            3,
+            currentColLength)  # 3 is the minimum number of hyphens to be added
+
+        if (currentColLength > 0):
+
+            # Formatting characters are not counted towards the number of hyphens.
+            # If bold characters exist
+            if ('<b>' in inputTable[0][i]):
+
+                # <b></b>(7 characters) - ****(4 characters) is 3
+                currentColLength -= 3
+
+            # If italic characters exist
+            if ('<i>' in inputTable[0][i]):
+                # <i></i>(7 characters) - **(2 characters) is 5
+                currentColLength -= 5
+
+            # If strikethrough characters exist
+            if ('<del>' in inputTable[0][i]):
+
+                # <del></del>(11 characters) - ~~~~(4 characters) is 7
+                currentColLength -= 7
+
+        for j in range(currentColLength):
             resultTable += '-'
+
         resultTable += ': |'
 
     resultTable += '\n'

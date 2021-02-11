@@ -1,6 +1,6 @@
 
 $(document).ready(function () {
-    
+
     // Global variables
     var selectedCell = "none", selectedCellX = 0, selectedCellY = 0, IsEditing = false;
 
@@ -238,7 +238,7 @@ $(document).ready(function () {
 
             // Now that there is one column, unhide the AddColumnLeft, DeleteColumn buttons.
             $('.bAddColumnLeft, .bDeleteColumn').show(200, "linear");
-            
+
             // Enable the generate-table button
             $('.generate-table-button > button').prop('disabled', false);
 
@@ -296,7 +296,7 @@ $(document).ready(function () {
             })
 
         })
-        
+
         deselect_cell();
         set_table_column_numbers();
 
@@ -348,9 +348,8 @@ $(document).ready(function () {
     $(document).on('click', '.make-bold', function () {
 
         var currentContents = $(selectedCell).html();
-        console.log(currentContents);
 
-        if (!currentContents.includes('<b>')) {
+        if (currentContents != "" && !currentContents.includes('<b>')) {
             var newContents = '<b>' + currentContents + '</b>';
             $(selectedCell).html(newContents);
         }
@@ -361,9 +360,8 @@ $(document).ready(function () {
     $(document).on('click', '.make-italic', function () {
 
         var currentContents = $(selectedCell).html();
-        console.log(currentContents);
 
-        if (!currentContents.includes('<i>')) {
+        if (currentContents != "" && !currentContents.includes('<i>')) {
             var newContents = '<i>' + currentContents + '</i>';
             $(selectedCell).html(newContents);
         }
@@ -374,9 +372,8 @@ $(document).ready(function () {
     $(document).on('click', '.make-strikethrough', function () {
 
         var currentContents = $(selectedCell).html();
-        console.log(currentContents);
 
-        if (!currentContents.includes('<del>')) {
+        if (currentContents != "" && !currentContents.includes('<del>')) {
             var newContents = '<del>' + currentContents + '</del>';
             $(selectedCell).html(newContents);
         }

@@ -68,7 +68,7 @@ $.fn.SetEditable = function (options) {
     // this.find('thead th').append('<button type="button" id="bAddColumnLeft" class="btn btn-sm btn-success ml-1 mr-1"><i class="fas fa-long-arrow-alt-left fa-xs" aria-hidden="true"></i></button>'); 
     // this.find('thead th').append('<button type="button" id="bAddColumnRight" class="btn btn-sm btn-success mr-1"><i class="fas fa-long-arrow-alt-right fa-xs" aria-hidden="true"></i></button>'); 
     // this.find('thead th').append('<button type="button" id="bDeleteColumn" class="btn btn-sm btn-danger mr-1"><i class="fas fa-trash fa-xs" aria-hidden="true"></i></button>'); 
-    
+
     // this.find('thead tr').append('<th class="edithead-button" name="buttons"></th>');
     // this.find('tbody tr').append(colEdicHtml);
     //Process "addButton" parameter
@@ -113,7 +113,7 @@ function IterarCamposEdit($cols, tarea) {
 
 function FijModoNormal(but) {
 
-    
+
     $('.card-body').find('.bAcep').hide(200, "linear");
     $('.card-body').find('.bCanc').hide(200, "linear");
     $('.card-body').find('.bEdit').show(200, "linear");
@@ -198,20 +198,20 @@ function rowAddNew(tabId) { //Agrega fila a la tabla indicada.
     var $tab_en_edic = $("#" + tabId);  //Table to edit
     var $filas = $tab_en_edic.find('tbody tr');
     // if ($filas.length == 0) {
-        //No hay filas de datos. Hay que crearlas completas
-        var $row = $tab_en_edic.find('thead tr');  //encabezado
-        var $cols = $row.find('th');  //lee campos
-        //construye html
-        var htmlDat = '';
-        $cols.each(function () {
-            if ($(this).attr('name') == 'buttons') {
-                //Es columna de botones
-                htmlDat = htmlDat + colEdicHtml;  //agrega botones
-            } else {
-                htmlDat = htmlDat + '<td></td>';
-            }
-        });
-        $(this).closest('tr').insertAfter('<tr>' + htmlDat + '</tr>');
+    //No hay filas de datos. Hay que crearlas completas
+    var $row = $tab_en_edic.find('thead tr');  //encabezado
+    var $cols = $row.find('th');  //lee campos
+    //construye html
+    var htmlDat = '';
+    $cols.each(function () {
+        if ($(this).attr('name') == 'buttons') {
+            //Es columna de botones
+            htmlDat = htmlDat + colEdicHtml;  //agrega botones
+        } else {
+            htmlDat = htmlDat + '<td></td>';
+        }
+    });
+    $(this).closest('tr').insertAfter('<tr>' + htmlDat + '</tr>');
     // } else {
     //     //Hay otras filas, podemos clonar la última fila, para copiar los botones
     //     var $ultFila = $tab_en_edic.find('tr:last');

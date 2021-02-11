@@ -55,6 +55,7 @@ def get_table(viewType, fileID):
 def credits():
     return render_template('credits.html')
 
+
 @app.errorhandler(404)
 def request_page_not_found(error):
     return render_template('404.html'), 404
