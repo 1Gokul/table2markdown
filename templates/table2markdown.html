@@ -1,9 +1,42 @@
 {% extends "layout.html" %}
 
+{% block body_before_container %}
+<div class=" col-1.5 ml-4 mt-4 px-1 position-fixed" id="keyboard-controls-sticky-sidebar">
+    <div class="nav flex-column p-3 keyboard-nav">
+
+        <ul class="normal-keys">
+            <li><b><i class="fas fa-xs fa-arrow-left mr-1"></i><i class="fas fa-xs fa-arrow-up mr-1"></i><i
+                        class="fas fa-xs fa-arrow-down mr-1"></i><i class="fas fa-xs fa-arrow-right mr-1"></i></b>Move Cell</li>
+
+            <div class="non-movement-keys">
+                <li><b>U</b>Undo</li>
+                <li><b>I</b>Redo</li>
+                <li><b>B</b>Bold</li>
+                <li><b>N</b>Italic</li>
+                <li><b>M</b>Strikethrough</li>
+                <li><b>A</b>Add Col Left</li>
+                <li><b>S</b>Add Col Right</li>
+                <li><b>D</b>Delete Col</li>
+                <li><b>E</b>Edit Row</li>
+                <li><b>Z</b>Add Row Above</li>
+                <li><b>X</b>Add Row Below</li>
+                <li><b>C</b>Delete Row</li>
+                <li><b>G</b>Generate</li>
+            </div>
+        </ul>
+
+        <ul class="editing-keys">
+            <li><b>R</b>Accept</li>
+            <li><b>T</b>Cancel</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
 {% block body %}
 
 <!-- Heading -->
-<h3 class="mt-3 ml-3">Click on a table cell and then the <i class="fas fa-xs fa-pencil-alt"></i> button to edit the
+<h3 class="mt-3 ml-3">Click on a table cell and then the <i class="fas fa-xs fa-pencil-alt mx-2"></i> button to edit the
     cell's row.
     <br>The first row is treated as the table's header.
 </h3>

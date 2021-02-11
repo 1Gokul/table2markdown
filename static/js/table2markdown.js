@@ -8,8 +8,10 @@ $(document).ready(function () {
     deselect_cell();
     $('.card-body').find('.bAcep').hide(200, "linear");
     $('.card-body').find('.bCanc').hide(200, "linear");
+    $('.editing-keys').hide(200, "linear");
     $('.undo').prop('disabled', true);
     $('.redo').prop('disabled', true);
+
 
 
     // Makes the table editable. (from bootstable.js)
@@ -90,6 +92,7 @@ $(document).ready(function () {
         selectedCellX = selectedCell.cellIndex;
         selectedCellY = selectedCell.parentNode.rowIndex;
         $('.column-menu > button,.row-menu > button,.text-menu > button').removeAttr('disabled');
+        $('.non-movement-keys li, .non-movement-keys b').removeClass('grey-out');
         // $(".cell-position > h4").remove();
         // $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
     }
@@ -105,6 +108,7 @@ $(document).ready(function () {
         // $(".cell-position").append('<h4>[-][-]</h4>');
         selectedCellX = 0;
         selectedCellY = 0;
+        $('.non-movement-keys li, .non-movement-keys b').addClass('grey-out');
     }
 
     // Display the result of the conversion to the user.
@@ -173,6 +177,10 @@ $(document).ready(function () {
             // Unhide the Elim, Edit and AddRowUp buttons.
             $('.bElim, .bEdit, .bAddRowUp').show(200, "linear");
 
+            $('.normal-keys li').each(function(){
+                $(this).show(200, "linear");
+            });
+
             // Enable the generate-table button.
             $('.generate-table-button > button').prop('disabled', false);
 
@@ -238,6 +246,10 @@ $(document).ready(function () {
 
             // Now that there is one column, unhide the AddColumnLeft, DeleteColumn buttons.
             $('.bAddColumnLeft, .bDeleteColumn').show(200, "linear");
+
+            $('.normal-keys li').each(function(){
+                $(this).show(200, "linear");
+            });
 
             // Enable the generate-table button
             $('.generate-table-button > button').prop('disabled', false);
@@ -306,6 +318,15 @@ $(document).ready(function () {
             $('.bAddColumnLeft, .bDeleteColumn').hide(200, "linear");
             $('.column-menu > button').removeAttr('disabled');
             $('.generate-table-button > button').prop('disabled', true);
+            
+            $('.normal-keys li').each(function(){
+                console.log($(this).text());
+               if($(this).text() != "SAdd Col Right"){
+                    $(this).hide(200, "linear");
+               }  
+            });
+            $('.normal-keys li, .normal-keys b').removeClass('grey-out');
+
         }
 
     });
@@ -313,18 +334,33 @@ $(document).ready(function () {
     $(document).on('click', '.bEdit', function () {
         IsEditing = true;
         $('.generate-table-button > button, .text-menu > button, .column-menu > button').attr('disabled', 'disabled', 'disabled');
+        
+        // Keyboard keys
+        $('.normal-keys').hide(200, "linear");
+        $('.editing-keys').show(200, "linear");
+
         rowEdit(selectedCell);
     });
     $(document).on('click', '.bAcep', function () {
         rowAcep(selectedCell);
         $('.generate-table-button > button, .text-menu > button, .column-menu > button').removeAttr('disabled');
         deselect_cell();
+        
+        // Keyboard keys
+        $('.normal-keys').show(200, "linear");
+        $('.editing-keys').hide(200, "linear");
+
         IsEditing = false;
     });
     $(document).on('click', '.bCanc', function () {
         rowCancel(selectedCell);
         $('.generate-table-button > button, .text-menu > button, .column-menu > button').removeAttr('disabled');
         deselect_cell();
+        
+        // Keyboard keys
+        $('.normal-keys').show(200, "linear");
+        $('.editing-keys').hide(200, "linear");
+
         IsEditing = false;
     });
 
@@ -339,6 +375,14 @@ $(document).ready(function () {
             $('.bElim, .bEdit, .bAddRowUp').hide(200, "linear");
             $('.row-menu > button').removeAttr('disabled');
             $('.generate-table-button > button').prop('disabled', true);
+
+            $('.normal-keys li').each(function(){
+                console.log($(this).text());
+               if($(this).text() != "XAdd Row Below"){
+                    $(this).hide(200, "linear");
+               }  
+            });
+            $('.normal-keys li, .normal-keys b').removeClass('grey-out');
         }
     });
 
@@ -426,6 +470,9 @@ $(document).ready(function () {
             });
     });
 
+    $(this).keypress(function(event) {
+        console.log( "You pressed " + event.code);
+      });
 
 });
 

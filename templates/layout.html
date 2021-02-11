@@ -46,14 +46,18 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto mr-5">
           <li class="nav-item">
-            <a class="nav-link ml-5 mr-5" href="{{ url_for('index') }}">Convert</a>
+            <a class="nav-link ml-5 mr-5 styled-link" href="{{ url_for('index') }}">Convert</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link ml-5 mr-5" href="{{ url_for('credits') }}">Credits</a>
+            <a class="nav-link ml-5 mr-5 styled-link" href="{{ url_for('credits') }}">Credits</a>
           </li>
         </ul>
       </div>
     </nav>
+    <div class="container-left">
+    {% block body_before_container %}
+    {% endblock %}
+    </div>
     <!-- Body container -->
     <div class="container">
       {% block body %}
@@ -68,13 +72,13 @@
         <img src="{{ url_for('static', filename='img/table2markdown white full logo.png') }}">
       </li>
       <li>
-        Copyright © 2021 <a href="https://1gokul.github.io/">Gokul Viswanath</a>
+        Copyright © 2021 <a class="styled-link" href="https://1gokul.github.io/">Gokul Viswanath</a>
       </li>
       <li>
-        <a href="https://github.com/1Gokul/table2markdown/blob/main/LICENSE">Under the MIT License</a>
+        <a class="styled-link" href="https://github.com/1Gokul/table2markdown/blob/main/LICENSE">Under the MIT License</a>
       </li>
       <li>
-        <a href="https://github.com/1Gokul/table2markdown">Github Repository</a>
+        <a class="styled-link" href="https://github.com/1Gokul/table2markdown">Github Repository</a>
       </li>
     </ul>
   </div>

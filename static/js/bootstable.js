@@ -112,8 +112,6 @@ function IterarCamposEdit($cols, tarea) {
 
 
 function FijModoNormal(but) {
-
-
     $('.card-body').find('.bAcep').hide(200, "linear");
     $('.card-body').find('.bCanc').hide(200, "linear");
     $('.card-body').find('.bEdit').show(200, "linear");
