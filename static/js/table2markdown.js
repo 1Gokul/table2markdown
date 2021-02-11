@@ -49,9 +49,7 @@ $(document).ready(function () {
             else {
                 $(this).replaceWith('<th scope="col">' + i + '</th>');
             }
-        })
-
-
+        });
     }
 
     // Creates the row to be added
@@ -170,7 +168,13 @@ $(document).ready(function () {
         // If the length of the table is zero, add the row at the beginning.
         if ($('#input-table > tbody > tr').length <= 0) {
             $($("#input-table").find('tbody')).append('<tr>' + rowData + '</tr>');
+
+            // Unhide the Elim, Edit and AddRowUp buttons.
             $('.bElim, .bEdit, .bAddRowUp').show(200, "linear");
+
+            // Enable the generate-table button.
+            $('.generate-table-button > button').prop('disabled', true);
+            
             set_table_row_numbers();
 
             deselect_cell();
@@ -220,10 +224,6 @@ $(document).ready(function () {
     // Adds a column to the right of the current column.
     $(document).on('click', '.bAddColumnRight', function () {
 
-
-
-
-
         // If there are no columns currently
         if ($('#input-table > thead > tr > th').length === 1) {
 
@@ -237,6 +237,9 @@ $(document).ready(function () {
 
             // Now that there is one column, unhide the AddColumnLeft, DeleteColumn buttons.
             $('.bAddColumnLeft, .bDeleteColumn').show(200, "linear");
+            
+            // Enable the generate-table button
+            $('.generate-table-button > button').prop('disabled', false);
 
             deselect_cell();
         }
@@ -292,6 +295,7 @@ $(document).ready(function () {
             })
 
         })
+        
         deselect_cell();
         set_table_column_numbers();
 
@@ -300,6 +304,7 @@ $(document).ready(function () {
         if ($('#input-table > thead > tr > th').length === 1) {
             $('.bAddColumnLeft, .bDeleteColumn').hide(200, "linear");
             $('.column-menu > button').removeAttr('disabled');
+            $('.generate-table-button > button').prop('disabled', true);
         }
 
     });
@@ -332,6 +337,7 @@ $(document).ready(function () {
         if ($('#input-table > tbody > tr').length <= 0) {
             $('.bElim, .bEdit, .bAddRowUp').hide(200, "linear");
             $('.row-menu > button').removeAttr('disabled');
+            $('.generate-table-button > button').prop('disabled', true);
         }
     });
 
@@ -420,10 +426,8 @@ $(document).ready(function () {
             .fail((error) => {
                 console.log("Error during file convert: " + error);
             });
-
-
-
     });
+
 
 });
 

@@ -184,16 +184,20 @@ hr {
   /* Set the fixed height of the #footer here */
   background-color: #1f5170;
   text-align: center;
+  overflow: hidden;
 }
+
 
 #footer li {
   display: inline-block;
   padding: 15px 25px;
   color: white;
+  
 }
 
 #footer a {
   color: #acdfff;
+  
 }
 
 #footer a:hover,
