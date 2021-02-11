@@ -173,8 +173,8 @@ $(document).ready(function () {
             $('.bElim, .bEdit, .bAddRowUp').show(200, "linear");
 
             // Enable the generate-table button.
-            $('.generate-table-button > button').prop('disabled', true);
-            
+            $('.generate-table-button > button').prop('disabled', false);
+
             set_table_row_numbers();
 
             deselect_cell();
