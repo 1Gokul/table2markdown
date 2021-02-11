@@ -1,5 +1,6 @@
 
 $(document).ready(function () {
+    
     // Global variables
     var selectedCell = "none", selectedCellX = 0, selectedCellY = 0, IsEditing = false;
 
