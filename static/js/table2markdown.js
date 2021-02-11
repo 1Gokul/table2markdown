@@ -44,8 +44,7 @@ $(document).ready(function () {
         $cols.each(function (i, el) {
             // The first column's header is '#'
             if (i == 0) {
-
-                $(this).replaceWith('<th scope="col">#</th>');
+                $(this).replaceWith('<th scope="col" style="width:10px">#</th>');
             }
             else {
                 $(this).replaceWith('<th scope="col">' + i + '</th>');
@@ -194,6 +193,7 @@ $(document).ready(function () {
 
     // Adds a column to the left of the current column.
     $(document).on('click', '.bAddColumnLeft', function () {
+
         // Add a header cell before the selected cell's header, thus forming a column.
         $('#input-table thead tr th').each(function (i, el) {
 
@@ -219,24 +219,53 @@ $(document).ready(function () {
 
     // Adds a column to the right of the current column.
     $(document).on('click', '.bAddColumnRight', function () {
-        // Add a header cell before the selected cell's header, thus forming a column.
-        $('#input-table thead tr th').each(function (i, el) {
-            if (i == selectedCellX) {
-                $('<th scope="col">' + i + '</th>').insertAfter(el);
-            }
-        })
 
-        // Add the cells beneath the newly formed column.
-        $('#input-table tbody tr').each(function () {
-            var $cols = $(this).find('td');
-            $cols.each(function (i, el) {
-                if ((i + 1) == selectedCellX) {
-                    $('<td></td>').insertAfter(el);
-                    return false;
-                }
+
+
+
+
+        // If there are no columns currently
+        if ($('#input-table > thead > tr > th').length === 1) {
+
+            // Append a column header with the value 1
+            $('#input-table > thead > tr').append('<th scope="col">' + 1 + '</th>');
+
+            // Append table cells to each row
+            $('#input-table tbody tr').each(function () {
+                $(this).append('<td></td>');
             })
 
-        })
+            // Now that there is one column, unhide the AddColumnLeft, DeleteColumn buttons.
+            $('.bAddColumnLeft, .bDeleteColumn').show(200, "linear");
+
+            deselect_cell();
+        }
+        // else if there were columns
+        else {
+
+            // Add a header cell after the selected cell's header, thus forming a column.
+            $('#input-table thead tr th').each(function (i, el) {
+                if (i == selectedCellX) {
+                    $('<th scope="col">' + i + '</th>').insertAfter(el);
+                }
+            });
+
+
+            // Add the cells beneath the newly formed column.
+            $('#input-table tbody tr').each(function () {
+                var $cols = $(this).find('td');
+                $cols.each(function (i, el) {
+                    if ((i + 1) == selectedCellX) {
+                        $('<td></td>').insertAfter(el);
+                        return false;
+                    }
+                });
+
+            });
+        }
+
+
+
 
         set_table_column_numbers();
     });
@@ -266,6 +295,8 @@ $(document).ready(function () {
         deselect_cell();
         set_table_column_numbers();
 
+        // If there are no more columns left, hide the AddColumnLeft, DeleteColumn buttons
+        // while keeping the AddColumnRight button visible and enabled.
         if ($('#input-table > thead > tr > th').length === 1) {
             $('.bAddColumnLeft, .bDeleteColumn').hide(200, "linear");
             $('.column-menu > button').removeAttr('disabled');
@@ -290,10 +321,14 @@ $(document).ready(function () {
         deselect_cell();
         IsEditing = false;
     });
+
     $(document).on('click', '.bElim', function () {
+
         rowElim(selectedCell);
         deselect_cell();
- 
+
+
+        // Hide the edit, delete and add row buttons
         if ($('#input-table > tbody > tr').length <= 0) {
             $('.bElim, .bEdit, .bAddRowUp').hide(200, "linear");
             $('.row-menu > button').removeAttr('disabled');
