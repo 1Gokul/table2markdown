@@ -311,8 +311,8 @@ a:focus {
     height: 275px;
   }
   #footer li {
-    margin: 0;
-    padding: 20px 0px;
+    margin-left: 20px;
+    padding: 20px 0;
     display: block;
     text-align: left;
   }
