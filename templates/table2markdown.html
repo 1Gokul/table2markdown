@@ -4,31 +4,38 @@
 <div class=" col-1.5 ml-4 mt-4 px-1 position-fixed" id="keyboard-controls-sticky-sidebar">
     <div class="nav flex-column p-3 keyboard-nav">
 
-        <ul class="normal-keys">
-            <li><b><i class="fas fa-xs fa-arrow-left mr-1"></i><i class="fas fa-xs fa-arrow-up mr-1"></i><i
-                        class="fas fa-xs fa-arrow-down mr-1"></i><i class="fas fa-xs fa-arrow-right mr-1"></i></b>Move Cell</li>
-
-            <div class="non-movement-keys">
-                <li><b>U</b>Undo</li>
-                <li><b>I</b>Redo</li>
-                <li><b>B</b>Bold</li>
-                <li><b>N</b>Italic</li>
-                <li><b>M</b>Strikethrough</li>
-                <li><b>A</b>Add Col Left</li>
-                <li><b>S</b>Add Col Right</li>
-                <li><b>D</b>Delete Col</li>
-                <li><b>E</b>Edit Row</li>
-                <li><b>Z</b>Add Row Above</li>
-                <li><b>X</b>Add Row Below</li>
-                <li><b>C</b>Delete Row</li>
-                <li><b>G</b>Generate</li>
-            </div>
-        </ul>
-
-        <ul class="editing-keys">
-            <li><b>R</b>Accept</li>
-            <li><b>T</b>Cancel</li>
-        </ul>
+        <div class="key-name movement-key">WASD</div>
+        <div class="key-description movement-key">Move Cell</div>
+        <div class="key-name">U</div>
+        <div class="key-description">Undo</div>
+        <div class="key-name">I</div>
+        <div class="key-description">Redo</div>
+        <div class="key-name">B</div>
+        <div class="key-description">Bold</div>
+        <div class="key-name">N</div>
+        <div class="key-description">Italic</div>
+        <div class="key-name">M</div>
+        <div class="key-description">Strikethrough</div>
+        <div class="key-name">Z</div>
+        <div class="key-description">Add Col Left</div>
+        <div class="key-name">X</div>
+        <div class="key-description">Add Col Right</div>
+        <div class="key-name">C</div>
+        <div class="key-description">Delete Col</div>
+        <div class="key-name">E</div>
+        <div class="key-description">Edit Row</div>
+        <div class="key-name">R</div>
+        <div class="key-description">Add Row Above</div>
+        <div class="key-name">T</div>
+        <div class="key-description">Add Row Below</div>
+        <div class="key-name">Y</div>
+        <div class="key-description">Delete Row</div>
+        <div class="key-name">G</div>
+        <div class="key-description">Generate</div>
+        <div class="key-name editing-key">J</div>
+        <div class="key-description editing-key">Accept</div>
+        <div class="key-name editing-key">K</div>
+        <div class="key-description editing-key">Cancel</div>
     </div>
 </div>
 {% endblock %}

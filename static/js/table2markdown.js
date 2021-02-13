@@ -1,480 +1,662 @@
-
 $(document).ready(function () {
+  // Global variables
+  var selectedCell = "none",
+    selectedCellX = 0,
+    selectedCellY = 0,
+    IsEditing = false;
 
-    // Global variables
-    var selectedCell = "none", selectedCellX = 0, selectedCellY = 0, IsEditing = false;
+  // Hide the Accept and Cancel buttons. These buttons appear only when a cell is being edited.
+  deselect_cell();
+  $(".card-body").find(".bAcep").hide(200, "linear");
+  $(".card-body").find(".bCanc").hide(200, "linear");
+  $(".editing-key").hide(200, "linear");
+  $(".undo").prop("disabled", true);
+  $(".redo").prop("disabled", true);
 
-    // Hide the Accept and Cancel buttons. These buttons appear only when a cell is being edited.
-    deselect_cell();
-    $('.card-body').find('.bAcep').hide(200, "linear");
-    $('.card-body').find('.bCanc').hide(200, "linear");
-    $('.editing-keys').hide(200, "linear");
-    $('.undo').prop('disabled', true);
-    $('.redo').prop('disabled', true);
+  // Makes the table editable. (from bootstable.js)
+  $("#input-table").SetEditable({
+    // Execute when a row is added
+    onAdd: function () {
+      set_table_row_numbers();
+    },
+    // Execute when a row is deleted
+    onDelete: function () {
+      // Reset the selectedCell
+      selectedCell = "none";
 
+      set_table_row_numbers();
+    },
+  });
 
+  // Sets the row numbers. Usually called when a row is added or deleted.
+  function set_table_row_numbers() {
+    var i = 0;
+    $("#input-table tbody>tr>th").each(function () {
+      $(this).html(++i);
+    });
+  }
+  // Sets the column numbers. Usually called when a column is added or deleted.
+  function set_table_column_numbers() {
+    // Find the table headers
+    var $cols = $("#input-table > thead > tr").find("th");
 
-    // Makes the table editable. (from bootstable.js)
-    $('#input-table').SetEditable({
+    // Iterate through the headers
+    $cols.each(function (i, el) {
+      // The first column's header is '#'
+      if (i == 0) {
+        $(this).replaceWith('<th scope="col" style="width:10px">#</th>');
+      } else {
+        $(this).replaceWith('<th scope="col">' + i + "</th>");
+      }
+    });
+  }
 
-        // Execute when a row is added
-        onAdd: function () {
-            set_table_row_numbers();
-        },
-        // Execute when a row is deleted
-        onDelete: function () {
-            //console.log("number of rows: " + $('#input-table > tbody > tr').length);
-            // Check if the table is now empty
+  // Creates the row to be added
+  function create_row() {
+    // Get the input table
+    var $tab_en_edic = $("#input-table");
 
-            set_table_row_numbers();
+    // Find the rows and columns
+    var $row = $tab_en_edic.find("thead tr");
+    var $cols = $row.find("th");
+
+    var htmlDat = "";
+    // Iterate through each column of the selectedCell's row and set them up to be editable.
+    $cols.each(function (i, el) {
+      if ($(this).attr("name") == "buttons") {
+        //Es columna de botones
+        htmlDat = htmlDat + colEdicHtml;
+      } else {
+        if (i == 0) {
+          htmlDat += '<th scope="row"></th>';
+        } else {
+          htmlDat = htmlDat + "<td></td>";
         }
+      }
     });
 
-    // Sets the row numbers. Usually called when a row is added or deleted.
-    function set_table_row_numbers() {
-        var i = 0;
-        $("#input-table tbody>tr>th").each(function () {
-            $(this).html(++i);
-        });
-    }
-    // Sets the column numbers. Usually called when a column is added or deleted.
-    function set_table_column_numbers() {
+    return htmlDat;
+  }
 
-        // Find the table headers
-        var $cols = $("#input-table > thead > tr").find('th');
+  // If a cell is currently active, activate the buttons on the table-options menu.
+  function select_cell(TypeOfDeletion = "none") {
+    // If the selected cell exists, update its position.
+    if (selectedCell != "none") {
+      // Hightlight the new cell
+      $(selectedCell).addClass("selectedCell");
+      selectedCellX = selectedCell.cellIndex;
+      selectedCellY = selectedCell.parentNode.rowIndex;
+    } else {
+      // If this function was called after a column was deleted,
+      // first check if the current cell can be selected.
+      // if not, check the ones on the left and right.
+      if (TypeOfDeletion === "col") {
+        var found = false;
+        $("#input-table > tbody > tr").each(function (i, row) {
+          if (i + 1 === selectedCellY) {
+            $(row)
+              .find("td")
+              .each(function (j, cell) {
+                if (
+                  j === selectedCellX ||
+                  j + 1 === selectedCellX ||
+                  j + 2 === selectedCellX
+                ) {
+                  if ($(cell).length) {
+                    selectedCell = cell;
 
-        // Iterate through the headers
-        $cols.each(function (i, el) {
-            // The first column's header is '#'
-            if (i == 0) {
-                $(this).replaceWith('<th scope="col" style="width:10px">#</th>');
-            }
-            else {
-                $(this).replaceWith('<th scope="col">' + i + '</th>');
-            }
-        });
-    }
+                    select_cell();
 
-    // Creates the row to be added
-    function create_row() {
-        // Get the input table
-        var $tab_en_edic = $('#input-table');
+                    found = true;
 
-        // Find the rows and columns
-        var $row = $tab_en_edic.find('thead tr');
-        var $cols = $row.find('th');
-
-        var htmlDat = '';
-        // Iterate through each column of the selectedCell's row and set them up to be editable.
-        $cols.each(function (i, el) {
-            if ($(this).attr('name') == 'buttons') {
-                //Es columna de botones
-                htmlDat = htmlDat + colEdicHtml;
-            } else {
-                if (i == 0) {
-                    htmlDat += '<th scope="row"></th>'
+                    return false;
+                  }
                 }
-                else {
-                    htmlDat = htmlDat + '<td></td>';
-                }
-            }
+              });
+          }
+
+          if (found === true) return false;
         });
+      }
 
-        return htmlDat;
+      // If this function was called after a row was deleted,
+      // first check if the current cell can be selected.
+      // if not, check the ones above and below.
+      else if (TypeOfDeletion === "row") {
+        var found = false;
+        $("#input-table > tbody > tr").each(function (i, row) {
+          if (
+            i === selectedCellY ||
+            i + 1 === selectedCellY ||
+            i + 2 === selectedCellY
+          ) {
+            $(row)
+              .find("td")
+              .each(function (j, cell) {
+                if (j + 1 === selectedCellX) {
+                  if ($(cell).length) {
+                    selectedCell = cell;
+                    console.log("[" + (i + 1) + "][" + (j + 1) + "]");
+                    select_cell();
+                    found = true;
+                    return false;
+                  }
+                }
+              });
+          }
+
+          if (found === true) return false;
+        });
+      }
     }
 
+    $(
+      ".column-menu > button,.row-menu > button,.text-menu > button"
+    ).removeAttr("disabled");
+    $(".keyboard-nav > div").removeClass("grey-out");
+    // $(".cell-position > h4").remove();
+    // $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
+  }
 
-    // If a cell is currently active, activate the buttons on the table-options menu.
-    function select_cell() {
+  // Deactivate the buttons on the table-options menu once a cell is deselected.
+  function deselect_cell() {
+    // Remove the highlight from the selectedCell
+    $(selectedCell).removeClass("selectedCell");
+    selectedCell = "none";
+    $(".column-menu > button,.row-menu > button,.text-menu > button").attr(
+      "disabled",
+      "disabled",
+      "disabled"
+    );
+    // $(".cell-position > h4").remove();
+    // $(".cell-position").append('<h4>[-][-]</h4>');
+    selectedCellX = 0;
+    selectedCellY = 0;
+    $(".keyboard-nav > div").not(".movement-key").addClass("grey-out");
+  }
 
-        // Hightlight the new cell
-        $(selectedCell).addClass("selectedCell");
-        selectedCellX = selectedCell.cellIndex;
-        selectedCellY = selectedCell.parentNode.rowIndex;
-        $('.column-menu > button,.row-menu > button,.text-menu > button').removeAttr('disabled');
-        $('.non-movement-keys li, .non-movement-keys b').removeClass('grey-out');
-        // $(".cell-position > h4").remove();
-        // $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
+  function move_selected_cell(direction) {
+    console.log("before: [" + selectedCellY + "][" + selectedCellX + "]");
+    // If moving the cell would push it out of bounds, return.
+
+    if (selectedCell === "none") {
+      selectedCellY = 1;
+      selectedCellX = 1;
+    } else if (goes_out_of_bounds(direction)) {
+      console.log("returning...");
+      return false;
+    } else {
+      if (direction === "up") selectedCellY -= 1;
+      else if (direction === "left") selectedCellX -= 1;
+      else if (direction === "down") selectedCellY += 1;
+      else if (direction === "right") selectedCellX += 1;
     }
 
-    // Deactivate the buttons on the table-options menu once a cell is deselected.
-    function deselect_cell() {
+    console.log("after: [" + selectedCellY + "][" + selectedCellX + "]");
 
-        // Remove the highlight from the selectedCell
-        $(selectedCell).removeClass("selectedCell");
-        selectedCell = "none";
-        $('.column-menu > button,.row-menu > button,.text-menu > button').attr('disabled', 'disabled', 'disabled');
-        // $(".cell-position > h4").remove();
-        // $(".cell-position").append('<h4>[-][-]</h4>');
-        selectedCellX = 0;
-        selectedCellY = 0;
-        $('.non-movement-keys li, .non-movement-keys b').addClass('grey-out');
-    }
-
-    // Display the result of the conversion to the user.
-    function display_result_table(responseObject) {
-
-        // If there were any previously existing results, remove them.
-        $("#result-container").remove();
-        $("#result-rule").remove();
-
-        // Display the result
-        var html = '<hr id="result-rule" size="2" width="100%" align="center" noshade>'
-        html += '<div id="result-container" class="result-container"><h1>Your converted table</h1>'
-        html += '<div class="card result-box mt-5"><div class="grid-child result-text darkerbg">' + responseObject.resultTable + '</div>';
-        html += '<div class="grid-child links"><a href="' + Flask.url_for("get_table", { "viewType": "raw", "fileID": responseObject.resultFileID }) + '" class="btn downloadlink">Raw</a>';
-        html += '<a href="' + Flask.url_for("get_table", { "viewType": "download", "fileID": responseObject.resultFileID }) + '" class="btn downloadlink">Download</a></div></div></div>';
-
-        $(html).insertAfter('#input-table-card');
-
-        window.scrollTo(0, $("hr").offset().top);
-    }
-
-
-    // When a table's row is selected.
-    $(document).on('click', '#input-table > tbody > tr > td', function (el) {
-        // row was clicked
-
-        if (!IsEditing) {
-            if (selectedCell == el.target) {
-
+    var found = false;
+    $("#input-table > tbody > tr").each(function (i, row) {
+      if (i + 1 === selectedCellY) {
+        $(row)
+          .find("td")
+          .each(function (j, cell) {
+            if (j + 1 === selectedCellX) {
+              if ($(cell).length) {
                 deselect_cell();
+                selectedCell = cell;
+                console.log("[" + (i + 1) + "][" + (j + 1) + "]");
+                found = true;
+                return false;
+              } else {
+                console.log("No element");
+              }
             }
-            else {
-                // Remove the highlight of the previously selected cell
-                $(selectedCell).removeClass("selectedCell");
+          });
+      }
 
-                // Assign the new cell
-                selectedCell = el.target;
-                select_cell();
-            }
-
-        }
-
-
+      if (found === true) return false;
     });
 
-    // Custom function to add a row above the clicked button's row.
-    $(document).on('click', '.bAddRowUp', function () {
+    select_cell();
+  }
 
-        // Create the row
-        rowData = create_row();
+  function goes_out_of_bounds(direction) {
+    var numberOfRows = $("#input-table > tbody > tr").length;
+    var numberOfColumns = $("#input-table > thead > tr > th").length - 1; // -1 for the number-line column
 
-        // Add the row above the current one
-        $('<tr>' + rowData + '</tr>').insertBefore(selectedCell.closest('tr'));
-        set_table_row_numbers();
-    });
+    if (direction === "up") {
+      return selectedCellY === 1;
+    } else if (direction === "left") {
+      return selectedCellX === 1;
+    } else if (direction === "down") {
+      return selectedCellY === numberOfRows;
+    } else if (direction === "right") {
+      return selectedCellX === numberOfColumns;
+    }
+  }
 
-    // Custom function to add a row below the clicked button's row.
-    $(document).on('click', '.bAddRowDown', function () {
-        // Create the row
-        rowData = create_row();
+  // Display the result of the conversion to the user.
+  function display_result_table(responseObject) {
+    // If there were any previously existing results, remove them.
+    $("#result-container").remove();
+    $("#result-rule").remove();
 
-        // If the length of the table is zero, add the row at the beginning.
-        if ($('#input-table > tbody > tr').length <= 0) {
-            $($("#input-table").find('tbody')).append('<tr>' + rowData + '</tr>');
+    // Display the result
+    var html =
+      '<hr id="result-rule" size="2" width="100%" align="center" noshade>';
+    html +=
+      '<div id="result-container" class="result-container"><h1>Your converted table</h1>';
+    html +=
+      '<div class="card result-box mt-5"><div class="grid-child result-text darkerbg">' +
+      responseObject.resultTable +
+      "</div>";
+    html +=
+      '<div class="grid-child links"><a href="' +
+      Flask.url_for("get_table", {
+        viewType: "raw",
+        fileID: responseObject.resultFileID,
+      }) +
+      '" class="btn downloadlink">Raw</a>';
+    html +=
+      '<a href="' +
+      Flask.url_for("get_table", {
+        viewType: "download",
+        fileID: responseObject.resultFileID,
+      }) +
+      '" class="btn downloadlink">Download</a></div></div></div>';
 
-            // Unhide the Elim, Edit and AddRowUp buttons.
-            $('.bElim, .bEdit, .bAddRowUp').show(200, "linear");
+    $(html).insertAfter("#input-table-card");
 
-            $('.normal-keys li').each(function(){
-                $(this).show(200, "linear");
-            });
+    window.scrollTo(0, $("hr").offset().top);
+  }
 
-            // Enable the generate-table button.
-            $('.generate-table-button > button').prop('disabled', false);
+  // When a table's row is selected.
+  $(document).on("click", "#input-table > tbody > tr > td", function (el) {
+    // row was clicked
 
-            set_table_row_numbers();
-
-            deselect_cell();
-        }
-        // Else add the row below the current one
-        else {
-            $('<tr>' + rowData + '</tr>').insertAfter(selectedCell.closest('tr'));
-
-            set_table_row_numbers();
-
-            // Update the new position of the selected cell.
-            select_cell();
-        }
-
-
-        ;
-    });
-
-
-
-    // Adds a column to the left of the current column.
-    $(document).on('click', '.bAddColumnLeft', function () {
-
-        // Add a header cell before the selected cell's header, thus forming a column.
-        $('#input-table thead tr th').each(function (i, el) {
-
-            if (i == selectedCellX) {
-                $('<th scope="col">' + i + '</th>').insertBefore(el);
-            }
-        })
-
-        // Add the cells beneath the newly formed column.
-        $('#input-table tbody tr').each(function () {
-            var $cols = $(this).find('td');
-            $cols.each(function (i, el) {
-                if ((i + 1) == selectedCellX) {
-                    $('<td></td>').insertBefore(el);
-                    return false;
-                }
-            })
-
-        })
-
-        set_table_column_numbers();
-    });
-
-    // Adds a column to the right of the current column.
-    $(document).on('click', '.bAddColumnRight', function () {
-
-        // If there are no columns currently
-        if ($('#input-table > thead > tr > th').length === 1) {
-
-            // Append a column header with the value 1
-            $('#input-table > thead > tr').append('<th scope="col">' + 1 + '</th>');
-
-            // Append table cells to each row
-            $('#input-table tbody tr').each(function () {
-                $(this).append('<td></td>');
-            })
-
-            // Now that there is one column, unhide the AddColumnLeft, DeleteColumn buttons.
-            $('.bAddColumnLeft, .bDeleteColumn').show(200, "linear");
-
-            $('.normal-keys li').each(function(){
-                $(this).show(200, "linear");
-            });
-
-            // Enable the generate-table button
-            $('.generate-table-button > button').prop('disabled', false);
-
-            deselect_cell();
-        }
-        // else if there were columns
-        else {
-
-            // Add a header cell after the selected cell's header, thus forming a column.
-            $('#input-table thead tr th').each(function (i, el) {
-                if (i == selectedCellX) {
-                    $('<th scope="col">' + i + '</th>').insertAfter(el);
-                }
-            });
-
-
-            // Add the cells beneath the newly formed column.
-            $('#input-table tbody tr').each(function () {
-                var $cols = $(this).find('td');
-                $cols.each(function (i, el) {
-                    if ((i + 1) == selectedCellX) {
-                        $('<td></td>').insertAfter(el);
-                        return false;
-                    }
-                });
-
-            });
-        }
-
-
-
-
-        set_table_column_numbers();
-    });
-
-    // Deletes the selectedCell's column
-    $(document).on('click', '.bDeleteColumn', function () {
-
-
-        $('#input-table thead tr th').each(function (i, el) {
-
-            if (i == selectedCellX) {
-                el.remove();
-            }
-        })
-
-        // Find and delete the cells of the column
-        $('#input-table tbody tr').each(function () {
-            var $cols = $(this).find('td');
-            $cols.each(function (i, el) {
-                if ((i + 1) == selectedCellX) {
-                    el.remove();
-                    return false;
-                }
-            })
-
-        })
-
+    if (!IsEditing) {
+      if (selectedCell == el.target) {
         deselect_cell();
-        set_table_column_numbers();
+      } else {
+        // Remove the highlight of the previously selected cell
+        $(selectedCell).removeClass("selectedCell");
 
-        // If there are no more columns left, hide the AddColumnLeft, DeleteColumn buttons
-        // while keeping the AddColumnRight button visible and enabled.
-        if ($('#input-table > thead > tr > th').length === 1) {
-            $('.bAddColumnLeft, .bDeleteColumn').hide(200, "linear");
-            $('.column-menu > button').removeAttr('disabled');
-            $('.generate-table-button > button').prop('disabled', true);
-            
-            $('.normal-keys li').each(function(){
-                console.log($(this).text());
-               if($(this).text() != "SAdd Col Right"){
-                    $(this).hide(200, "linear");
-               }  
-            });
-            $('.normal-keys li, .normal-keys b').removeClass('grey-out');
+        // Assign the new cell
+        selectedCell = el.target;
+        select_cell();
+      }
+    }
+  });
 
-        }
+  // Custom function to add a row above the clicked button's row.
+  function add_row_up() {
+    // Create the row
+    rowData = create_row();
 
-    });
+    // Add the row above the current one
+    $("<tr>" + rowData + "</tr>").insertBefore(selectedCell.closest("tr"));
+    set_table_row_numbers();
 
-    $(document).on('click', '.bEdit', function () {
-        IsEditing = true;
-        $('.generate-table-button > button, .text-menu > button, .column-menu > button').attr('disabled', 'disabled', 'disabled');
-        
-        // Keyboard keys
-        $('.normal-keys').hide(200, "linear");
-        $('.editing-keys').show(200, "linear");
+    // Update the new position of the selected cell.
+    select_cell();
+  }
 
-        rowEdit(selectedCell);
-    });
-    $(document).on('click', '.bAcep', function () {
-        rowAcep(selectedCell);
-        $('.generate-table-button > button, .text-menu > button, .column-menu > button').removeAttr('disabled');
-        deselect_cell();
-        
-        // Keyboard keys
-        $('.normal-keys').show(200, "linear");
-        $('.editing-keys').hide(200, "linear");
+  // Custom function to add a row below the clicked button's row.
+  function add_row_down() {
+    // Create the row
+    rowData = create_row();
 
-        IsEditing = false;
-    });
-    $(document).on('click', '.bCanc', function () {
-        rowCancel(selectedCell);
-        $('.generate-table-button > button, .text-menu > button, .column-menu > button').removeAttr('disabled');
-        deselect_cell();
-        
-        // Keyboard keys
-        $('.normal-keys').show(200, "linear");
-        $('.editing-keys').hide(200, "linear");
+    // If the length of the table is zero, add the row at the beginning.
+    if ($("#input-table > tbody > tr").length <= 0) {
+      $($("#input-table").find("tbody")).append("<tr>" + rowData + "</tr>");
 
-        IsEditing = false;
-    });
+      // Unhide the Elim, Edit and AddRowUp buttons.
+      $(".bElim, .bEdit, .bAddRowUp").show(200, "linear");
 
-    $(document).on('click', '.bElim', function () {
-
-        rowElim(selectedCell);
-        deselect_cell();
-
-
-        // Hide the edit, delete and add row buttons
-        if ($('#input-table > tbody > tr').length <= 0) {
-            $('.bElim, .bEdit, .bAddRowUp').hide(200, "linear");
-            $('.row-menu > button').removeAttr('disabled');
-            $('.generate-table-button > button').prop('disabled', true);
-
-            $('.normal-keys li').each(function(){
-                console.log($(this).text());
-               if($(this).text() != "XAdd Row Below"){
-                    $(this).hide(200, "linear");
-               }  
-            });
-            $('.normal-keys li, .normal-keys b').removeClass('grey-out');
-        }
-    });
-
-
-
-    // Makes the text in the selectedCell bold.
-    $(document).on('click', '.make-bold', function () {
-
-        var currentContents = $(selectedCell).html();
-
-        if (currentContents != "" && !currentContents.includes('<b>')) {
-            var newContents = '<b>' + currentContents + '</b>';
-            $(selectedCell).html(newContents);
-        }
-
-    });
-
-    // Makes the text in the selectedCell italic.
-    $(document).on('click', '.make-italic', function () {
-
-        var currentContents = $(selectedCell).html();
-
-        if (currentContents != "" && !currentContents.includes('<i>')) {
-            var newContents = '<i>' + currentContents + '</i>';
-            $(selectedCell).html(newContents);
-        }
-
-    });
-
-    // Makes the text in the selectedCell strikethrough.
-    $(document).on('click', '.make-strikethrough', function () {
-
-        var currentContents = $(selectedCell).html();
-
-        if (currentContents != "" && !currentContents.includes('<del>')) {
-            var newContents = '<del>' + currentContents + '</del>';
-            $(selectedCell).html(newContents);
-        }
-
-    });
-
-    // Generates the table with the current data
-    $(document).on('click', '.bGenerateTable', function () {
-
-        var resultArray = new Array();
-
-        // Loop through each row
-        $('#input-table > tbody > tr').each(function () {
-
-            // Temporary inner array
-            var innerArray = new Array();
-
-            // Add the data of each element to innerArray
-            $(this).find('td').each(function () {
-
-                var ele = $(this).html();
-
-                // If the cell is blank, add a hyphen
-                if (ele === "") innerArray.push('-');
-                else innerArray.push(ele);
-
-            });
-            resultArray.push(innerArray);
-        });
-
-        // Convert the array into JSON
-        var js_data = JSON.stringify(resultArray);
-
-
-        $.ajax({
-            "type": 'POST',
-            "url": Flask.url_for('convert_table'),
-            "data": js_data,
-            "processData": false,
-            "contentType": 'application/json',
-            "dataType": 'json'
-        })
-            .done((response) => {
-
-                //console.log("Done!");
-                display_result_table(response);
-            })
-            .fail((error) => {
-                console.log("Error during file convert: " + error);
-            });
-    });
-
-    $(this).keypress(function(event) {
-        console.log( "You pressed " + event.code);
+      $(".normal-keys li").each(function () {
+        $(this).show(200, "linear");
       });
 
+      // Enable the generate-table button.
+      $(".generate-table-button > button").prop("disabled", false);
+    }
+
+    // Else add the row below the current one
+    else {
+      $("<tr>" + rowData + "</tr>").insertAfter(selectedCell.closest("tr"));
+    }
+
+    set_table_row_numbers();
+
+    // Update the new position of the selected cell.
+    select_cell();
+  }
+
+  // Adds a column to the left of the current column.
+  function add_column_left() {
+    // Add a header cell before the selected cell's header, thus forming a column.
+    $("#input-table thead tr th").each(function (i, el) {
+      if (i == selectedCellX) {
+        $('<th scope="col">' + i + "</th>").insertBefore(el);
+      }
+    });
+
+    // Add the cells beneath the newly formed column.
+    $("#input-table tbody tr").each(function () {
+      var $cols = $(this).find("td");
+      $cols.each(function (i, el) {
+        if (i + 1 == selectedCellX) {
+          $("<td></td>").insertBefore(el);
+          return false;
+        }
+      });
+    });
+
+    set_table_column_numbers();
+
+    // Update the new position of the selected cell.
+    select_cell();
+  }
+
+  function add_column_right() {
+    if ($("#input-table > thead > tr > th").length === 1) {
+      // Append a column header with the value 1
+      $("#input-table > thead > tr").append('<th scope="col">' + 1 + "</th>");
+
+      // Append table cells to each row
+      $("#input-table tbody tr").each(function () {
+        $(this).append("<td></td>");
+      });
+
+      // Now that there is one column, unhide the AddColumnLeft, DeleteColumn buttons.
+      $(".bAddColumnLeft, .bDeleteColumn").show(200, "linear");
+
+      $(".normal-keys li").each(function () {
+        $(this).show(200, "linear");
+      });
+
+      // Enable the generate-table button
+      $(".generate-table-button > button").prop("disabled", false);
+
+      deselect_cell();
+    }
+
+    // else if there were columns
+    else {
+      // Add a header cell after the selected cell's header, thus forming a column.
+      $("#input-table thead tr th").each(function (i, el) {
+        if (i == selectedCellX) {
+          $('<th scope="col">' + i + "</th>").insertAfter(el);
+        }
+      });
+
+      // Add the cells beneath the newly formed column.
+      $("#input-table tbody tr").each(function () {
+        var $cols = $(this).find("td");
+        $cols.each(function (i, el) {
+          if (i + 1 == selectedCellX) {
+            $("<td></td>").insertAfter(el);
+            return false;
+          }
+        });
+      });
+
+      // Update the new position of the selected cell.
+      select_cell();
+    }
+
+    set_table_column_numbers();
+  }
+
+  function edit_row() {
+    IsEditing = true;
+    $(
+      ".generate-table-button > button, .text-menu > button, .column-menu > button"
+    ).attr("disabled", "disabled", "disabled");
+
+    // Keyboard keys
+    $(".keyboard-nav > div").not(".editing-key").hide(200, "linear");
+    $(".editing-key").show(200, "linear");
+
+    rowEdit(selectedCell);
+  }
+
+  function accept_changes() {
+    rowAcep(selectedCell);
+    $(
+      ".generate-table-button > button, .text-menu > button, .column-menu > button"
+    ).removeAttr("disabled");
+
+    // Keyboard keys
+    $(".keyboard-nav > div").show(200, "linear");
+    $(".editing-key").hide(200, "linear");
+
+    IsEditing = false;
+  }
+
+  // Generates the table with the current data
+  function generate_table() {
+    var resultArray = new Array();
+
+    // Loop through each row
+    $("#input-table > tbody > tr").each(function () {
+      // Temporary inner array
+      var innerArray = new Array();
+
+      // Add the data of each element to innerArray
+      $(this)
+        .find("td")
+        .each(function () {
+          var ele = $(this).html();
+
+          // If the cell is blank, add a hyphen
+          if (ele === "")
+            innerArray.push("-");
+          else
+            innerArray.push(ele);
+        });
+      resultArray.push(innerArray);
+    });
+
+    // Convert the array into JSON
+    var js_data = JSON.stringify(resultArray);
+
+    $.ajax({
+        type: "POST",
+        url: Flask.url_for("convert_table"),
+        data: js_data,
+        processData: false,
+        contentType: "application/json",
+        dataType: "json",
+      })
+      .done((response) => {
+        //console.log("Done!");
+        display_result_table(response);
+      })
+      .fail((error) => {
+        console.log("Error during file convert: " + error);
+      });
+  }
+
+  // Makes the text in the selectedCell strikethrough.
+  function make_text_strikethrough() {
+    var currentContents = $(selectedCell).html();
+
+    if (currentContents != "" && !currentContents.includes("<del>")) {
+      var newContents = "<del>" + currentContents + "</del>";
+      $(selectedCell).html(newContents);
+    }
+  }
+
+
+  // Makes the text in the selectedCell italic.
+  function make_text_italic() {
+    var currentContents = $(selectedCell).html();
+
+    if (currentContents != "" && !currentContents.includes("<i>")) {
+      var newContents = "<i>" + currentContents + "</i>";
+      $(selectedCell).html(newContents);
+    }
+  }
+
+  // Makes the text in the selectedCell bold.
+  function make_text_bold() {
+    var currentContents = $(selectedCell).html();
+
+    if (currentContents != "" && !currentContents.includes("<b>")) {
+      var newContents = "<b>" + currentContents + "</b>";
+      $(selectedCell).html(newContents);
+    }
+  }
+
+  function delete_row() {
+    rowElim(selectedCell);
+
+    // If there are no rows left,
+    // Hide the edit, delete and add row buttons.
+    if ($("#input-table > tbody > tr").length <= 0) {
+      $(".bElim, .bEdit, .bAddRowUp").hide(200, "linear");
+      $(".row-menu > button").removeAttr("disabled");
+      $(".generate-table-button > button").prop("disabled", true);
+
+      $(".normal-keys li").each(function () {
+        console.log($(this).text());
+        if ($(this).text() != "XAdd Row Below") {
+          $(this).hide(200, "linear");
+        }
+      });
+      $(".normal-keys li, .normal-keys b").removeClass("grey-out");
+      deselect_cell();
+    }
+
+    // Else if there are rows left, select the closest cell.
+    else {
+      select_cell("row");
+    }
+  }
+
+  function cancel_changes() {
+    rowCancel(selectedCell);
+    $(
+      ".generate-table-button > button, .text-menu > button, .column-menu > button"
+    ).removeAttr("disabled");
+
+    // Keyboard keys
+    $(".keyboard-nav > div").show(200, "linear");
+    $(".editing-key").hide(200, "linear");
+
+    IsEditing = false;
+  }
+
+  // Deletes the selectedCell's column
+  function delete_column() {
+    $("#input-table thead tr th").each(function (i, el) {
+      if (i == selectedCellX) {
+        el.remove();
+      }
+    });
+
+    // Find and delete the cells of the column
+    $("#input-table tbody tr").each(function () {
+      var $cols = $(this).find("td");
+      $cols.each(function (i, el) {
+        if (i + 1 == selectedCellX) {
+          el.remove();
+          return false;
+        }
+      });
+    });
+
+    // If there are no more columns left, hide the AddColumnLeft, DeleteColumn buttons
+    // while keeping the AddColumnRight button visible and enabled.
+    if ($("#input-table > thead > tr > th").length === 1) {
+      deselect_cell();
+      $(".bAddColumnLeft, .bDeleteColumn").hide(200, "linear");
+      $(".column-menu > button").removeAttr("disabled");
+      $(".generate-table-button > button").prop("disabled", true);
+
+      $(".normal-keys li").each(function () {
+        console.log($(this).text());
+        if ($(this).text() != "XAdd Col Right") {
+          $(this).hide(200, "linear");
+        }
+      });
+      $(".normal-keys li, .normal-keys b").removeClass("grey-out");
+    }
+    // Else if there are columns left,  select the closest cell.
+    else {
+      // Reset the selectedCell
+      selectedCell = "none";
+      select_cell("col");
+    }
+
+    set_table_column_numbers();
+  }
+
+
+
+
+
+  $(document).on("click", ".bAddRowUp", add_row_up);
+
+
+  $(document).on("click", ".bAddRowDown", add_row_down);
+
+
+  $(document).on("click", ".bAddColumnLeft", add_column_left);
+
+
+  $(document).on("click", ".bAddColumnRight", add_column_right);
+
+
+  $(document).on("click", ".bDeleteColumn", delete_column);
+
+
+
+  $(document).on("click", ".bEdit", edit_row);
+  $(document).on("click", ".bAcep", accept_changes);
+
+
+  $(document).on("click", ".bCanc", cancel_changes);
+
+  $(document).on("click", ".bElim", delete_row);
+
+
+  $(document).on("click", ".make-bold", make_text_bold);
+
+  $(document).on("click", ".make-italic", make_text_italic);
+
+
+  $(document).on("click", ".make-strikethrough", make_text_strikethrough);
+
+
+  $(document).on("click", ".bGenerateTable", generate_table);
+
+  $(this).keypress(function (event) {
+
+    if (!IsEditing) {
+
+      console.log("You pressed " + event.code);
+      switch (event.code) {
+        case "KeyW":
+          move_selected_cell("up");
+          break;
+        case "KeyA":
+          move_selected_cell("left");
+          break;
+        case "KeyS":
+          move_selected_cell("down");
+          break;
+        case "KeyD":
+          move_selected_cell("right");
+          break;
+        default:
+          break;
+      }
+    }
+  });
+
+
+
+
 });
-
-
-
