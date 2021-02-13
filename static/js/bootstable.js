@@ -36,7 +36,7 @@ var newColHtml =
 
 var saveColHtml =
 	'<div class="btn-group pull-right">' +
-	'<button id="bEdit" type="button" class="btn btn-secondary" style="display:none;" onclick="rowEdit(this);">' +
+	'<button id="bEdit" type="button" class="btn btn-secondary" style="display:none;">' +
 	'<i class="fas fa-pencil-alt"></i>' +
 	"</button>" +
 	'<button id="bAddRowUp" type="button" style="display:none;" class="btn btn-success">' +
@@ -194,7 +194,7 @@ function rowEdit(but) {
 		var cont = $td.html(); //lee contenido
 		var div = '<div style="display: none;">' + cont + "</div>"; //guarda contenido
 		var input =
-			'<input class="form-control input-sm"  style="min-width:30%" value="' +
+			'<input class="form-control input-sm data-insert-cell"  style="min-width:30%" value="' +
 			cont +
 			'">';
 		$td.html(div + input); //fija contenido

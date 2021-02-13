@@ -175,14 +175,14 @@ $(document).ready(function () {
   }
 
   function move_selected_cell(direction) {
-    console.log("before: [" + selectedCellY + "][" + selectedCellX + "]");
+    console.log("You were at: [" + selectedCellY + "][" + selectedCellX + "]");
     // If moving the cell would push it out of bounds, return.
 
     if (selectedCell === "none") {
       selectedCellY = 1;
       selectedCellX = 1;
     } else if (goes_out_of_bounds(direction)) {
-      console.log("returning...");
+      console.log("No can do! Going out of bounds there.");
       return false;
     } else {
       if (direction === "up") selectedCellY -= 1;
@@ -191,7 +191,7 @@ $(document).ready(function () {
       else if (direction === "right") selectedCellX += 1;
     }
 
-    console.log("after: [" + selectedCellY + "][" + selectedCellX + "]");
+    console.log("You have gone to: [" + selectedCellY + "][" + selectedCellX + "]");
 
     var found = false;
     $("#input-table > tbody > tr").each(function (rowIndex, row) {
@@ -203,7 +203,6 @@ $(document).ready(function () {
               if ($(cell).length) {
                 deselect_cell();
                 selectedCell = cell;
-                console.log("[" + (rowIndex + 1) + "][" + (colIndex + 1) + "]");
                 found = true;
                 return false;
               } else {
@@ -418,6 +417,9 @@ $(document).ready(function () {
     $(".editing-key").show(200, "linear");
 
     rowEdit(selectedCell);
+
+    // Focus on the text boxes created
+    $('.data-insert-cell').first().focus();
   }
 
   function accept_changes() {
@@ -635,62 +637,88 @@ $(document).ready(function () {
 
     if (!IsEditing) {
 
-      console.log("You pressed " + event.code);
-      switch (event.code) {
-        case "KeyW":
-          move_selected_cell("up");
-          break;
-        case "KeyA":
-          move_selected_cell("left");
-          break;
-        case "KeyS":
-          move_selected_cell("down");
-          break;
-        case "KeyD":
-          move_selected_cell("right");
-          break;
-        case "KeyU":
-          move_selected_cell("right");
-          break;
-        case "KeyI":
+      if (selectedCell != "none") {
+        switch (event.code) {
+          case "KeyW":
+            move_selected_cell("up");
+            break;
+          case "KeyA":
+            move_selected_cell("left");
+            break;
+          case "KeyS":
+            move_selected_cell("down");
+            break;
+          case "KeyD":
+            move_selected_cell("right");
+            break;
+          case "KeyU":
+            move_selected_cell("right");
+            break;
 
-          break;
-        case "KeyB":
+          case "KeyI":
 
-          break;
-        case "KeyN":
-          make_text_italic();
-          break;
-        case "KeyM":
-          make_text_strikethrough();
-          break;
-        case "KeyZ":
-          add_column_left();
-          break;
-        case "KeyX":
-          add_column_right();
-          break;
-        case "KeyC":
-          delete_column();
-          break;
-        case "KeyE":
-          edit_row();
-          break;
-        case "KeyR":
-          add_row_up();
-          break;
-        case "KeyT":
-          add_row_down();
-          break;
-        case "KeyY":
-          delete_row();
-          break;
-        case "KeyG":
-          generate_table();;
-          break;
-        default:
-          break;
+            break;
+          case "KeyB":
+
+            break;
+          case "KeyN":
+            make_text_italic();
+            break;
+          case "KeyM":
+            make_text_strikethrough();
+            break;
+          case "KeyZ":
+            add_column_left();
+            break;
+          case "KeyX":
+            add_column_right();
+            break;
+          case "KeyC":
+            delete_column();
+            break;
+          case "KeyE":
+            edit_row();
+            break;
+          case "KeyR":
+            add_row_up();
+            break;
+          case "KeyT":
+            add_row_down();
+            break;
+          case "KeyY":
+            delete_row();
+            break;
+          case "KeyG":
+            generate_table();
+            break;
+          default:
+            break;
+        }
+      } else {
+        switch (event.code) {
+          case "KeyW":
+            move_selected_cell("up");
+            break;
+          case "KeyA":
+            move_selected_cell("left");
+            break;
+          case "KeyS":
+            move_selected_cell("down");
+            break;
+          case "KeyD":
+            move_selected_cell("right");
+            break;
+          case "KeyU":
+            move_selected_cell("right");
+            break;
+          case "KeyG":
+            generate_table();
+            break;
+          default:
+            break;
+        }
       }
+
     } else {
       switch (event.code) {
         case "KeyJ":
