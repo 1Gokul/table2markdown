@@ -146,6 +146,7 @@ td {
 
 .table-options-desktop li {
   display: inline-block;
+  margin: 5px;
   padding: 0 10px;
 }
 
@@ -174,6 +175,10 @@ td {
 hr {
   margin: 100px 0 50px;
   border: 2px solid white;
+}
+
+.result-container{
+  margin: 0 15px;
 }
 
 .result-box {
@@ -267,6 +272,10 @@ a:focus {
 
   .container {
     margin-left: 0;
+  }
+
+  .result-container{
+    margin: 0;
   }
 
   .table-options-mobile {

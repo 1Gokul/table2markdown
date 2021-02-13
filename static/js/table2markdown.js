@@ -30,9 +30,8 @@ $(document).ready(function () {
 
   // Sets the row numbers. Usually called when a row is added or deleted.
   function set_table_row_numbers() {
-    var i = 0;
-    $("#input-table tbody>tr>th").each(function () {
-      $(this).html(++i);
+    $("#input-table tbody>tr>th").each(function (rowIndex) {
+      $(this).html(++rowIndex);
     });
   }
   // Sets the column numbers. Usually called when a column is added or deleted.
@@ -41,12 +40,12 @@ $(document).ready(function () {
     var $cols = $("#input-table > thead > tr").find("th");
 
     // Iterate through the headers
-    $cols.each(function (i, el) {
+    $cols.each(function (colIndex, el) {
       // The first column's header is '#'
-      if (i == 0) {
+      if (colIndex == 0) {
         $(this).replaceWith('<th scope="col" style="width:10px">#</th>');
       } else {
-        $(this).replaceWith('<th scope="col">' + i + "</th>");
+        $(this).replaceWith('<th scope="col">' + colIndex + "</th>");
       }
     });
   }
@@ -62,12 +61,12 @@ $(document).ready(function () {
 
     var htmlDat = "";
     // Iterate through each column of the selectedCell's row and set them up to be editable.
-    $cols.each(function (i, el) {
+    $cols.each(function (colIndex, el) {
       if ($(this).attr("name") == "buttons") {
         //Es columna de botones
         htmlDat = htmlDat + colEdicHtml;
       } else {
-        if (i == 0) {
+        if (colIndex == 0) {
           htmlDat += '<th scope="row"></th>';
         } else {
           htmlDat = htmlDat + "<td></td>";
@@ -92,8 +91,8 @@ $(document).ready(function () {
       // if not, check the ones on the left and right.
       if (TypeOfDeletion === "col") {
         var found = false;
-        $("#input-table > tbody > tr").each(function (i, row) {
-          if (i + 1 === selectedCellY) {
+        $("#input-table > tbody > tr").each(function (rowIndex, row) {
+          if (rowIndex + 1 === selectedCellY) {
             $(row)
               .find("td")
               .each(function (j, cell) {
@@ -124,19 +123,19 @@ $(document).ready(function () {
       // if not, check the ones above and below.
       else if (TypeOfDeletion === "row") {
         var found = false;
-        $("#input-table > tbody > tr").each(function (i, row) {
+        $("#input-table > tbody > tr").each(function (rowIndex, row) {
           if (
-            i === selectedCellY ||
-            i + 1 === selectedCellY ||
-            i + 2 === selectedCellY
+            rowIndex === selectedCellY ||
+            rowIndex + 1 === selectedCellY ||
+            rowIndex + 2 === selectedCellY
           ) {
             $(row)
               .find("td")
-              .each(function (j, cell) {
-                if (j + 1 === selectedCellX) {
+              .each(function (colIndex, cell) {
+                if (colIndex + 1 === selectedCellX) {
                   if ($(cell).length) {
                     selectedCell = cell;
-                    console.log("[" + (i + 1) + "][" + (j + 1) + "]");
+                    console.log("[" + (rowIndex + 1) + "][" + (colIndex + 1) + "]");
                     select_cell();
                     found = true;
                     return false;
@@ -195,16 +194,16 @@ $(document).ready(function () {
     console.log("after: [" + selectedCellY + "][" + selectedCellX + "]");
 
     var found = false;
-    $("#input-table > tbody > tr").each(function (i, row) {
-      if (i + 1 === selectedCellY) {
+    $("#input-table > tbody > tr").each(function (rowIndex, row) {
+      if (rowIndex + 1 === selectedCellY) {
         $(row)
           .find("td")
-          .each(function (j, cell) {
-            if (j + 1 === selectedCellX) {
+          .each(function (colIndex, cell) {
+            if (colIndex + 1 === selectedCellX) {
               if ($(cell).length) {
                 deselect_cell();
                 selectedCell = cell;
-                console.log("[" + (i + 1) + "][" + (j + 1) + "]");
+                console.log("[" + (rowIndex + 1) + "][" + (colIndex + 1) + "]");
                 found = true;
                 return false;
               } else {
@@ -335,17 +334,17 @@ $(document).ready(function () {
   // Adds a column to the left of the current column.
   function add_column_left() {
     // Add a header cell before the selected cell's header, thus forming a column.
-    $("#input-table thead tr th").each(function (i, el) {
-      if (i == selectedCellX) {
-        $('<th scope="col">' + i + "</th>").insertBefore(el);
+    $("#input-table thead tr th").each(function (colIndex, el) {
+      if (colIndex == selectedCellX) {
+        $('<th scope="col">' + colIndex + "</th>").insertBefore(el);
       }
     });
 
     // Add the cells beneath the newly formed column.
     $("#input-table tbody tr").each(function () {
       var $cols = $(this).find("td");
-      $cols.each(function (i, el) {
-        if (i + 1 == selectedCellX) {
+      $cols.each(function (colIndex, el) {
+        if (colIndex + 1 == selectedCellX) {
           $("<td></td>").insertBefore(el);
           return false;
         }
@@ -384,17 +383,17 @@ $(document).ready(function () {
     // else if there were columns
     else {
       // Add a header cell after the selected cell's header, thus forming a column.
-      $("#input-table thead tr th").each(function (i, el) {
-        if (i == selectedCellX) {
-          $('<th scope="col">' + i + "</th>").insertAfter(el);
+      $("#input-table thead tr th").each(function (colIndex, el) {
+        if (colIndex == selectedCellX) {
+          $('<th scope="col">' + colIndex + "</th>").insertAfter(el);
         }
       });
 
       // Add the cells beneath the newly formed column.
       $("#input-table tbody tr").each(function () {
         var $cols = $(this).find("td");
-        $cols.each(function (i, el) {
-          if (i + 1 == selectedCellX) {
+        $cols.each(function (colIndex, el) {
+          if (colIndex + 1 == selectedCellX) {
             $("<td></td>").insertAfter(el);
             return false;
           }
@@ -550,8 +549,8 @@ $(document).ready(function () {
 
   // Deletes the selectedCell's column
   function delete_column() {
-    $("#input-table thead tr th").each(function (i, el) {
-      if (i == selectedCellX) {
+    $("#input-table thead tr th").each(function (colIndex, el) {
+      if (colIndex == selectedCellX) {
         el.remove();
       }
     });
@@ -559,8 +558,8 @@ $(document).ready(function () {
     // Find and delete the cells of the column
     $("#input-table tbody tr").each(function () {
       var $cols = $(this).find("td");
-      $cols.each(function (i, el) {
-        if (i + 1 == selectedCellX) {
+      $cols.each(function (colIndex, el) {
+        if (colIndex + 1 == selectedCellX) {
           el.remove();
           return false;
         }
@@ -649,6 +648,56 @@ $(document).ready(function () {
           break;
         case "KeyD":
           move_selected_cell("right");
+          break;
+        case "KeyU":
+          move_selected_cell("right");
+          break;
+        case "KeyI":
+
+          break;
+        case "KeyB":
+
+          break;
+        case "KeyN":
+          make_text_italic();
+          break;
+        case "KeyM":
+          make_text_strikethrough();
+          break;
+        case "KeyZ":
+          add_column_left();
+          break;
+        case "KeyX":
+          add_column_right();
+          break;
+        case "KeyC":
+          delete_column();
+          break;
+        case "KeyE":
+          edit_row();
+          break;
+        case "KeyR":
+          add_row_up();
+          break;
+        case "KeyT":
+          add_row_down();
+          break;
+        case "KeyY":
+          delete_row();
+          break;
+        case "KeyG":
+          generate_table();;
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (event.code) {
+        case "KeyJ":
+          accept_changes();;
+          break;
+        case "KeyK":
+          cancel_changes();
           break;
         default:
           break;
