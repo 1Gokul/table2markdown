@@ -1,6 +1,8 @@
 import shutil
+import csv
+
 """
-Contains the functions that convert the provided HTML text into Markdown-style text.
+Contains the functions that convert the provided HTML table, CSV table or Excel table into Markdown-style text.
 """
 
 
@@ -124,3 +126,6 @@ def write_result_to_file(resultFile, fileID):
     # If the user wishes to download, copy the contents of the .txt file to a .md file with the same ID.
     shutil.copyfile("tmp/Table2Markdown_" + fileID + '.txt',
                     "tmp/Table2Markdown_" + fileID + '.md')
+
+# Converts the passed CSV file into an HTML table.
+# This table will then be shown to the user for further editing.

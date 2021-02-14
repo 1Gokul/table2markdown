@@ -14,6 +14,12 @@ body {
   font-size: larger;
 }
 
+.big-page-title{
+  font-size: 50px;
+  font-weight: bold;
+  margin: 25px 0;
+}
+
 .undo-redo-menu {
   display: inline-block;
 }
@@ -80,9 +86,13 @@ a.styled-link,
   position: relative;
   text-decoration: none;
   padding: 0;
-  color: #c8e0fc;
+  color: #9baec4;
 }
 
+a.styled-link.active,
+.navbar-dark .navbar-nav .nav-link.active{
+  color: #c8e0fc;
+}
 a.styled-link:before {
   content: "";
   position: absolute;
@@ -112,11 +122,18 @@ a.styled-link:hover,
 }
 
 .container {
-  min-height: 100%;
+  min-height: 100%;  
   margin-left: 240px;
   margin-bottom: 50px;
 }
 
+#submit-button{
+  display: block;
+  margin: 0 auto;
+  border: none;
+  font-size: x-large;
+}
+  
 ul {
   list-style-type: none;
   padding: 0;
@@ -208,7 +225,7 @@ hr {
   background: #243742;
 }
 
-.downloadlink {
+.submit-download-link {
   display: block;
   margin: 10px;
   padding: 10px 30px;
@@ -219,7 +236,7 @@ hr {
   color: white;
 }
 
-.downloadlink:hover {
+.submit-download-link:hover {
   background: #276890;
   color: white;
   transition: background 0.2s linear;
@@ -256,6 +273,10 @@ a:focus {
 @media only screen and (max-width: 600px) {
   .navbar-brand img {
     width: 200px;
+  }
+
+  .big-page-title{
+    line-height: 60px;
   }
 
   h1 {

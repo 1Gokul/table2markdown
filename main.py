@@ -12,24 +12,36 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @app.route('/')
 def redirect_to_table_page():
-    return redirect(url_for('index'))
+    return redirect(url_for('insert_and_convert'))
 
 
-@app.route('/table2markdown')
-def index():
-    return render_template('table2markdown.html')
-
-
-# Calls the convert-table function in converter.py
-@app.route('/convert-table', methods=['POST', 'GET'])
-def convert_table():
-    if (request.method == "POST"):
+@app.route('/insert-and-convert', methods=['GET', 'POST'])
+def insert_and_convert():
+    if (request.method == 'POST'):
 
         # The unique filename of the result.
         resultFileID = str(shortuuid.uuid())
-        responseObject = converter.convert_table(request.json, resultFileID)
 
+        # Calls the convert-table function in converter.py
+        responseObject = converter.convert_table(request.json, resultFileID)
         return responseObject
+
+    else:
+        return render_template('insert-table-convert.html',
+                               title="Insert and Convert")
+
+
+@app.route('/convert-csv-file', methods=['GET', 'POST'])
+def convert_csv_file():
+    if (request.method == 'POST'):
+        create_unique_filename()
+
+        # Calls the convert-table function in converter.py
+        print("Converting to CSV...")
+        return render_template('convertcsv.html', title="Convert CSV")
+
+    else:
+        return render_template('convertcsv.html', title="Convert CSV")
 
 
 @app.route('/get-table/<viewType>/<path:fileID>')
@@ -53,7 +65,7 @@ def get_table(viewType, fileID):
 
 @app.route('/credits')
 def credits():
-    return render_template('credits.html')
+    return render_template('credits.html', title="Credits")
 
 
 @app.errorhandler(404)

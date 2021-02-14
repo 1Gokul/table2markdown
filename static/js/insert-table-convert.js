@@ -256,14 +256,14 @@ $(document).ready(function () {
         viewType: "raw",
         fileID: responseObject.resultFileID,
       }) +
-      '" class="btn downloadlink">Raw</a>';
+      '" class="btn submit-download-link">Raw</a>';
     html +=
       '<a href="' +
       Flask.url_for("get_table", {
         viewType: "download",
         fileID: responseObject.resultFileID,
       }) +
-      '" class="btn downloadlink">Download</a></div></div></div>';
+      '" class="btn submit-download-link">Download</a></div></div></div>';
 
     $(html).insertAfter("#input-table-card");
 
@@ -466,7 +466,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "POST",
-        url: Flask.url_for("convert_table"),
+        url: Flask.url_for("insert_and_convert"),
         data: js_data,
         processData: false,
         contentType: "application/json",

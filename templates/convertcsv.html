@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+<div class="big-page-title">Upload your CSV file below.</div>
+
+
+<form id="csv-form" onsubmit="validate_submitted_data();" action="{{ url_for('convert_csv_file') }}" method="POST">
+    <div class="custom-file mb-4">
+        <input type="file" class="custom-file-input" id="csvFile" required>
+        <label class="custom-file-label" for="csvFile">No file selected.</label>
+    </div>
+
+    <div class="form-check mb-1">
+        <input class="form-check-input" type="radio" name="modify-or-not" id="modify-true" value="modify-true" required>
+        <label class="form-check-label" for="modify-true">
+          I wish to modify the contents of my uploaded file before converting it.
+        </label>
+      </div>
+      <div class="form-check mb-1">
+        <input class="form-check-input" type="radio" name="modify-or-not" id="modify-false" value="modify-false" required>
+        <label class="form-check-label" for="modify-false">
+          I don't have to modify anything in my table and it can be converted immediately.
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary submit-download-link" id="submit-button" disabled>Submit</button>
+</form>
+
+{% endblock %}
+
+
+{% block after_script %}
+<script src="{{ url_for('static', filename='js/convertcsv.js') }}"></script>
+{% endblock %}

@@ -225,8 +225,8 @@
 
 {% endblock %}
 
-{% block script %}
+{% block after_script %}
 <script src="{{ url_for('static', filename='js/bootstable.js') }}"></script>
-<script src="{{ url_for('static', filename='js/table2markdown.js') }}"></script>
+<script src="{{ url_for('static', filename='js/insert-table-convert.js') }}"></script>
 
 {% endblock %}
