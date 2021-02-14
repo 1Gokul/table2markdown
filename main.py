@@ -24,7 +24,8 @@ def insert_and_convert():
         resultFileID = str(shortuuid.uuid())
 
         # Calls the convert-table function in converter.py
-        responseObject = converter.convert_table(request.json, 'i2m', resultFileID)
+        responseObject = converter.convert_table(request.json, 'i2m',
+                                                 resultFileID)
         return responseObject
 
     else:
@@ -35,12 +36,13 @@ def insert_and_convert():
 @app.route('/convert-csv-file', methods=['GET', 'POST'])
 def convert_csv_file():
     if (request.method == 'POST'):
-        
+
         # The unique filename of the result.
         resultFileID = str(shortuuid.uuid())
 
         # Calls the convert-table function in converter.py, but to convert from csv
-        responseObject = converter.convert_table(request.json, 'c2m', resultFileID)
+        responseObject = converter.convert_table(request.json, 'c2m',
+                                                 resultFileID)
 
         return responseObject
 

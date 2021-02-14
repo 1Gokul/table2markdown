@@ -16,6 +16,7 @@ $(document).ready(function () {
             // Else if file is larger than 10MB(The size limit)
             if ($("#csvFile").prop('files')[0].size > 10 * 1024 * 1024) {
                 send_alert("This file is larger than the 10MB limit! Please select a smaller one.", 'danger');
+                $("#submit-button").prop("disabled", true);
             } else {
                 if ($('.alert').length) send_alert("Nice, this one's valid!", "primary");
                 $("#submit-button").prop("disabled", false);

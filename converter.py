@@ -1,8 +1,8 @@
 import shutil
-
 """
 Contains the functions that convert the provided HTML table, CSV table or Excel table into Markdown-style text.
 """
+
 
 # convertType is either 'i2m'(insertedTable-to-Markdown) or 'c2m'(CSV-to-Markdown).
 def convert_table(inputData, convertType, fileID):
@@ -12,10 +12,10 @@ def convert_table(inputData, convertType, fileID):
     resultTable += '|'
     for i in range(len(inputData[0])):
 
-        if(convertType == 'i2m'):
+        if (convertType == 'i2m'):
             # If converting from HTML, check for formatting.
             inputText = check_for_formatted_text(inputData[0][i])
-            resultTable += (' ' + inputText + ' |')        
+            resultTable += (' ' + inputText + ' |')
         else:
             resultTable += (' ' + inputData[0][i] + ' |')
 
@@ -32,8 +32,7 @@ def convert_table(inputData, convertType, fileID):
             3,
             currentColLength)  # 3 is the minimum number of hyphens to be added
 
-        
-        if(convertType == 'i2m'):
+        if (convertType == 'i2m'):
             if (currentColLength > 0):
 
                 # Formatting characters are not counted towards the number of hyphens.
@@ -65,14 +64,14 @@ def convert_table(inputData, convertType, fileID):
     for i in range(1, len(inputData)):
         resultTable += '|'
         for j in range(len(inputData[i])):
-            
-            if(convertType == 'i2m'):
+
+            if (convertType == 'i2m'):
                 # If converting from HTML, check for formatting.
                 inputText = check_for_formatted_text(inputData[i][j])
-                resultTable += (' ' + inputText + ' |')        
+                resultTable += (' ' + inputText + ' |')
             else:
                 resultTable += (' ' + inputData[i][j] + ' |')
-            
+
         resultTable += '\n'
 
     # Write the results to a file
@@ -132,6 +131,7 @@ def write_result_to_file(resultFile, fileID):
     # If the user wishes to download, copy the contents of the .txt file to a .md file with the same ID.
     shutil.copyfile("tmp/Table2Markdown_" + fileID + '.txt',
                     "tmp/Table2Markdown_" + fileID + '.md')
+
 
 # Converts the passed CSV file into an HTML table.
 # This table will then be shown to the user for further editing.
