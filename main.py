@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, jsonify, send_from_directory
+from werkzeug.utils import secure_filename
 from flask_jsglue import JSGlue
 import shortuuid
 import converter
@@ -23,7 +24,7 @@ def insert_and_convert():
         resultFileID = str(shortuuid.uuid())
 
         # Calls the convert-table function in converter.py
-        responseObject = converter.convert_table(request.json, resultFileID)
+        responseObject = converter.convert_table(request.json, 'i2m', resultFileID)
         return responseObject
 
     else:
@@ -34,11 +35,14 @@ def insert_and_convert():
 @app.route('/convert-csv-file', methods=['GET', 'POST'])
 def convert_csv_file():
     if (request.method == 'POST'):
-        create_unique_filename()
+        
+        # The unique filename of the result.
+        resultFileID = str(shortuuid.uuid())
 
-        # Calls the convert-table function in converter.py
-        print("Converting to CSV...")
-        return render_template('convertcsv.html', title="Convert CSV")
+        # Calls the convert-table function in converter.py, but to convert from csv
+        responseObject = converter.convert_table(request.json, 'c2m', resultFileID)
+
+        return responseObject
 
     else:
         return render_template('convertcsv.html', title="Convert CSV")

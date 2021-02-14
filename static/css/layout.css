@@ -3,6 +3,7 @@ body {
   height: 100%;
   scroll-behavior: smooth;
 }
+
 body {
   font-family: Poppins, sans-serif;
   color: white;
@@ -14,7 +15,7 @@ body {
   font-size: larger;
 }
 
-.big-page-title{
+.big-page-title {
   font-size: 50px;
   font-weight: bold;
   margin: 25px 0;
@@ -40,6 +41,7 @@ body {
   background-color: #1f5170;
   font-size: large;
 }
+
 .navbar-dark .navbar-toggler {
   border-color: transparent;
 }
@@ -59,7 +61,7 @@ body {
 .keyboard-nav {
   display: grid;
   grid-template-columns: 50px 125px;
-  column-gap:10px;
+  column-gap: 10px;
 }
 
 .key-name {
@@ -67,6 +69,7 @@ body {
   color: white;
   font-weight: bold;
 }
+
 .key-description {
   grid-column: 2;
   color: #c8e0fc;
@@ -90,9 +93,10 @@ a.styled-link,
 }
 
 a.styled-link.active,
-.navbar-dark .navbar-nav .nav-link.active{
+.navbar-dark .navbar-nav .nav-link.active {
   color: #c8e0fc;
 }
+
 a.styled-link:before {
   content: "";
   position: absolute;
@@ -122,18 +126,18 @@ a.styled-link:hover,
 }
 
 .container {
-  min-height: 100%;  
+  min-height: 100%;
   margin-left: 240px;
   margin-bottom: 50px;
 }
 
-#submit-button{
+#submit-button {
   display: block;
-  margin: 0 auto;
+  margin: 100px auto;
   border: none;
   font-size: x-large;
 }
-  
+
 ul {
   list-style-type: none;
   padding: 0;
@@ -171,7 +175,7 @@ td {
   color: white;
 }
 
-.btn-group > button {
+.btn-group>button {
   border: 1px solid black;
 }
 
@@ -194,7 +198,7 @@ hr {
   border: 2px solid white;
 }
 
-.result-container{
+.result-container {
   margin: 0 15px;
 }
 
@@ -210,6 +214,8 @@ hr {
   max-height: 300px;
 }
 
+
+
 .btn.disabled,
 .btn:disabled {
   transition: opacity 0.1s linear;
@@ -221,6 +227,7 @@ hr {
   overflow: auto;
   word-break: break-word;
 }
+
 .darkerbg {
   background: #243742;
 }
@@ -262,20 +269,27 @@ hr {
   color: white;
 }
 
+
+#footer a {
+  color: #c8e0fc;
+}
+
 #footer a:hover,
 a:focus {
   text-decoration: none;
 }
+
 #footer img {
   width: 150px;
 }
+
 /*  For Mobile */
 @media only screen and (max-width: 600px) {
   .navbar-brand img {
     width: 200px;
   }
 
-  .big-page-title{
+  .big-page-title {
     line-height: 60px;
   }
 
@@ -285,7 +299,9 @@ a:focus {
 
   h3 {
     font-size: 1rem;
-  } /*1rem = 16px*/
+  }
+
+  /*1rem = 16px*/
 
   .container-left {
     display: none;
@@ -295,7 +311,7 @@ a:focus {
     margin-left: 0;
   }
 
-  .result-container{
+  .result-container {
     margin: 0;
   }
 
@@ -303,6 +319,7 @@ a:focus {
     display: block;
     margin: 10px 0;
   }
+
   .table-options-desktop {
     display: none;
   }
@@ -340,6 +357,7 @@ a:focus {
     position: relative;
     height: 275px;
   }
+
   #footer li {
     margin-left: 20px;
     padding: 20px 0;
