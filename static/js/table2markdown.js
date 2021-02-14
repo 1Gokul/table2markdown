@@ -12,6 +12,8 @@ $(document).ready(function () {
   $(".editing-key").hide(200, "linear");
   $(".undo").prop("disabled", true);
   $(".redo").prop("disabled", true);
+  $(".undo-redo-key").addClass('grey-out');
+
 
   // Makes the table editable. (from bootstable.js)
   $("#input-table").SetEditable({
@@ -152,7 +154,7 @@ $(document).ready(function () {
     $(
       ".column-menu > button,.row-menu > button,.text-menu > button"
     ).removeAttr("disabled");
-    $(".keyboard-nav > div").removeClass("grey-out");
+    $(".keyboard-nav > div").not('.undo-redo-key').removeClass("grey-out");
     // $(".cell-position > h4").remove();
     // $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
   }
