@@ -214,7 +214,18 @@ hr {
   max-height: 300px;
 }
 
-
+.credit-list{
+  padding-left: 50px;
+  list-style-type:disc;
+}
+.credit-list li a{
+  color: #84bdfd;
+}
+.credit-list li a:hover{
+  color: #276890;
+  transition: all 0.2s linear;
+  text-decoration: none;
+}
 
 .btn.disabled,
 .btn:disabled {

@@ -1,5 +1,4 @@
 import shutil
-import csv
 
 """
 Contains the functions that convert the provided HTML table, CSV table or Excel table into Markdown-style text.
