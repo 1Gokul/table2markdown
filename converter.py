@@ -75,7 +75,7 @@ def convert_table(inputData, convertType, fileID):
         resultTable += '\n'
 
     # Write the results to a file
-    write_result_to_file(resultTable, fileID)
+    write_result_to_file(resultTable, fileID, True)
 
     responseObject = {"resultTable": resultTable, "resultFileID": fileID}
 
@@ -122,17 +122,50 @@ def make_strikethrough(inp):
 
 # Writes the result to a file
 # Type is 'raw' or 'download'
-def write_result_to_file(resultFile, fileID):
+def write_result_to_file(resultFile, fileID, alsoWriteToMD=False):
 
     # Used to display the raw result.
     with open("tmp/Table2Markdown_" + fileID + '.txt', "w") as text_file:
         print(f"{resultFile}", file=text_file)
 
-    # If the user wishes to download, copy the contents of the .txt file to a .md file with the same ID.
-    shutil.copyfile("tmp/Table2Markdown_" + fileID + '.txt',
-                    "tmp/Table2Markdown_" + fileID + '.md')
+    if (alsoWriteToMD):
+        # If the user wishes to download, copy the contents of the .txt file to a .md file with the same ID.
+        shutil.copyfile("tmp/Table2Markdown_" + fileID + '.txt',
+                        "tmp/Table2Markdown_" + fileID + '.md')
 
 
 # Converts the passed CSV file into an HTML table.
 # This table will then be shown to the user for further editing.
-# def csv_to_html(inputFile, fileID):
+def csv_to_html(inputFile, fileID):
+
+    # Add the header
+    resultTable = '<thead><tr><th scope="col" style="width:10px">#</th>'
+
+    colCount = 1
+    for col in inputFile[0]:
+        resultTable += '<th scope="col">' + str(colCount) + '</th>'
+        colCount += 1
+
+    resultTable += '</tr></thead>'
+
+    # Add the body
+    resultTable += '<tbody>'
+
+    rowCount = 1
+    for row in inputFile:
+        resultTable += '<tr><th scope="row">' + str(rowCount) + '</th>'
+
+        for col in row:
+            resultTable += '<td>' + str(col) + '</td>'
+
+        resultTable += '</tr>'
+        rowCount += 1
+
+    resultTable += '</tbody>'
+
+    responseObject = {"resultFileID": fileID}
+
+    # Write the result into a .txt file
+    write_result_to_file(resultTable, fileID, False)
+
+    return responseObject

@@ -18,7 +18,7 @@ $(document).ready(function () {
                 send_alert("This file is larger than the 10MB limit! Please select a smaller one.", 'danger');
                 $("#submit-button").prop("disabled", true);
             } else {
-                if ($('.alert').length) send_alert("Nice, this one's valid!", "primary");
+                if ($('.alert').length) send_alert("Nice, this one's good to go!", "primary");
                 $("#submit-button").prop("disabled", false);
             }
         }
@@ -32,8 +32,14 @@ $(document).ready(function () {
 
     $('#submit-button').on('click', function () {
 
+        // Disable the submit button to prevent further submits
         $(this).prop("disabled", true).html('Converting...<i class="fas fa-circle-notch fa-spin ml-2"></i>');
-        $(".custom-file-input").prop("disabled", true);
+
+        // Get the user's decision on whether to convert directly or not
+        var convertOption = $('input[name=modify-or-not]:checked', '#csv-form').val();
+
+        // Disable the file inputs and radio buttons 
+        $(".custom-file-input, input[name=modify-or-not]").prop("disabled", true);
 
         var $file = $("#csvFile").prop('files')[0];
 
@@ -47,7 +53,7 @@ $(document).ready(function () {
         Papa.parse($file, {
             complete: function (results) {
                 console.log("Finished:", results.data);
-                submit_converted_csv(results.data);
+                submit_converted_csv(results.data, convertOption);
             }
 
         })
@@ -55,22 +61,34 @@ $(document).ready(function () {
 
     });
 
-    function submit_converted_csv(array) {
-        // Convert the array into JSON
-        var js_data = JSON.stringify(array);
+    function submit_converted_csv(array, convertOption) {
 
         $.ajax({
                 type: "POST",
                 url: Flask.url_for("convert_csv_file"),
-                data: js_data,
+                data: JSON.stringify({
+                    'data': array,
+                    'convertOption': convertOption
+                }),
                 processData: false,
-                contentType: "application/json",
-                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
             })
-            .done((response) => {
+            .done((responseObject) => {
                 $('#submit-button').html('Complete!');
-                console.log("Done!");
-                display_result_table(response);
+                if (convertOption === 'modify-false') {
+                    display_result_table(responseObject);
+                } else {
+
+                    var html = '<a href="' +
+                        Flask.url_for("insert_and_convert", {
+                            operation: "edit-csv",
+                            fileID: responseObject.resultFileID,
+                        }) +
+                        '" class="btn submit-download-link">Proceed to Edit<i class="fas fa-external-link-alt mx-2"></i></a>';
+
+                    $(html).insertAfter('#submit-button')
+                }
+
             })
             .fail((error) => {
                 console.log("Error during file convert: " + error);

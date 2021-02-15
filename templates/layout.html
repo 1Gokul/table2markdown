@@ -35,7 +35,7 @@
   <div id="wrap">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark py-3">
-      <a class="navbar-brand" href="{{ url_for('insert_and_convert') }}">
+      <a class="navbar-brand" href="{{ url_for('insert_and_convert', operation = 'insert') }}">
         <img src="{{ url_for('static', filename='img/table2markdown white full logo.png') }}">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -48,7 +48,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto mr-5">
           <li class="nav-item">
-            <a class="nav-link ml-5 mr-5 styled-link" href="{{ url_for('insert_and_convert') }}">
+            <a class="nav-link ml-5 mr-5 styled-link" href="{{ url_for('insert_and_convert', operation = 'insert') }}">
               Insert and Convert</a>
           </li>
           <li class="nav-item">

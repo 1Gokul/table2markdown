@@ -133,7 +133,7 @@ a.styled-link:hover,
 
 #submit-button {
   display: block;
-  margin: 100px auto;
+  margin: 50px auto 100px;
   border: none;
   font-size: x-large;
 }
@@ -194,7 +194,7 @@ td {
 }
 
 hr {
-  margin: 100px 0 50px;
+  margin: 100px 15px 50px;
   border: 2px solid white;
 }
 
@@ -245,6 +245,10 @@ hr {
   background: #243742;
 }
 
+.custom-file {
+  overflow: hidden;
+}
+
 .submit-download-link {
   display: block;
   margin: 10px;
@@ -261,6 +265,7 @@ hr {
   color: white;
   transition: background 0.2s linear;
 }
+
 
 /* Set the fixed height of the footer here */
 #push,

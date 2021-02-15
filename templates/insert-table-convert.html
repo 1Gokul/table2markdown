@@ -190,6 +190,10 @@
         <!-- Input table -->
         <div class="table-responsive">
             <table id="input-table" class="table table-editable table-striped table-bordered table-dark table-hover">
+
+                {% if shouldLoadTable == 'true' %}
+                {{ tableToLoad|safe }}
+                {% else %}
                 <thead>
                     <tr>
                         <th scope="col" style="width:10px">#</th>
@@ -218,6 +222,7 @@
                         <td></td>
                     </tr>
                 </tbody>
+                {% endif %}
             </table>
         </div>
     </div>
@@ -226,6 +231,13 @@
 {% endblock %}
 
 {% block after_script %}
+{% if shouldLoadTable %}
+<script type="text/javascript">
+    var shouldLoadTable = "{{ shouldLoadTable }}";
+    var fileID = "{{ fileID }}"
+</script>
+{% endif %}
+
 <script src="{{ url_for('static', filename='js/bootstable.js') }}"></script>
 <script src="{{ url_for('static', filename='js/insert-table-convert.js') }}"></script>
 

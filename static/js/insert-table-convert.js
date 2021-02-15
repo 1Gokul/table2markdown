@@ -241,6 +241,7 @@ $(document).ready(function () {
     $("#result-container").remove();
     $("#result-rule").remove();
 
+    console.log('{{ shouldLoadTable }}');
     // Display the result
     var html =
       '<hr id="result-rule" size="2" width="100%" align="center" noshade>';
@@ -464,9 +465,26 @@ $(document).ready(function () {
     // Convert the array into JSON
     var js_data = JSON.stringify(resultArray);
 
+
+
+    // If the current table is from an uploaded csv file, use the same fileID as the filenames of the result files.
+    var op = "none",
+      fID = "none";
+
+    if(shouldLoadTable === 'true'){
+      op = 'edit-csv';
+      fID = fileID;
+    }
+    else{
+      op = 'insert';
+    }
+
+    // Send to the view function
     $.ajax({
         type: "POST",
-        url: Flask.url_for("insert_and_convert"),
+        url: Flask.url_for("insert_and_convert", {
+          "operation": op, "fileID": fID
+        }),
         data: js_data,
         processData: false,
         contentType: "application/json",
