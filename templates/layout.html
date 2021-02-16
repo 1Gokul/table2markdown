@@ -41,7 +41,7 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon">
-          <i class="fas fa-bars fa-2x" style="color: white" aria-hidden="true"></i>
+          <!-- <i class="fas fa-bars" style="color: white" aria-hidden="true"></i> -->
         </span>
       </button>
 
@@ -107,6 +107,17 @@
         return false;
       }
     });
+
+    $(".navbar-toggler").on('click', function () {
+
+      if ($('#navbarSupportedContent').hasClass('navbar-collapse collapse show')) {
+        $(".navbar-dark .navbar-toggler-icon").removeClass('navbar-toggler-clicked');
+      }
+      else if($('#navbarSupportedContent').hasClass('navbar-collapse collapse')){
+        $(".navbar-dark .navbar-toggler-icon").addClass('navbar-toggler-clicked');
+      }
+
+    })
 
   </script>
   {% block after_script %}

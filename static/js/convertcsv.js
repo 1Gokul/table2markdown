@@ -27,37 +27,43 @@ $(document).ready(function () {
 
     function send_alert(message, type) {
         $(".alert").remove();
-        $('<div class="alert alert-' + type + '" role="alert">' + message + '</div>').insertBefore(".custom-file");
+        $('<div type="hidden" class="alert alert-' + type + '" role="alert">' + message + '</div>').insertBefore(".custom-file").hide();
+        $(".alert").fadeIn(400);
     }
 
     $('#submit-button').on('click', function () {
 
-        // Disable the submit button to prevent further submits
-        $(this).prop("disabled", true).html('Converting...<i class="fas fa-circle-notch fa-spin ml-2"></i>');
+
 
         // Get the user's decision on whether to convert directly or not
         var convertOption = $('input[name=modify-or-not]:checked', '#csv-form').val();
+        if (convertOption) {
+            // Disable the submit button to prevent further submits
+            $(this).prop("disabled", true).html('Converting...<i class="fas fa-circle-notch fa-spin ml-2"></i>');
+            // Disable the file inputs and radio buttons 
+            $(".custom-file-input, input[name=modify-or-not]").prop("disabled", true);
 
-        // Disable the file inputs and radio buttons 
-        $(".custom-file-input, input[name=modify-or-not]").prop("disabled", true);
-
-        var $file = $("#csvFile").prop('files')[0];
+            var $file = $("#csvFile").prop('files')[0];
 
 
-        // $('#csvFile').parse({
-        //     complete: function(results, file) {
-        //         console.log("Parsing complete:", results, file);
-        //     }
-        // })
+            // $('#csvFile').parse({
+            //     complete: function(results, file) {
+            //         console.log("Parsing complete:", results, file);
+            //     }
+            // })
 
-        Papa.parse($file, {
-            complete: function (results) {
-                console.log("Finished:", results.data);
-                submit_converted_csv(results.data, convertOption);
-            }
+            Papa.parse($file, {
+                complete: function (results) {
+                    console.log("Finished:", results.data);
+                    submit_converted_csv(results.data, convertOption);
+                }
 
-        })
+            })
 
+        } else {
+            send_alert("Kindly select one of the options below.", 'danger');
+            $(".form-check-label").addClass("border-bottom border-danger");
+        }
 
     });
 

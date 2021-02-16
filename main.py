@@ -25,7 +25,7 @@ def insert_and_convert(operation, fileID):
 
         resultFileID = ''
 
-        # If the table submitted has been made from scratch
+        # If the table submitted has been made 4from scratch
         if (operation == 'insert'):
             # Generate an unique filename of the result.
             resultFileID = str(shortuuid.uuid())
@@ -50,7 +50,7 @@ def insert_and_convert(operation, fileID):
             fileToDisplay = open("tmp/Table2Markdown_" + fileID + '.txt', "r")
 
             return render_template('insert-table-convert.html',
-                                   title="Insert and Convert",
+                                   title="Edit Uploaded CSV",
                                    shouldLoadTable='true',
                                    tableToLoad=fileToDisplay.read(),
                                    fileID=fileID)
