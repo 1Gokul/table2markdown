@@ -89,6 +89,15 @@ body {
   color: #c8e0fc;
 }
 
+.data-insert-cell {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 2px solid wheat;
+  width: 20px;
+  color: whitesmoke;
+}
+
 .grey-out {
   color: gray !important;
   transition: color 0.2s linear;

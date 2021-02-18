@@ -6,7 +6,7 @@ $(document).ready(function () {
     IsEditing = false;
 
   // Hide the Accept and Cancel buttons. These buttons appear only when a cell is being edited.
-  deselect_cell();
+  move_selected_cell();
   $(".card-body").find(".bAcep").hide(200, "linear");
   $(".card-body").find(".bCanc").hide(200, "linear");
   $(".editing-key").hide(200, "linear");
@@ -149,6 +149,7 @@ $(document).ready(function () {
           if (found === true) return false;
         });
       }
+
     }
 
     $(
@@ -275,18 +276,14 @@ $(document).ready(function () {
   $(document).on("click", "#input-table > tbody > tr > td", function (el) {
     // row was clicked
 
-    if (!IsEditing) {
-      if (selectedCell == el.target) {
-        deselect_cell();
-      } else {
-        // Remove the highlight of the previously selected cell
-        $(selectedCell).removeClass("selectedCell");
-
-        // Assign the new cell
-        selectedCell = el.target;
-        select_cell();
-      }
+    if (!IsEditing && selectedCell != el.target) {
+      // Remove the highlight of the previously selected cell
+      $(selectedCell).removeClass("selectedCell");
+      // Assign the new cell
+      selectedCell = el.target;
+      select_cell();
     }
+
   });
 
   // Custom function to add a row above the clicked button's row.
@@ -314,12 +311,14 @@ $(document).ready(function () {
       // Unhide the Elim, Edit and AddRowUp buttons.
       $(".bElim, .bEdit, .bAddRowUp").show(200, "linear");
 
-      $(".normal-keys li").each(function () {
-        $(this).show(200, "linear");
-      });
+      $(".keyboard-nav > div").show(200, "linear");
+      $(".editing-key").hide(200, "linear");
 
       // Enable the generate-table button.
       $(".generate-table-button > button").prop("disabled", false);
+
+      // Select the first cell in the table
+      move_selected_cell("down");
     }
 
     // Else add the row below the current one
@@ -360,6 +359,8 @@ $(document).ready(function () {
   }
 
   function add_column_right() {
+
+    // If there are no columns currently
     if ($("#input-table > thead > tr > th").length === 1) {
       // Append a column header with the value 1
       $("#input-table > thead > tr").append('<th scope="col">' + 1 + "</th>");
@@ -372,14 +373,14 @@ $(document).ready(function () {
       // Now that there is one column, unhide the AddColumnLeft, DeleteColumn buttons.
       $(".bAddColumnLeft, .bDeleteColumn").show(200, "linear");
 
-      $(".normal-keys li").each(function () {
-        $(this).show(200, "linear");
-      });
+      $(".keyboard-nav > div").show(200, "linear");
+      $(".editing-key").hide(200, "linear");
 
       // Enable the generate-table button
       $(".generate-table-button > button").prop("disabled", false);
 
-      deselect_cell();
+      // Select the first cell in the table
+      move_selected_cell("right");
     }
 
     // else if there were columns
@@ -416,7 +417,7 @@ $(document).ready(function () {
     ).attr("disabled", "disabled", "disabled");
 
     // Keyboard keys
-    $(".keyboard-nav > div").not(".editing-key").hide(200, "linear");
+    $(".keyboard-nav > div").hide(200, "linear");
     $(".editing-key").show(200, "linear");
 
     rowEdit(selectedCell);
@@ -471,11 +472,10 @@ $(document).ready(function () {
     var op = "none",
       fID = "none";
 
-    if(shouldLoadTable === 'true'){
+    if (shouldLoadTable === 'true') {
       op = 'edit-csv';
       fID = fileID;
-    }
-    else{
+    } else {
       op = 'insert';
     }
 
@@ -483,7 +483,8 @@ $(document).ready(function () {
     $.ajax({
         type: "POST",
         url: Flask.url_for("insert_and_convert", {
-          "operation": op, "fileID": fID
+          "operation": op,
+          "fileID": fID
         }),
         data: js_data,
         processData: false,
@@ -536,18 +537,13 @@ $(document).ready(function () {
     // If there are no rows left,
     // Hide the edit, delete and add row buttons.
     if ($("#input-table > tbody > tr").length <= 0) {
+      deselect_cell();
       $(".bElim, .bEdit, .bAddRowUp").hide(200, "linear");
       $(".row-menu > button").removeAttr("disabled");
       $(".generate-table-button > button").prop("disabled", true);
 
-      $(".normal-keys li").each(function () {
-        console.log($(this).text());
-        if ($(this).text() != "XAdd Row Below") {
-          $(this).hide(200, "linear");
-        }
-      });
-      $(".normal-keys li, .normal-keys b").removeClass("grey-out");
-      deselect_cell();
+      hide_all_keys_but('T', "Add Row Below");
+      $(".keyboard-nav > div").removeClass("grey-out");
     }
 
     // Else if there are rows left, select the closest cell.
@@ -569,6 +565,21 @@ $(document).ready(function () {
     IsEditing = false;
   }
 
+  function hide_all_keys_but(keyNames, keyDescriptions) {
+    $(".keyboard-nav .key-description").each(function () {
+      console.log($(this).text());
+      if (keyDescriptions.indexOf($(this).text()) === -1) {
+        $(this).hide(200, "linear");
+      }
+    });
+
+    $(".keyboard-nav .key-name").each(function () {
+      console.log($(this).text());
+      if (keyNames.indexOf($(this).text()) === -1) {
+        $(this).hide(200, "linear");
+      }
+    });
+  }
   // Deletes the selectedCell's column
   function delete_column() {
     $("#input-table thead tr th").each(function (colIndex, el) {
@@ -593,16 +604,11 @@ $(document).ready(function () {
     if ($("#input-table > thead > tr > th").length === 1) {
       deselect_cell();
       $(".bAddColumnLeft, .bDeleteColumn").hide(200, "linear");
-      $(".column-menu > button").removeAttr("disabled");
       $(".generate-table-button > button").prop("disabled", true);
+      $(".column-menu > button").removeAttr("disabled");
 
-      $(".normal-keys li").each(function () {
-        console.log($(this).text());
-        if ($(this).text() != "XAdd Col Right") {
-          $(this).hide(200, "linear");
-        }
-      });
-      $(".normal-keys li, .normal-keys b").removeClass("grey-out");
+      hide_all_keys_but('X', 'Add Col Right');
+      $(".keyboard-nav > div").removeClass("grey-out");
     }
     // Else if there are columns left,  select the closest cell.
     else {
@@ -690,9 +696,6 @@ $(document).ready(function () {
           case "KeyZ":
             add_column_left();
             break;
-          case "KeyX":
-            add_column_right();
-            break;
           case "KeyC":
             delete_column();
             break;
@@ -702,37 +705,31 @@ $(document).ready(function () {
           case "KeyR":
             add_row_up();
             break;
-          case "KeyT":
-            add_row_down();
-            break;
           case "KeyY":
             delete_row();
             break;
           case "KeyG":
             generate_table();
             break;
+          case "KeyX":
+            add_column_right();
+            break;
+          case "KeyT":
+            add_row_down();
+            break;
           default:
             break;
         }
       } else {
         switch (event.code) {
-          case "KeyW":
-            move_selected_cell("up");
-            break;
-          case "KeyA":
-            move_selected_cell("left");
-            break;
-          case "KeyS":
-            move_selected_cell("down");
-            break;
-          case "KeyD":
-            move_selected_cell("right");
-            break;
-          case "KeyU":
-            move_selected_cell("right");
-            break;
           case "KeyG":
             generate_table();
+            break;
+          case "KeyX":
+            add_column_right();
+            break;
+          case "KeyT":
+            add_row_down();
             break;
           default:
             break;
