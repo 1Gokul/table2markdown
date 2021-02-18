@@ -12,9 +12,10 @@ $(document).ready(function () {
   $(".editing-key").hide(200, "linear");
   $(".undo").prop("disabled", true);
   $(".redo").prop("disabled", true);
-  $(".undo-redo-key").addClass('grey-out');
+  $(".redo-key, .undo-key").addClass('grey-out');
 
-
+  var actionHistory = [$('#input-table').html()],
+    historyPosition = 0;
   // Makes the table editable. (from bootstable.js)
   $("#input-table").SetEditable({
     // Execute when a row is added
@@ -137,7 +138,7 @@ $(document).ready(function () {
                 if (colIndex + 1 === selectedCellX) {
                   if ($(cell).length) {
                     selectedCell = cell;
-                    console.log("[" + (rowIndex + 1) + "][" + (colIndex + 1) + "]");
+                    //.log("[" + (rowIndex + 1) + "][" + (colIndex + 1) + "]");
                     select_cell();
                     found = true;
                     return false;
@@ -155,7 +156,7 @@ $(document).ready(function () {
     $(
       ".column-menu > button,.row-menu > button,.text-menu > button"
     ).removeAttr("disabled");
-    $(".keyboard-nav > div").not('.undo-redo-key').removeClass("grey-out");
+    $(".keyboard-nav > div").not('.undo-key, .redo-key').removeClass("grey-out");
     // $(".cell-position > h4").remove();
     // $(".cell-position").append('<h4>[' + selectedCellX + '][' + selectedCellY + ']</h4>');
   }
@@ -242,7 +243,7 @@ $(document).ready(function () {
     $("#result-container").remove();
     $("#result-rule").remove();
 
-    console.log('{{ shouldLoadTable }}');
+    //console.log('{{ shouldLoadTable }}');
     // Display the result
     var html =
       '<hr id="result-rule" size="2" width="100%" align="center" noshade>';
@@ -297,6 +298,9 @@ $(document).ready(function () {
 
     // Update the new position of the selected cell.
     select_cell();
+
+    // Add to the user's history of actions. Will be used for undoing and redoing actions.
+    add_to_history();
   }
 
   // Custom function to add a row below the clicked button's row.
@@ -330,6 +334,8 @@ $(document).ready(function () {
 
     // Update the new position of the selected cell.
     select_cell();
+    // Add to the user's history of actions. Will be used for undoing and redoing actions.
+    add_to_history();
   }
 
   // Adds a column to the left of the current column.
@@ -356,6 +362,8 @@ $(document).ready(function () {
 
     // Update the new position of the selected cell.
     select_cell();
+    // Add to the user's history of actions. Will be used for undoing and redoing actions.
+    add_to_history();
   }
 
   function add_column_right() {
@@ -408,6 +416,8 @@ $(document).ready(function () {
     }
 
     set_table_column_numbers();
+    // Add to the user's history of actions. Will be used for undoing and redoing actions.
+    add_to_history();
   }
 
   function edit_row() {
@@ -423,7 +433,7 @@ $(document).ready(function () {
     rowEdit(selectedCell);
 
     // Focus on the text boxes created
-    $('.data-insert-cell').first().focus();
+    $(selectedCell).find('input').focus();
   }
 
   function accept_changes() {
@@ -437,6 +447,8 @@ $(document).ready(function () {
     $(".editing-key").hide(200, "linear");
 
     IsEditing = false;
+    // Add to the user's history of actions. Will be used for undoing and redoing actions.
+    add_to_history();
   }
 
   // Generates the table with the current data
@@ -519,6 +531,8 @@ $(document).ready(function () {
       var newContents = "<i>" + currentContents + "</i>";
       $(selectedCell).html(newContents);
     }
+    // Add to the user's history of actions. Will be used for undoing and redoing actions.
+    add_to_history();
   }
 
   // Makes the text in the selectedCell bold.
@@ -529,6 +543,8 @@ $(document).ready(function () {
       var newContents = "<b>" + currentContents + "</b>";
       $(selectedCell).html(newContents);
     }
+    // Add to the user's history of actions. Will be used for undoing and redoing actions.
+    add_to_history();
   }
 
   function delete_row() {
@@ -550,6 +566,8 @@ $(document).ready(function () {
     else {
       select_cell("row");
     }
+    // Add to the user's history of actions. Will be used for undoing and redoing actions.
+    add_to_history();
   }
 
   function cancel_changes() {
@@ -567,14 +585,14 @@ $(document).ready(function () {
 
   function hide_all_keys_but(keyNames, keyDescriptions) {
     $(".keyboard-nav .key-description").each(function () {
-      console.log($(this).text());
+      //console.log($(this).text());
       if (keyDescriptions.indexOf($(this).text()) === -1) {
         $(this).hide(200, "linear");
       }
     });
 
     $(".keyboard-nav .key-name").each(function () {
-      console.log($(this).text());
+      // console.log($(this).text());
       if (keyNames.indexOf($(this).text()) === -1) {
         $(this).hide(200, "linear");
       }
@@ -622,6 +640,10 @@ $(document).ready(function () {
 
 
 
+
+
+  $(document).on("click", ".undo", undo_action);
+  $(document).on("click", ".redo", redo_action);
 
 
   $(document).on("click", ".bAddRowUp", add_row_up);
@@ -750,7 +772,76 @@ $(document).ready(function () {
     }
   });
 
+  function add_to_history() {
 
+    // If the maximum number of history entries have been saved, remove the oldest entry.
+    if (actionHistory.length === 10) {
+      actionHistory.shift();
+    }
+
+    // Save the current state of the array
+    actionHistory.push($('#input-table').html());
+    historyPosition = actionHistory.length - 1;
+
+    console.log("historyPosition " + historyPosition);
+
+    if ($('.undo').prop('disabled')) {
+      $('.undo').prop('disabled', false);
+      $('.undo-key').removeClass('grey-out');
+    }
+  }
+
+  function undo_action() {
+
+    // If there is history that can be shown to the user
+    if (historyPosition > 0) {
+      // Replace the html inside the table with the next history entry.
+      $('#input-table').html('').append(actionHistory[historyPosition - 1]);
+
+      historyPosition -= 1;
+
+      // If there is no more history left to be shown (i.e. if the user has reached the beginning of the actionHistory array)
+      // disable the undo button.
+      if (historyPosition === 0) {
+        $('.undo').prop('disabled', true);
+        $('.undo-key').addClass('grey-out');
+      }
+
+
+      if ($('.redo').prop('disabled')) {
+        $('.redo').prop('disabled', false);
+        $('.redo-key').removeClass('grey-out');
+      }
+    }
+    console.log("historyPosition " + historyPosition);
+
+  }
+
+  function redo_action() {
+
+    // If there is history that can be shown to the user
+    if (historyPosition < actionHistory.length - 1) {
+      // Replace the html inside the table with the next history entry.
+      $('#input-table').html('').append(actionHistory[historyPosition + 1]);
+
+      historyPosition += 1;
+
+      // If there is no more history left to be shown (i.e. if the user has reached the beginning of the actionHistory array)
+      // disable the undo button.
+      if (historyPosition === actionHistory.length - 1) {
+        $('.redo').prop('disabled', true);
+        $('.redo-key').addClass('grey-out');
+      }
+
+      if ($('.undo').prop('disabled')) {
+        $('.undo').prop('disabled', false);
+        $('.undo-key').removeClass('grey-out');
+      }
+
+    }
+    console.log("historyPosition " + historyPosition);
+
+  }
 
 
 });
