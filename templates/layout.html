@@ -100,6 +100,10 @@
     crossorigin="anonymous"></script>
 
   <script>
+    // consoleGreeting
+    let consoleGreeting = "╰(*°▽°*)╯ Hello there and welcome to the console! \\(★ω★)/\nYou will mostly see some debug texts being displayed occasionally.";
+    console.log(consoleGreeting);
+
     // Find the title of the page and set the matching link in the navbar as active.
     $(".navbar-nav .nav-item").each(function () {
       if ($(this).text().trim() === "{{ title }}") {
@@ -113,7 +117,7 @@
       if ($('#navbarSupportedContent').hasClass('navbar-collapse collapse show')) {
         $(".navbar-dark .navbar-toggler-icon").removeClass('navbar-toggler-clicked');
       }
-      else if($('#navbarSupportedContent').hasClass('navbar-collapse collapse')){
+      else if ($('#navbarSupportedContent').hasClass('navbar-collapse collapse')) {
         $(".navbar-dark .navbar-toggler-icon").addClass('navbar-toggler-clicked');
       }
 

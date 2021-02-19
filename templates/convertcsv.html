@@ -3,35 +3,36 @@
 
 {% block body %}
 <div class="csv-upload-container">
-<div class="big-page-title">Upload your CSV file below.</div>
-<p class="lead">
-  Maximum size for uploads is 10MB.
-</p>
+  <div class="big-page-title">Upload your CSV file below.</div>
+  <p class="lead">
+    Maximum size for uploads is 10MB.
+  </p>
 
- <!-- enctype=multipart/form-data action="{{ url_for('convert_csv_file') }}" method="POST" -->
-<form id="csv-form">
-  <div class="custom-file mb-4">
-    <input type="file" name='file' class="custom-file-input" id="csvFile" required />
-    <label class="custom-file-label" for="csvFile">No file selected.</label>
-  </div>
+  <!-- enctype=multipart/form-data action="{{ url_for('convert_csv_file') }}" method="POST" -->
+  <form id="csv-form">
+    <div class="custom-file mb-4">
+      <input type="file" name='file' class="custom-file-input" id="csvFile" required />
+      <label class="custom-file-label" for="csvFile">No file selected.</label>
+    </div>
 
-  <div class="form-check mb-1">
-    <input class="form-check-input" type="radio" name="modify-or-not" id="modify-true" value="modify-true" required/>
-    <label class="form-check-label" for="modify-true">
-      I want to modify the contents of my uploaded file before converting it.
-    </label>
-  </div>
-  <div class="form-check mb-1">
-    <input class="form-check-input" type="radio" name="modify-or-not" id="modify-false" value="modify-false" required/>
-    <label class="form-check-label" for="modify-false">
-      I don't have to modify anything in my file.
-    </label>
-  </div>
+    <div class="form-check mb-1">
+      <input class="form-check-input" type="radio" name="modify-or-not" id="modify-true" value="modify-true" required />
+      <label class="form-check-label" for="modify-true">
+        I want to modify the contents of my uploaded file before converting it.
+      </label>
+    </div>
+    <div class="form-check mb-1">
+      <input class="form-check-input" type="radio" name="modify-or-not" id="modify-false" value="modify-false"
+        required />
+      <label class="form-check-label" for="modify-false">
+        I don't have to modify anything in my file.
+      </label>
+    </div>
 
-  
 
-  <button type="button" class="btn submit-download-link" id="submit-button" disabled>Submit</button>
-</form>
+
+    <button type="button" class="btn submit-download-link" id="submit-button" disabled>Submit</button>
+  </form>
 </div>
 {% endblock %}
 
