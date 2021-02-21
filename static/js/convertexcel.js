@@ -13,7 +13,7 @@ $(document).ready(function () {
             $('#excel-generate-button').prop('disabled', true);
 
             $(".alert, .converting-notif").remove();
-            $('<span class="lead mx-lg-3 mx-sm-auto my-2">Converting...<i class="fas fa-circle-notch fa-spin ml-2"></i></span>').appendTo(".error-message-box").hide().fadeIn(300);
+            $('<span class="lead mx-lg-3 float-lg-right mx-sm-auto my-2">Converting...<i class="fas fa-circle-notch fa-spin ml-2"></i></span>').appendTo(".error-message-box").hide().fadeIn(300);
 
             // data = JSON.stringify($('#input-excel').val());
             // $.ajax({
