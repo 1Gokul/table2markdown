@@ -79,6 +79,29 @@ def convert_csv_file():
     else:
         return render_template('convertcsv.html', title="Convert CSV")
 
+@app.route('/convert-excel-table', methods=['GET', 'POST'])
+def convert_excel_table():
+    if (request.method == 'POST'):
+
+        # The unique filename of the result.
+        resultFileID = str(shortuuid.uuid())
+
+        # If the user wishes to only convert the table
+        if request.json['convertOption'] == 'modify-false':
+            # Calls the convert-table function in converter.py, but to convert from csv
+            responseObject = converter.convert_table(request.json['data'],
+                                                     'c2m', resultFileID)
+
+        # else if they wish to modify their table before converting
+        elif request.json['convertOption'] == 'modify-true':
+            responseObject = converter.csv_to_html(request.json['data'],
+                                                   resultFileID)
+
+        return responseObject
+
+    else:
+        return render_template('convertexcel.html', title="Convert Excel")
+
 
 @app.route('/get-table/<viewType>/<path:fileID>')
 def get_table(viewType, fileID):

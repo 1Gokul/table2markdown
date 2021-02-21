@@ -95,8 +95,24 @@ body {
   outline: 0;
   background: transparent;
   border-bottom: 2px solid wheat;
-  width: 20px;
   color: whitesmoke;
+}
+
+.data-insert-cell:focus{
+  background: transparent;
+  box-shadow: 0 0 5px 5px #84bdfd;
+  color: whitesmoke;
+}
+
+#input-excel{
+  width: 100%;
+  height: 400px;
+  overflow: auto;
+  padding: 10px;
+  border: none;
+  background: #243742;
+  color: whitesmoke;
+  resize: none;
 }
 
 .grey-out {
@@ -153,7 +169,6 @@ a.styled-link:hover,
 }
 
 #submit-button {
-  display: block;
   margin: 50px auto 100px;
   border: none;
   font-size: x-large;
@@ -222,6 +237,19 @@ hr {
 .result-container {
   margin: 0 15px;
 }
+
+.warnings-submit-row{
+  display: grid;
+  grid-template-columns: 1fr .1fr;
+  column-gap: 20px;
+  margin: 20px 0;
+}
+
+#excel-generate-button{
+  margin: 0;
+  padding: 10px 50px;
+}
+
 
 .result-box {
   display: grid;
@@ -388,6 +416,21 @@ a:focus {
 
   .result-box {
     grid-template-columns: 1fr;
+  }
+
+  #input-excel{
+    width: 100%;
+    height: 300px;
+    margin: 0;
+  }
+
+  .warnings-submit-row{
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+  }
+
+  #excel-generate-button{
+    margin: 10px auto;
   }
 
   .undo-redo-menu {

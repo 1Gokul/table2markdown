@@ -24,7 +24,7 @@ def convert_table(inputData, convertType, fileID):
     # Add the hyphens below to make the header
     resultTable += '|'
     for i in range(len(inputData[0])):
-        resultTable += ' :'
+        resultTable += ' '
 
         # The number of hyphens to add
         currentColLength = len(inputData[0][i])
@@ -56,7 +56,7 @@ def convert_table(inputData, convertType, fileID):
         for j in range(currentColLength):
             resultTable += '-'
 
-        resultTable += ': |'
+        resultTable += ' |'
 
     resultTable += '\n'
 

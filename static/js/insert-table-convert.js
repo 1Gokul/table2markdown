@@ -8,11 +8,8 @@ $(document).ready(function () {
 
 	// Hide the Accept and Cancel buttons. These buttons appear only when a cell is being edited.
 	move_selected_cell();
-	$(".card-body").find(".bAcep").hide(200, "linear");
-	$(".card-body").find(".bCanc").hide(200, "linear");
-	$(".editing-key").hide(200, "linear");
-	$(".undo").prop("disabled", true);
-	$(".redo").prop("disabled", true);
+	$(".bAcep, .bCanc, .editing-key").hide(200, "linear");
+	$(".undo, .redo").prop("disabled", true);
 	$(".redo-key, .undo-key").addClass('grey-out');
 
 	var actionHistory = [$('#input-table').html()],
