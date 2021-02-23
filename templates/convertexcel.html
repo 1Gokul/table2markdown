@@ -3,14 +3,17 @@
 
 {% block body %}
 <div class="excel-paste-container">
-  <div class="big-page-title">Paste your Excel table below.</div>
-  <textarea type="text" id="input-excel" name="input-excel"></textarea>
-  <div class="warnings-submit-row">
-  <div class="error-message-box"></div>
-  <div>
-  <button type="button" class="btn submit-download-link" id="excel-generate-button">Generate</button>
-  </div>
-  </div>
+    <div class="big-page-title">Paste your Excel table below.</div>
+    <div class="lead">Make sure the cursor is on the same line as the last row of your table.
+        <br>If it is not, a new row will be created unnecessarily.
+    </div>
+    <textarea type="text" id="input-excel" name="input-excel"></textarea>
+    <div class="warnings-submit-row">
+        <div class="error-message-box"></div>
+        <div>
+            <button type="button" class="btn submit-download-link" id="excel-generate-button">Generate</button>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

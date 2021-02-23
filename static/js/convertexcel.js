@@ -9,45 +9,36 @@ $(document).ready(function () {
     $('#excel-generate-button').on('click', function () {
 
         if ($('#input-excel').val().length) {
-
             $('#excel-generate-button').prop('disabled', true);
 
             $(".alert, .converting-notif").remove();
-            $('<span class="lead mx-lg-3 float-lg-right mx-sm-auto my-2">Converting...<i class="fas fa-circle-notch fa-spin ml-2"></i></span>').appendTo(".error-message-box").hide().fadeIn(300);
+            $('<span class="lead mx-lg-3 float-lg-right mx-sm-auto my-2 converting-notif">Converting...<i class="fas fa-circle-notch fa-spin ml-2"></i></span>').appendTo(".error-message-box").hide().fadeIn(300);
 
-            // data = JSON.stringify($('#input-excel').val());
-            // $.ajax({
-            //     type: "POST",
-            //     url: Flask.url_for("convert_excel_table"),
-            //     data: data,
-            //     processData: false,
-            //     contentType: "application/json;charset=UTF-8",   
-            // })
-            // .done((responseObject) => {
+            let data = JSON.stringify($('#input-excel').val());
+            $.ajax({
+                    type: "POST",
+                    url: Flask.url_for("convert_excel_table"),
+                    data: data,
+                    processData: false,
+                    contentType: "application/json;charset=UTF-8",
+                })
+                .done((responseObject) => {
 
-            //     if (convertOption === 'modify-false') {
-            //         display_result_table(responseObject);
-            //     } else {
+                    $('#excel-generate-button').prop('disabled', false);
+                    $(".converting-notif").remove();
+                    $('<span class="lead mx-lg-3 float-lg-right mx-sm-auto my-2 converting-notif">Complete!<i class="far fa-check-circle ml-2"></i></span>').appendTo(".error-message-box").hide().fadeIn(300);
 
-            //         var html = '<a href="' +
-            //             Flask.url_for("insert_and_convert", {
-            //                 operation: "edit-csv",
-            //                 fileID: responseObject.resultFileID,
-            //             }) +
-            //             '" class="btn submit-download-link">Proceed to Edit<i class="fas fa-external-link-alt mx-2"></i></a>';
 
-            //         $(html).insertAfter('#submit-button')
-            //     }
+                    display_result_table(responseObject);
 
-            // })
-            // .fail((error) => {
-            //     console.log("Error during file convert: " + error);
-            // });
+                })
+                .fail((error) => {
+                    console.log("Error during file convert: " + error);
+                });
         } else {
             $(".alert, .converting-notif").remove();
-            $('<div class="alert alert-danger my-0" role="alert">Kindly paste the Excel table first.</div>').appendTo(".error-message-box").hide().fadeIn(300);
+            $('<div class="alert alert-danger my-0" role="alert">Kindly paste an Excel table.</div>').appendTo(".error-message-box").hide().fadeIn(300);
 
-            console.log('abe kuchto daal textarea me');
         }
 
     });
@@ -82,7 +73,7 @@ $(document).ready(function () {
             }) +
             '" class="btn submit-download-link">Download</a></div></div></div>';
 
-        $(html).insertAfter(".csv-upload-container");
+        $(html).insertAfter(".excel-paste-container");
 
         window.scrollTo(0, $("hr").offset().top);
     }

@@ -80,7 +80,7 @@ $(document).ready(function () {
                 contentType: "application/json;charset=UTF-8",
             })
             .done((responseObject) => {
-                $('#submit-button').html('Complete!');
+                $('#submit-button').html('Complete!<i class="far fa-check-circle ml-2">');
                 if (convertOption === 'modify-false') {
                     display_result_table(responseObject);
                 } else {

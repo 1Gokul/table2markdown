@@ -169,3 +169,43 @@ def csv_to_html(inputFile, fileID):
     write_result_to_file(resultTable, fileID, False)
 
     return responseObject
+
+
+# Parses the passed excel table and puts the content into an array.
+# The array is then passed to the convert_table() function.
+def convert_excel(inputTable, fileID):
+
+    # resultTable = '|'
+    # currentCell = ''
+    # rowIndex = 0
+
+    # # for cell in inputTable:
+    # #     headerRow += ' '
+    # #     if cell == '\n':
+    # #         break
+    # #     elif cell == '\t':
+    # #         headerRow += ' |'
+    # #     else:
+    # #         for i in len(cell):
+    # #             headerRow += ''
+
+    # for cell in inputTable:
+
+    #     if cell == "\t":
+    #         print("Found Blank")
+    #         print(currentCell)
+    #         currentCell = ''
+    #     elif cell == '\n':
+    #         print("Found newline")
+    #     else:
+    #         currentCell += cell
+    resultTable = []
+    rows = inputTable.split('\n')
+
+    for col in rows:
+        cells = col.split('\t')
+        resultTable.append(cells)
+
+    responseObject = convert_table(resultTable, 'c2m', fileID)
+
+    return responseObject
