@@ -3,11 +3,11 @@
 
 {% block body %}
 <div class="excel-paste-container">
-    <div class="big-page-title">Paste your Excel table below.</div>
+    <div class="big-page-title my-3">Excel to Markdown</div>
     <div class="lead">Make sure the cursor is on the same line as the last row of your table.
         <br>If it is not, a new row will be created unnecessarily.
     </div>
-    <textarea type="text" id="input-excel" name="input-excel"></textarea>
+    <textarea type="text" id="input-excel" name="input-excel" placeholder="Paste your Excel table here!"></textarea>
     <div class="warnings-submit-row">
         <div class="error-message-box"></div>
         <div>
@@ -19,5 +19,5 @@
 
 
 {% block after_script %}
-<script src="{{ url_for('static', filename='js/convertexcel.js') }}"></script>
+<script src="{{ url_for('static', filename='js/convertexcel.min.js') }}"></script>
 {% endblock %}

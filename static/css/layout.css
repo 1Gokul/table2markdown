@@ -22,7 +22,6 @@ body {
 .big-page-title {
     font-size: 50px;
     font-weight: bold;
-    margin: 10px 0;
 }
 
 .undo-redo-menu {
@@ -105,7 +104,7 @@ body {
 }
 
 #input-excel {
-    margin: 10px 0; 
+    margin: 10px 0;
     width: 100%;
     height: 400px;
     overflow: auto;
@@ -409,6 +408,10 @@ a:focus {
     td,
     th {
         min-width: 75px;
+    }
+
+    .big-page-title {
+        line-height: 0%;
     }
 
     .result-box {

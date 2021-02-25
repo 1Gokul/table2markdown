@@ -75,7 +75,7 @@ def convert_table(inputData, convertType, fileID):
         resultTable += '\n'
 
     # Write the results to a file
-    write_result_to_file(resultTable, fileID, True)
+    write_result_to_file(resultTable, fileID, alsoWriteToMD=True)
 
     responseObject = {"resultTable": resultTable, "resultFileID": fileID}
 
@@ -122,16 +122,21 @@ def make_strikethrough(inp):
 
 # Writes the result to a file
 # Type is 'raw' or 'download'
-def write_result_to_file(resultFile, fileID, alsoWriteToMD=False):
+def write_result_to_file(resultFile,
+                         fileID,
+                         filenameSuffix='',
+                         alsoWriteToMD=False):
 
     # Used to display the raw result.
-    with open("tmp/Table2Markdown_" + fileID + '.txt', "w") as text_file:
+    with open("tmp/Table2Markdown_" + fileID + filenameSuffix + '.txt',
+              "w") as text_file:
         print(f"{resultFile}", file=text_file)
 
     if (alsoWriteToMD):
         # If the user wishes to download, copy the contents of the .txt file to a .md file with the same ID.
-        shutil.copyfile("tmp/Table2Markdown_" + fileID + '.txt',
-                        "tmp/Table2Markdown_" + fileID + '.md')
+        shutil.copyfile(
+            "tmp/Table2Markdown_" + fileID + filenameSuffix + '.txt',
+            "tmp/Table2Markdown_" + fileID + filenameSuffix + '.md')
 
 
 # Converts the passed CSV file into an HTML table.
@@ -166,7 +171,7 @@ def csv_to_html(inputFile, fileID):
     responseObject = {"resultFileID": fileID}
 
     # Write the result into a .txt file
-    write_result_to_file(resultTable, fileID, False)
+    write_result_to_file(resultTable, fileID, '_csv_to_html_editable', False)
 
     return responseObject
 

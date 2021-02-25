@@ -1,6 +1,7 @@
-{% extends "layout.html"  %}
+{% extends "layout.html" %}
 
 {% block body %}
-<div class="display-1"><strong>404</strong></div>
-<div class="lead">Hmmm... the page you're trying to go to doesn't exist! ¯\_(ツ)_/¯ <br>Click <a href="{{ url_for('insert_and_convert', operation = 'insert') }}">here</a> to go back to the main page.</div>
+<div class="display-1 mx-2 my-2"><strong>404</strong></div>
+<div class="lead">Hmmm... the page you're trying to go to doesn't exist! ¯\_(ツ)_/¯ <br>Click <a
+        href="{{ url_for('insert_and_convert', operation = 'insert') }}">here</a> to go back to the main page.</div>
 {% endblock %}

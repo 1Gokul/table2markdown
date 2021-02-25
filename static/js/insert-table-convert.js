@@ -453,7 +453,7 @@ $(document).ready(function () {
     function generate_table() {
         var resultArray = new Array();
 
-        $('#generate-table-button > button').html('Converting...<i class="fas fa-circle-notch fa-spin ml-2"></i>')
+        $('.generate-table-button > button').html('Converting...<i class="fas fa-circle-notch fa-spin ml-2"></i>')
 
         // Loop through each row
         $("#input-table > tbody > tr").each(function () {
@@ -504,7 +504,7 @@ $(document).ready(function () {
                 dataType: "json",
             })
             .done((response) => {
-                $('#generate-table-button > button').html('Generate');
+                $('.generate-table-button > button').html('Generate');
 
                 display_result_table(response);
             })

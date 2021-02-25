@@ -47,7 +47,7 @@ def insert_and_convert(operation, fileID):
 
         elif (operation == 'edit-csv'):
 
-            fileToDisplay = open("tmp/Table2Markdown_" + fileID + '.txt', "r")
+            fileToDisplay = open("tmp/Table2Markdown_" + fileID + '_csv_to_html_editable.txt', "r")
 
             return render_template('insert-table-convert.html',
                                    title="Edit Uploaded CSV",
