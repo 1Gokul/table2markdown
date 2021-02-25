@@ -2,17 +2,9 @@ html,
 body {
     height: 100%;
     scroll-behavior: smooth;
-}
-
-body {
     font-family: Poppins, sans-serif;
     color: white;
     background-color: #142229;
-}
-
-.text-title {
-    font-family: Abril Fatface, sans-serif;
-    font-size: larger;
 }
 
 .instructions-mobile {
