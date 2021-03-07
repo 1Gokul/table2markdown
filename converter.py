@@ -4,82 +4,82 @@ Contains the functions that convert the provided HTML table, CSV table or Excel 
 """
 
 
-# convertType is either 'i2m'(insertedTable-to-Markdown) or 'c2m'(CSV-to-Markdown).
-def convert_table(inputData, convertType, fileID):
-    resultTable = ""
+# convert_type is either 'i2m'(insertedTable-to-Markdown) or 'c2m'(CSV-to-Markdown).
+def convert_table(input_data, convert_type, file_id):
+    result_table = ""
 
     # Add the first row of the input table. It will be treated as the header of the output table.
-    resultTable += '|'
-    for i in range(len(inputData[0])):
+    result_table += '|'
+    for i in range(len(input_data[0])):
 
-        if (convertType == 'i2m'):
+        if (convert_type == 'i2m'):
             # If converting from HTML, check for formatting.
-            inputText = check_for_formatted_text(inputData[0][i])
-            resultTable += (' ' + inputText + ' |')
+            inputText = check_for_formatted_text(input_data[0][i])
+            result_table += (' ' + inputText + ' |')
         else:
-            resultTable += (' ' + inputData[0][i] + ' |')
+            result_table += (' ' + input_data[0][i] + ' |')
 
-    resultTable += '\n'
+    result_table += '\n'
 
     # Add the hyphens below to make the header
-    resultTable += '|'
-    for i in range(len(inputData[0])):
-        resultTable += ' '
+    result_table += '|'
+    for i in range(len(input_data[0])):
+        result_table += ' '
 
         # The number of hyphens to add
-        currentColLength = len(inputData[0][i])
-        currentColLength = max(
+        current_column_length = len(input_data[0][i])
+        current_column_length = max(
             3,
-            currentColLength)  # 3 is the minimum number of hyphens to be added
+            current_column_length)  # 3 is the minimum number of hyphens to be added
 
-        if (convertType == 'i2m'):
-            if (currentColLength > 0):
+        if (convert_type == 'i2m'):
+            if (current_column_length > 0):
 
                 # Formatting characters are not counted towards the number of hyphens.
                 # If bold characters exist
-                if ('<b>' in inputData[0][i]):
+                if ('<b>' in input_data[0][i]):
 
                     # <b></b>(7 characters) - ****(4 characters) is 3
-                    currentColLength -= 3
+                    current_column_length -= 3
 
                 # If italic characters exist
-                if ('<i>' in inputData[0][i]):
+                if ('<i>' in input_data[0][i]):
                     # <i></i>(7 characters) - **(2 characters) is 5
-                    currentColLength -= 5
+                    current_column_length -= 5
 
                 # If strikethrough characters exist
-                if ('<del>' in inputData[0][i]):
+                if ('<del>' in input_data[0][i]):
 
                     # <del></del>(11 characters) - ~~~~(4 characters) is 7
-                    currentColLength -= 7
+                    current_column_length -= 7
 
-        for j in range(currentColLength):
-            resultTable += '-'
+        for j in range(current_column_length):
+            result_table += '-'
 
-        resultTable += ' |'
+        result_table += ' |'
 
-    resultTable += '\n'
+    result_table += '\n'
 
     # Add the contents of the table's body
-    for i in range(1, len(inputData)):
-        resultTable += '|'
-        for j in range(len(inputData[i])):
+    for i in range(1, len(input_data)):
+        result_table += '|'
+        for j in range(len(input_data[i])):
 
-            if (convertType == 'i2m'):
+            if (convert_type == 'i2m'):
                 # If converting from HTML, check for formatting.
-                inputText = check_for_formatted_text(inputData[i][j])
-                resultTable += (' ' + inputText + ' |')
+                inputText = check_for_formatted_text(input_data[i][j])
+                result_table += (' ' + inputText + ' |')
             else:
-                resultTable += (' ' + inputData[i][j] + ' |')
+                result_table += (' ' + input_data[i][j] + ' |')
 
-        resultTable += '\n'
+        result_table += '\n'
 
     # Write the results to a file
-    write_result_to_file(resultTable, fileID, alsoWriteToMD=True)
+    write_result_to_file(result_table, file_id, also_write_to_md=True)
 
-    responseObject = {"resultTable": resultTable, "resultFileID": fileID}
+    response_object = {"resultTable": result_table, "resultFileID": file_id}
 
-    return responseObject
+    return response_object
 
 
 # Check for formatted text and change them to Markdown-style formatted text.
@@ -122,95 +122,70 @@ def make_strikethrough(inp):
 
 # Writes the result to a file
 # Type is 'raw' or 'download'
-def write_result_to_file(resultFile,
-                         fileID,
-                         filenameSuffix='',
-                         alsoWriteToMD=False):
+def write_result_to_file(result_file,
+                         file_id,
+                         filename_suffix='',
+                         also_write_to_md=False):
 
     # Used to display the raw result.
-    with open("tmp/Table2Markdown_" + fileID + filenameSuffix + '.txt',
+    with open("tmp/Table2Markdown_" + file_id + filename_suffix + '.txt',
               "w") as text_file:
-        print(f"{resultFile}", file=text_file)
+        print(f"{result_file}", file=text_file)
 
-    if (alsoWriteToMD):
+    if (also_write_to_md):
         # If the user wishes to download, copy the contents of the .txt file to a .md file with the same ID.
         shutil.copyfile(
-            "tmp/Table2Markdown_" + fileID + filenameSuffix + '.txt',
-            "tmp/Table2Markdown_" + fileID + filenameSuffix + '.md')
+            "tmp/Table2Markdown_" + file_id + filename_suffix + '.txt',
+            "tmp/Table2Markdown_" + file_id + filename_suffix + '.md')
 
 
 # Converts the passed CSV file into an HTML table.
 # This table will then be shown to the user for further editing.
-def csv_to_html(inputFile, fileID):
+def csv_to_html(input_file, file_id):
 
     # Add the header
-    resultTable = '<thead><tr><th scope="col" style="width:10px">#</th>'
+    result_table = '<thead><tr><th scope="col" style="width:10px">#</th>'
 
     colCount = 1
-    for col in inputFile[0]:
-        resultTable += '<th scope="col">' + str(colCount) + '</th>'
+    for col in input_file[0]:
+        result_table += '<th scope="col">' + str(colCount) + '</th>'
         colCount += 1
 
-    resultTable += '</tr></thead>'
+    result_table += '</tr></thead>'
 
     # Add the body
-    resultTable += '<tbody>'
+    result_table += '<tbody>'
 
-    rowCount = 1
-    for row in inputFile:
-        resultTable += '<tr><th scope="row">' + str(rowCount) + '</th>'
+    row_count = 1
+    for row in input_file:
+        result_table += '<tr><th scope="row">' + str(row_count) + '</th>'
 
         for col in row:
-            resultTable += '<td>' + str(col) + '</td>'
+            result_table += '<td>' + str(col) + '</td>'
 
-        resultTable += '</tr>'
-        rowCount += 1
+        result_table += '</tr>'
+        row_count += 1
 
-    resultTable += '</tbody>'
+    result_table += '</tbody>'
 
-    responseObject = {"resultFileID": fileID}
+    response_object = {"resultFileID": file_id}
 
     # Write the result into a .txt file
-    write_result_to_file(resultTable, fileID, '_csv_to_html_editable', False)
+    write_result_to_file(result_table, file_id, '_csv_to_html_editable', False)
 
-    return responseObject
+    return response_object
 
 
 # Parses the passed excel table and puts the content into an array.
 # The array is then passed to the convert_table() function.
-def convert_excel(inputTable, fileID):
-
-    # resultTable = '|'
-    # currentCell = ''
-    # rowIndex = 0
-
-    # # for cell in inputTable:
-    # #     headerRow += ' '
-    # #     if cell == '\n':
-    # #         break
-    # #     elif cell == '\t':
-    # #         headerRow += ' |'
-    # #     else:
-    # #         for i in len(cell):
-    # #             headerRow += ''
-
-    # for cell in inputTable:
-
-    #     if cell == "\t":
-    #         print("Found Blank")
-    #         print(currentCell)
-    #         currentCell = ''
-    #     elif cell == '\n':
-    #         print("Found newline")
-    #     else:
-    #         currentCell += cell
-    resultTable = []
-    rows = inputTable.split('\n')
+def convert_excel(input_table, file_id):
+    result_table = []
+    rows = input_table.split('\n')
 
     for col in rows:
         cells = col.split('\t')
-        resultTable.append(cells)
+        result_table.append(cells)
 
-    responseObject = convert_table(resultTable, 'c2m', fileID)
+    response_object = convert_table(result_table, 'c2m', file_id)
 
-    return responseObject
+    return response_object

@@ -254,15 +254,15 @@ $(document).ready(function () {
         html +=
             '<div class="grid-child links"><a href="' +
             Flask.url_for("get_table", {
-                viewType: "raw",
-                fileID: responseObject.resultFileID,
+                view_type: "raw",
+                file_id: responseObject.resultFileID,
             }) +
             '" class="btn submit-download-link">Raw</a>';
         html +=
             '<a href="' +
             Flask.url_for("get_table", {
-                viewType: "download",
-                fileID: responseObject.resultFileID,
+                view_type: "download",
+                file_id: responseObject.resultFileID,
             }) +
             '" class="btn submit-download-link">Download</a></div></div></div>';
 
@@ -496,7 +496,7 @@ $(document).ready(function () {
                 type: "POST",
                 url: Flask.url_for("insert_and_convert", {
                     "operation": op,
-                    "fileID": fID
+                    "file_id": fID
                 }),
                 data: js_data,
                 processData: false,
