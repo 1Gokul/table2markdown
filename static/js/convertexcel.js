@@ -64,14 +64,14 @@ $(document).ready(function () {
                 view_type: "raw",
                 file_id: responseObject.resultFileID,
             }) +
-            '" class="btn submit-download-link">Raw</a>';
+            '"target="_blank" class="btn submit-download-link">Raw</a>';
         html +=
             '<a href="' +
             Flask.url_for("get_table", {
                 view_type: "download",
                 file_id: responseObject.resultFileID,
             }) +
-            '" class="btn submit-download-link">Download</a></div></div></div>';
+            '"target="_blank" class="btn submit-download-link">Download</a></div></div></div>';
 
         $(html).insertAfter(".excel-paste-container");
 

@@ -263,14 +263,14 @@ $(document).ready(function () {
                 view_type: "raw",
                 file_id: table_id,
             }) +
-            '" class="btn submit-download-link">Raw<br>(Press <b>I</b>)</a>';
+            '"target="_blank" class="btn submit-download-link">Raw<br>(Press <b>I</b>)</a>';
         html +=
             '<a href="' +
             Flask.url_for("get_table", {
                 view_type: "download",
                 file_id: table_id,
             }) +
-            '" class="btn submit-download-link">Download<br>(Press <b>O</b>)</a></div></div></div>';
+            '"target="_blank" class="btn submit-download-link">Download<br>(Press <b>O</b>)</a></div></div></div>';
 
         $(html).insertAfter("#input-table-card");
 
