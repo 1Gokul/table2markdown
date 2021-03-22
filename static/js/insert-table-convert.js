@@ -4,7 +4,9 @@ $(document).ready(function () {
     var selectedCell = "none",
         selectedCellX = 0,
         selectedCellY = 0,
-        IsEditing = false;
+        isEditing = false,
+        areResultsBeingShown = false,
+        table_id = "none";
 
     // Hide the Accept and Cancel buttons. These buttons appear only when a cell is being edited.
     move_selected_cell();
@@ -237,6 +239,10 @@ $(document).ready(function () {
 
     // Display the result of the conversion to the user.
     function display_result_table(responseObject) {
+
+        areResultsBeingShown = true;
+        table_id = responseObject.resultFileID;
+
         // If there were any previously existing results, remove them.
         $("#result-container").remove();
         $("#result-rule").remove();
@@ -255,16 +261,16 @@ $(document).ready(function () {
             '<div class="grid-child links"><a href="' +
             Flask.url_for("get_table", {
                 view_type: "raw",
-                file_id: responseObject.resultFileID,
+                file_id: table_id,
             }) +
-            '" class="btn submit-download-link">Raw</a>';
+            '" class="btn submit-download-link">Raw<br>(Press <b>O</b>)</a>';
         html +=
             '<a href="' +
             Flask.url_for("get_table", {
                 view_type: "download",
-                file_id: responseObject.resultFileID,
+                file_id: table_id,
             }) +
-            '" class="btn submit-download-link">Download</a></div></div></div>';
+            '" class="btn submit-download-link">Download<br>(Press <b>I</b>)</a></div></div></div>';
 
         $(html).insertAfter("#input-table-card");
 
@@ -275,7 +281,7 @@ $(document).ready(function () {
     $(document).on("click", "#input-table > tbody > tr > td", function (el) {
         // row was clicked
 
-        if (!IsEditing && selectedCell != el.target) {
+        if (!isEditing && selectedCell != el.target) {
             // Remove the highlight of the previously selected cell
             $(selectedCell).removeClass("selectedCell");
             // Assign the new cell
@@ -419,7 +425,7 @@ $(document).ready(function () {
     }
 
     function edit_row() {
-        IsEditing = true;
+        isEditing = true;
         $(
             ".generate-table-button > button, .text-menu > button, .column-menu > button"
         ).attr("disabled", "disabled", "disabled");
@@ -444,7 +450,7 @@ $(document).ready(function () {
         $(".keyboard-nav > div").show(200, "linear");
         $(".editing-key").hide(200, "linear");
 
-        IsEditing = false;
+        isEditing = false;
         // Add to the user's history of actions. Will be used for undoing and redoing actions.
         add_to_history();
     }
@@ -581,7 +587,7 @@ $(document).ready(function () {
         $(".keyboard-nav > div").show(200, "linear");
         $(".editing-key").hide(200, "linear");
 
-        IsEditing = false;
+        isEditing = false;
     }
 
     function hide_all_keys_but(keyNames, keyDescriptions) {
@@ -640,7 +646,25 @@ $(document).ready(function () {
     }
 
 
+    function download_table() {
+        if (areResultsBeingShown) {
 
+            window.location.href = Flask.url_for("get_table", {
+                view_type: "raw",
+                file_id: table_id,
+            })
+        }
+    }
+
+    function get_raw_table() {
+        if (areResultsBeingShown) {
+            window.location.href = Flask.url_for("get_table", {
+                view_type: "download",
+                file_id: table_id,
+            })
+        }
+
+    }
 
 
     $(document).on("click", ".undo", undo_action);
@@ -684,7 +708,7 @@ $(document).ready(function () {
 
     $(this).keypress(function (event) {
 
-        if (!IsEditing) {
+        if (!isEditing) {
 
             if (selectedCell != "none") {
                 switch (event.code) {
@@ -703,12 +727,8 @@ $(document).ready(function () {
                     case "KeyU":
                         move_selected_cell("right");
                         break;
-
-                    case "KeyI":
-
-                        break;
                     case "KeyB":
-
+                        make_text_bold();
                         break;
                     case "KeyN":
                         make_text_italic();
@@ -740,6 +760,12 @@ $(document).ready(function () {
                     case "KeyT":
                         add_row_down();
                         break;
+                    case "KeyI":
+                        download_table();
+                        break;
+                    case "KeyO":
+                        get_raw_table();
+                        break;
                     default:
                         break;
                 }
@@ -753,6 +779,12 @@ $(document).ready(function () {
                         break;
                     case "KeyT":
                         add_row_down();
+                        break;
+                    case "KeyI":
+                        download_table();
+                        break;
+                    case "KeyO":
+                        get_raw_table();
                         break;
                     default:
                         break;
