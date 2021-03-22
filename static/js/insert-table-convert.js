@@ -650,7 +650,7 @@ $(document).ready(function () {
         if (areResultsBeingShown) {
 
             window.location.href = Flask.url_for("get_table", {
-                view_type: "raw",
+                view_type: "download",
                 file_id: table_id,
             })
         }
@@ -659,7 +659,7 @@ $(document).ready(function () {
     function get_raw_table() {
         if (areResultsBeingShown) {
             window.location.href = Flask.url_for("get_table", {
-                view_type: "download",
+                view_type: "raw",
                 file_id: table_id,
             })
         }
