@@ -390,10 +390,6 @@ a:focus {
     min-width: 75px;
   }
 
-  .big-page-title {
-    line-height: 0%;
-  }
-
   .result-box {
     grid-template-columns: 1fr;
   }
