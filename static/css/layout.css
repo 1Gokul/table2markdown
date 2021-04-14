@@ -147,7 +147,7 @@ a.styled-link:hover::before,
 
 a.styled-link:hover,
 .navbar-dark .navbar-nav .nav-link:hover {
-  color: #84bdfd;
+  color: #7f6daf;
   transition: all 0.2s linear;
 }
 
@@ -262,7 +262,7 @@ hr {
 }
 
 .credit-list li a:hover {
-  color: #276890;
+  color: #7f6daf;
   transition: all 0.2s linear;
   text-decoration: none;
 }
@@ -299,7 +299,7 @@ hr {
 }
 
 .submit-download-link:hover {
-  background: #276890;
+  background: #7f6daf;
   color: #fff;
   transition: background 0.2s linear;
 }
