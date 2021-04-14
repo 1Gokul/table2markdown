@@ -69,7 +69,7 @@ body {
 .keyboard-nav {
   display: grid;
   grid-template-columns: 50px 125px;
-  column-gap: 10px;
+  column-gap: 20px;
 }
 
 .key-name {
