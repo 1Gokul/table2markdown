@@ -112,7 +112,7 @@ function IterarCamposEdit($cols, tarea) {
 			//hay filtro de campos
 			//alert('verificando: ' + idx);
 			for (var i = 0; i < colsEdi.length; i++) {
-				if (idx == colsEdi[i]) return true;
+				if (idx == colsEdi[parseInt(i)]) return true;
 			}
 			return false; //no se encontró
 		}
