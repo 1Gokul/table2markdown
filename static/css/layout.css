@@ -163,7 +163,7 @@ a.styled-link.active,
   color: #c8e0fc;
 }
 
-a.styled-link:before {
+a.styled-link::before {
   content: "";
   position: absolute;
   width: 0;
@@ -245,6 +245,7 @@ td {
 
 #wrap {
   min-height: 100%;
+  height: auto !important;
   height: 100%;
   margin: 0 auto -60px;
 }
@@ -378,6 +379,11 @@ hr {
 
   h3 {
     font-size: 1rem;
+  }
+
+  .big-page-title {
+    font-size: 35px;
+    font-weight: 700;
   }
 
   .container-left {

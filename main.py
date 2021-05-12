@@ -141,7 +141,7 @@ def get_table(view_type, file_id):
 
 
 @app.route("/credits")
-def credits():
+def show_credits():
     return render_template("credits.html", title="Credits")
 
 

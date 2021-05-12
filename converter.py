@@ -1,7 +1,5 @@
 import shutil
 
-"""Contains the functions that convert the provided HTML table, CSV table or Excel table into Markdown-style text."""
-
 
 # convert_type is either 'i2m'(insertedTable-to-Markdown) or 'c2m'(CSV-to-Markdown).
 def convert_table(input_data, convert_type, file_id):
