@@ -26,7 +26,8 @@ def redirect_to_table_page():
     methods=["GET", "POST"],
     defaults={"file_id": None},
 )
-@app.route("/insert-and-convert/<operation>/<file_id>", methods=["GET", "POST"])
+@app.route("/insert-and-convert/<operation>/<file_id>",
+           methods=["GET", "POST"])
 def insert_and_convert(operation, file_id):
     if request.method == "POST":
 
@@ -42,7 +43,8 @@ def insert_and_convert(operation, file_id):
             result_file_id = file_id
 
         # Calls the convert-table function in converter.py
-        response_object = converter.convert_table(request.json, "i2m", result_file_id)
+        response_object = converter.convert_table(request.json, "i2m",
+                                                  result_file_id)
         return response_object
 
     else:
@@ -56,8 +58,8 @@ def insert_and_convert(operation, file_id):
         elif operation == "edit-csv":
 
             file_to_display = open(
-                "tmp/Table2Markdown_" + file_id + "_csv_to_html_editable.txt", "r"
-            )
+                "tmp/Table2Markdown_" + file_id + "_csv_to_html_editable.txt",
+                "r")
 
             return render_template(
                 "insert-table-convert.html",
@@ -82,18 +84,18 @@ def convert_csv_file():
         # The unique filename of the result.
         result_file_id = str(shortuuid.uuid())
 
+        print(request.json["data"])
+
         # If the user wishes to only convert the table
         if request.json["convertOption"] == "modify-false":
             # Calls the convert-table function in converter.py, but to convert from csv
-            response_object = converter.convert_table(
-                request.json["data"], "c2m", result_file_id
-            )
+            response_object = converter.convert_table(request.json["data"],
+                                                      "c2m", result_file_id)
 
         # else if they wish to modify their table before converting
         elif request.json["convertOption"] == "modify-true":
-            response_object = converter.csv_to_html(
-                request.json["data"], result_file_id
-            )
+            response_object = converter.csv_to_html(request.json["data"],
+                                                    result_file_id)
 
         return response_object
 
@@ -140,9 +142,9 @@ def get_table(view_type, file_id):
         return request_page_not_found("bad url")
 
 
-@app.route("/credits")
-def show_credits():
-    return render_template("credits.html", title="Credits")
+@app.route("/about")
+def show_about():
+    return render_template("about.html", title="About")
 
 
 @app.errorhandler(404)
@@ -151,4 +153,4 @@ def request_page_not_found(error):
 
 
 if __name__ == "__main__":
-    app.run(threaded=True)
+    app.run(threaded=True, debug=True)

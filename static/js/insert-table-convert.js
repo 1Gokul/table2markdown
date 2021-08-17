@@ -1,11 +1,12 @@
 $(document).ready(function () {
   // Global variables
-  var selectedCell = "none",
+  let selectedCell = "none",
     selectedCellX = 0,
     selectedCellY = 0,
     isEditing = false,
     areResultsBeingShown = false,
-    table_id = "none";
+    table_id = "none",
+    ctrlPressed = false;
 
   // Hide the Accept and Cancel buttons. These buttons appear only when a cell is being edited.
   move_selected_cell();
@@ -693,7 +694,18 @@ $(document).ready(function () {
 
   $(document).on("click", ".bGenerateTable", generate_table);
 
-  $(this).keypress(function (event) {
+
+  $(document).keydown(function(e) {
+    if (e.ctrlKey) { 
+      ctrlPressed = true; 
+    }
+  }).keyup(function(e) { 
+    if (e.ctrlKey) {
+      ctrlPressed = false; 
+    }
+  });
+
+  $(document).keydown(function (event) {
     if (!isEditing) {
       if (selectedCell != "none") {
         switch (event.code) {
@@ -727,8 +739,8 @@ $(document).ready(function () {
           case "KeyC":
             delete_column();
             break;
-          case "KeyE":
-            edit_row();
+          case "KeyQ":
+            if(ctrlPressed)edit_row();
             break;
           case "KeyR":
             add_row_up();
@@ -777,10 +789,10 @@ $(document).ready(function () {
       }
     } else {
       switch (event.code) {
-        case "KeyJ":
-          accept_changes();
+        case "KeyQ":
+          if (ctrlPressed)accept_changes();
           break;
-        case "KeyK":
+        case "Escape":
           cancel_changes();
           break;
         default:

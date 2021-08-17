@@ -160,7 +160,7 @@ function rowAcep(but) {
   //Está en edición. Hay que finalizar la edición
   IterarCamposEdit($cols, function ($td) {
     //itera por la columnas
-    var cont = $td.find("input").val(); //lee contenido del input
+    var cont = DOMPurify.sanitize($td.find("input").val()); //lee contenido del input
     $td.html(cont); //fija contenido y elimina controles
   });
   FijModoNormal(but);

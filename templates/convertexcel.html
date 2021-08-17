@@ -4,10 +4,19 @@
 {% block body %}
 <div class="excel-paste-container">
     <div class="big-page-title my-3">Excel to Markdown</div>
-    <div class="lead">Make sure the cursor is on the same line as the last row of your table.
-        <br>If it is not, a new row will be created unnecessarily.
-    </div>
-    <textarea type="text" id="input-excel" name="input-excel" placeholder="Paste your Excel table here!"></textarea>
+    <p class="lead">
+        Upload your CSV file below.<br>
+        Maximum size for uploads is 10MB.
+    </p>
+
+    <!-- enctype=multipart/form-data action="{{ url_for('convert_csv_file') }}" method="POST" -->
+    <!-- enctype=multipart/form-data action="{{ url_for('convert_csv_file') }}" method="POST" -->
+    <form id="input-file-form">
+        <div class="custom-file my-2">
+            <input type="file" name='file' class="custom-file-input" id="inputFile" required />
+            <label class="custom-file-label" for="inputFile">No file selected.</label> 
+        </div>
+    </form>
     <div class="warnings-submit-row">
         <div class="error-message-box"></div>
         <div>
@@ -19,5 +28,6 @@
 
 
 {% block after_script %}
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 <script src="{{ url_for('static', filename='js/convertexcel.min.js') }}"></script>
 {% endblock %}
