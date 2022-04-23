@@ -153,4 +153,4 @@ def request_page_not_found(error):
 
 
 if __name__ == "__main__":
-    app.run(threaded=True, debug=True)
+    app.run(threaded=True)
